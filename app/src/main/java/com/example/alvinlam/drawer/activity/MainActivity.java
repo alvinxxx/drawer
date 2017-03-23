@@ -2,11 +2,13 @@ package com.example.alvinlam.drawer.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,10 +25,10 @@ import com.example.alvinlam.drawer.adapter.Cardlistadapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Cardlistadapter.ListItemClickListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private  static  final int NUM_LIST_ITEMS = 100;
     private Cardlistadapter mAdapter;
     private RecyclerView mNumbersList;
-    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    private void openLocationInMap() {
+        String addressString = "1600 Ampitheatre Parkway, CA";
+        Uri geoLocation = Uri.parse("geo:0,0?q=" + addressString);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            Log.d(TAG, "Couldn't call " + geoLocation.toString()
+                    + ", no receiving apps installed!");
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -91,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mAdapter = new Cardlistadapter(NUM_LIST_ITEMS, this);
                 mNumbersList.setAdapter(mAdapter);
                 return true;
+            case R.id.action_map:
+                openLocationInMap();
         }
 
         return super.onOptionsItemSelected(item);
@@ -98,12 +117,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onListItemClick(int parameter) {
-        if(mToast != null){
-            mToast.cancel();
-        }
-        String toastMessage = "Item #"+ parameter +"clicked.";
-        mToast = Toast.makeText(this, toastMessage, Toast.LENGTH_LONG);
-        mToast.show();
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, parameter);
+        startActivity(intentToStartDetailActivity);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
