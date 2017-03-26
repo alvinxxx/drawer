@@ -30,9 +30,9 @@ import com.example.alvinlam.drawer.data.TestUtil;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    //private  static  final int NUM_LIST_ITEMS = 100;
+    private  static  final int NUM_LIST_ITEMS = 100;
     private CardlistAdapter mAdapter;
-    //private RecyclerView mNumbersList;
+    private RecyclerView cardlistRecyclerView;
     private SQLiteDatabase mDb;
 
     @Override
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         cardlistRecyclerView.setLayoutManager(layoutManager);
         cardlistRecyclerView.setHasFixedSize(true);
-        mAdapter = new CardlistAdapter(this, cursor.getCount());
+        mAdapter = new CardlistAdapter(this, cursor.getCount(), this);
         cardlistRecyclerView.setAdapter(mAdapter);
 
     }
@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_settings:
                 return true;
             case R.id.action_refresh:
-                mAdapter = new CardlistAdapter(NUM_LIST_ITEMS, this);
-                mNumbersList.setAdapter(mAdapter);
+                mAdapter = new CardlistAdapter(this, NUM_LIST_ITEMS, this);
+                cardlistRecyclerView.setAdapter(mAdapter);
                 return true;
             case R.id.action_map:
                 openLocationInMap();
