@@ -2,6 +2,8 @@ package com.example.alvinlam.drawer.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,22 +20,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.adapter.Cardlistadapter;
+import com.example.alvinlam.drawer.adapter.CardlistAdapter;
+import com.example.alvinlam.drawer.data.CardlistContract;
+import com.example.alvinlam.drawer.data.CardlistDbHelper;
+import com.example.alvinlam.drawer.data.TestUtil;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Cardlistadapter.ListItemClickListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private  static  final int NUM_LIST_ITEMS = 100;
-    private Cardlistadapter mAdapter;
-    private RecyclerView mNumbersList;
+    //private  static  final int NUM_LIST_ITEMS = 100;
+    private CardlistAdapter mAdapter;
+    //private RecyclerView mNumbersList;
+    private SQLiteDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RecyclerView cardlistRecyclerView;
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -55,12 +64,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mNumbersList = (RecyclerView) findViewById(R.id.card_list);
+        cardlistRecyclerView = (RecyclerView) this.findViewById(R.id.all_card_list_view);
+        CardlistDbHelper dbHelper = new CardlistDbHelper(this);
+        mDb = dbHelper.getWritableDatabase();
+        TestUtil.insertFakeData(mDb);
+
+        Cursor cursor = getAllCards();
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mNumbersList.setLayoutManager(layoutManager);
-        mNumbersList.setHasFixedSize(true);
-        mAdapter = new Cardlistadapter(NUM_LIST_ITEMS, this);
-        mNumbersList.setAdapter(mAdapter);
+        cardlistRecyclerView.setLayoutManager(layoutManager);
+        cardlistRecyclerView.setHasFixedSize(true);
+        mAdapter = new CardlistAdapter(this, cursor.getCount());
+        cardlistRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -105,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_settings:
                 return true;
             case R.id.action_refresh:
-                mAdapter = new Cardlistadapter(NUM_LIST_ITEMS, this);
+                mAdapter = new CardlistAdapter(NUM_LIST_ITEMS, this);
                 mNumbersList.setAdapter(mAdapter);
                 return true;
             case R.id.action_map:
@@ -148,4 +164,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void addToCardlist(View view) {
+
+    }
+
+    private Cursor getAllCards() {
+        return mDb.query(
+                CardlistContract.CardlistEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                CardlistContract.CardlistEntry.COLUMN_TIMESTAMP
+        );
+    }
+
 }

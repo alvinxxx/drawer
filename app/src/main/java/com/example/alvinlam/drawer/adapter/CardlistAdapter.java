@@ -14,36 +14,39 @@ import android.widget.TextView;
 
 import com.example.alvinlam.drawer.R;
 
-public class Cardlistadapter extends RecyclerView.Adapter<Cardlistadapter.NumberViewHolder> {
+public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardViewHolder> {
 
-    private static final String TAG = Cardlistadapter.class.getSimpleName();
+    private static final String TAG = CardlistAdapter.class.getSimpleName();
+
+    private Context mContext;
+    private int mCount;
     final private ListItemClickListener mOnClickListener;
-    private int mNumberItems;
 
     public interface ListItemClickListener{
         void onListItemClick(int parameter);
     }
 
-    public Cardlistadapter(int numberOfItems, ListItemClickListener listener) {
-        mNumberItems = numberOfItems;
+    public CardlistAdapter(Context context, int count, ListItemClickListener listener ) {
+        this.mContext = context;
+        mCount = count;
         mOnClickListener = listener;
     }
 
     @Override
-    public NumberViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public CardViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         int layoutIdForListItem = R.layout.card_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
         View view = inflater.inflate(layoutIdForListItem, viewGroup, shouldAttachToParentImmediately);
-        NumberViewHolder viewHolder = new NumberViewHolder(view);
+        CardViewHolder viewHolder = new CardViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(NumberViewHolder holder, int position) {
+    public void onBindViewHolder(CardViewHolder holder, int position) {
         Log.d(TAG, "#" + position);
         holder.bind(position);
     }
@@ -51,21 +54,23 @@ public class Cardlistadapter extends RecyclerView.Adapter<Cardlistadapter.Number
 
     @Override
     public int getItemCount() {
-        return mNumberItems;
+        return mCount;
     }
 
-    class NumberViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView listItemNumberView;
+        TextView nameTextView;
+        TextView titleTextView;
 
-        public NumberViewHolder(View itemView) {
+        public CardViewHolder(View itemView) {
             super(itemView);
-            listItemNumberView = (TextView) itemView.findViewById(R.id.tv_item_number);
+            nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
+            titleTextView = (TextView) itemView.findViewById(R.id.title_text_view);
             itemView.setOnClickListener(this);
         }
 
         void bind(int listIndex) {
-            listItemNumberView.setText(String.valueOf(listIndex));
+            nameTextView.setText(String.valueOf(listIndex));
         }
 
         @Override

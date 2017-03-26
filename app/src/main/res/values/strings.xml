@@ -7,4 +7,7 @@
     <string name="action_reset">Reset</string>
     <string name="action_map">Map Location</string>
     <string name="action_share">Share</string>
+
+    <string name="default_guest_name">[default name]</string>
+    <string name="default_title_name">[default title]</string>
 </resources>
