@@ -24,7 +24,6 @@ public class CardlistDbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_CARDLIST_TABLE = "CREATE TABLE " + CardlistEntry.TABLE_NAME + " (" +
                 CardlistEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                CardlistEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 CardlistEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 CardlistEntry.COLUMN_PHONE + " INTEGER NOT NULL, " +
                 CardlistEntry.COLUMN_EMAIL + " TEXT NOT NULL, " +
@@ -33,6 +32,7 @@ public class CardlistDbHelper extends SQLiteOpenHelper {
                 CardlistEntry.COLUMN_COMPANY + " TEXT NOT NULL, " +
                 CardlistEntry.COLUMN_COMPANY_PHONE + " INTEGER NOT NULL, " +
                 CardlistEntry.COLUMN_COMPANY_ADDRESS + " TEXT NOT NULL, " +
+                CardlistEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 "); ";
 
         sqLiteDatabase.execSQL(SQL_CREATE_CARDLIST_TABLE);

@@ -18,7 +18,7 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        mCardDisplay = (TextView) findViewById(R.id.tv_display_card);
+        mCardDisplay = (TextView) findViewById(R.id.detail_card_xml);
 
         Intent intentThatStartedThisActivity = getIntent();
 

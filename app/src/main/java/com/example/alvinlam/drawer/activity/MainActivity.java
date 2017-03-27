@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +24,6 @@ import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
 import com.example.alvinlam.drawer.data.CardlistContract;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
-import com.example.alvinlam.drawer.data.TestUtil;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
@@ -34,24 +32,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CardlistAdapter mAdapter;
     private RecyclerView cardlistRecyclerView;
     private SQLiteDatabase mDb;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView cardlistRecyclerView;
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Class destinationClass = AddCardActivity.class;
+                Intent intentToStartAddCardActivity = new Intent(MainActivity.this, destinationClass);
+                startActivity(intentToStartAddCardActivity);
             }
         });
 
@@ -61,20 +59,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        cardlistRecyclerView = (RecyclerView) this.findViewById(R.id.all_card_list_view);
-        CardlistDbHelper dbHelper = new CardlistDbHelper(this);
-        mDb = dbHelper.getWritableDatabase();
-        TestUtil.insertFakeData(mDb);
-
-        Cursor cursor = getAllCards();
-
+        cardlistRecyclerView = (RecyclerView) findViewById(R.id.main_card_list_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         cardlistRecyclerView.setLayoutManager(layoutManager);
         cardlistRecyclerView.setHasFixedSize(true);
-        mAdapter = new CardlistAdapter(this, cursor.getCount(), this);
+
+        CardlistDbHelper dbHelper = new CardlistDbHelper(this);
+        mDb = dbHelper.getWritableDatabase();
+        //TestUtil.insertFakeData(mDb);
+
+        cursor = getAllCards();
+        mAdapter = new CardlistAdapter(this, cursor, this);
         cardlistRecyclerView.setAdapter(mAdapter);
 
     }
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_settings:
                 return true;
             case R.id.action_refresh:
-                mAdapter = new CardlistAdapter(this, NUM_LIST_ITEMS, this);
+                mAdapter = new CardlistAdapter(this, cursor, this);
                 cardlistRecyclerView.setAdapter(mAdapter);
                 return true;
             case R.id.action_map:
@@ -163,10 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void addToCardlist(View view) {
-
     }
 
     private Cursor getAllCards() {
