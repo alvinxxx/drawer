@@ -10,4 +10,9 @@
 
     <string name="default_guest_name">default name</string>
     <string name="default_title_name">default title</string>
+
+    <string name="friend_card">Friends card</string>
+    <string name="my_card">My card</string>
+    <string name="my_account">Account</string>
+
 </resources>
