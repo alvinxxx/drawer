@@ -30,6 +30,8 @@ public class AddCardActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
     private long id = 0;
+    private int edit = 0;
+    private int phone=0, cphone=0;
     private Cursor cursor;
 
     @Override
@@ -59,6 +61,9 @@ public class AddCardActivity extends AppCompatActivity {
 
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
+
+                    //set edit to 1 as True
+                    edit = 1;
 
                     //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
@@ -99,6 +104,8 @@ public class AddCardActivity extends AppCompatActivity {
         );
     }
 
+
+
     public void addToCardlist(View view) {
         if (mNameEditText.getText().length() == 0 ||
                 mPhoneEditText.getText().length() == 0 &&
@@ -111,7 +118,7 @@ public class AddCardActivity extends AppCompatActivity {
             return;
         }
 
-        int phone=0, cphone=0;
+
         try {
             phone = Integer.parseInt(mPhoneEditText.getText().toString());
             cphone = Integer.parseInt(mPhoneEditText.getText().toString());
@@ -120,7 +127,8 @@ public class AddCardActivity extends AppCompatActivity {
         }
 
         // Add guest info to mDb
-        addNewCard(mNameEditText.getText().toString(),
+        addNewCard(edit,
+                mNameEditText.getText().toString(),
                 phone,
                 mEmailEditText.getText().toString(),
                 mTitleEditText.getText().toString(),
@@ -147,7 +155,7 @@ public class AddCardActivity extends AppCompatActivity {
         startActivity(intentToStartMainActivity);
     }
 
-    private long addNewCard(String name, int phone, String email, String title, String website, String company, int cphone, String caddress) {
+    private long addNewCard(int edit, String name, int phone, String email, String title, String website, String company, int cphone, String caddress) {
 
         ContentValues cv = new ContentValues();
         cv.put(CardlistContract.CardlistEntry.COLUMN_NAME, name);
@@ -160,7 +168,12 @@ public class AddCardActivity extends AppCompatActivity {
         cv.put(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS, caddress);
 
         // call insert to run an insert query on TABLE_NAME with the ContentValues created
-        return mDb.insert(CardlistContract.CardlistEntry.TABLE_NAME, null, cv);
+        if (edit == 1)
+            mDb.update(CardlistContract.CardlistEntry.TABLE_NAME, cv, CardlistContract.CardlistEntry._ID + "=" + id, null);
+        else
+            mDb.insert(CardlistContract.CardlistEntry.TABLE_NAME, null, cv);
+
+        return 0;
     }
 
 
