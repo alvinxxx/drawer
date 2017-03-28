@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -69,12 +70,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
-        //TestUtil.insertFakeData(mDb);
 
         cursor = getAllCards();
         mAdapter = new CardlistAdapter(this, cursor, this);
         cardlistRecyclerView.setAdapter(mAdapter);
 
+        // Create an item touch helper to handle swiping items off the list
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            // Override onMove and simply return false inside
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                //do nothing, we only care about swiping
+                return false;
+            }
+
+            // Override onSwiped
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                //Inside, get the viewHolder's itemView's tag and store in a long variable id
+                //get the id of the item being swiped
+                long id = (long) viewHolder.itemView.getTag();
+                //remove from DB
+                removeCard(id);
+                //update the list
+                mAdapter.swapCursor(getAllCards());
+            }
+
+            // attach the ItemTouchHelper
+        }).attachToRecyclerView(cardlistRecyclerView);
     }
 
     @Override
@@ -90,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_main_settings, menu);
         return true;
     }
 
@@ -130,12 +154,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onListItemClick(int parameter) {
+    public void onListItemClick(View v, int position) {
         Context context = this;
-        Class destinationClass = DetailActivity.class;
-        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, parameter);
-        startActivity(intentToStartDetailActivity);
+        Class destinationClass = AddCardActivity.class;
+
+        long id = (long) v.getTag();
+
+        Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
+        intentToStartAddCardActivity.putExtra(Intent.EXTRA_TEXT, id);
+        startActivity(intentToStartAddCardActivity);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -173,6 +200,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 null,
                 CardlistContract.CardlistEntry.COLUMN_TIMESTAMP
         );
+    }
+
+    private boolean removeCard(long id) {
+        //  Inside, call mDb.delete to pass in the TABLE_NAME and the condition that ._ID equals id
+        return mDb.delete(CardlistContract.CardlistEntry.TABLE_NAME, CardlistContract.CardlistEntry._ID + "=" + id, null) > 0;
     }
 
 }

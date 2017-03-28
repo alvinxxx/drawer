@@ -24,7 +24,7 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
     final private ListItemClickListener mOnClickListener;
 
     public interface ListItemClickListener{
-        void onListItemClick(int parameter);
+        void onListItemClick(View v, int parameter);
     }
 
     public CardlistAdapter(Context context, Cursor cursor, ListItemClickListener listener ) {
@@ -49,8 +49,10 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
             return;
         String name = mCursor.getString(mCursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
         String title = mCursor.getString(mCursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
+        long id = mCursor.getLong(mCursor.getColumnIndex(CardlistContract.CardlistEntry._ID));
         holder.nameTextView.setText(name);
         holder.titleTextView.setText(title);
+        holder.itemView.setTag(id);
     }
 
 
@@ -88,7 +90,7 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
         @Override
         public void onClick(View v) {
             int click = getAdapterPosition();
-            mOnClickListener.onListItemClick(click);
+            mOnClickListener.onListItemClick(v, click);
         }
     }
 }

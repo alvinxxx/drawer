@@ -3,6 +3,7 @@ package com.example.alvinlam.drawer.activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,8 @@ public class AddCardActivity extends AppCompatActivity {
 
     private SQLiteDatabase mDb;
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
+    private long id = 0;
+    private Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,55 @@ public class AddCardActivity extends AppCompatActivity {
         mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
+
+        Intent intentThatStartedThisActivity = getIntent();
+
+        if (intentThatStartedThisActivity != null) {
+            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
+                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
+
+                cursor = getCard(id);
+
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+
+                    //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
+
+                    String name = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
+                    int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_PHONE));
+                    String email = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
+                    String title = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
+                    String website = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_WEBSITE));
+                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
+                    int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE));
+                    String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS));
+
+                    mNameEditText.setText(name);
+                    mPhoneEditText.setText(Integer.toString(phone));
+                    mEmailEditText.setText(email);
+                    mTitleEditText.setText(title);
+                    mWebsiteEditText.setText(website);
+                    mCompanyEditText.setText(company);
+                    mCPhoneEditText.setText(Integer.toString(companyTelephone));
+                    mCAddressEditText.setText(companyAddress);
+
+
+                }
+
+            }
+        }
+    }
+
+    private Cursor getCard(long id) {
+        return mDb.query(
+                CardlistContract.CardlistEntry.TABLE_NAME,
+                null,
+                CardlistContract.CardlistEntry._ID + "=" + id,
+                null,
+                null,
+                null,
+                CardlistContract.CardlistEntry.COLUMN_TIMESTAMP
+        );
     }
 
     public void addToCardlist(View view) {
