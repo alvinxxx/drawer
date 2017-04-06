@@ -4,6 +4,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="friend_card">Friends card</string>
+    <string name="add_card">Add card</string>
     <string name="my_card">My card</string>
     <string name="my_account">Account</string>
     <string name="action_settings">Settings</string>

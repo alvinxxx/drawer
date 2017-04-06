@@ -7,7 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -38,6 +41,11 @@ public class AddCardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_card);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
@@ -92,6 +100,29 @@ public class AddCardActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_send) {
+            addToCardlist();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private Cursor getCard(long id) {
         return mDb.query(
                 CardlistContract.CardlistEntry.TABLE_NAME,
@@ -106,7 +137,7 @@ public class AddCardActivity extends AppCompatActivity {
 
 
 
-    public void addToCardlist(View view) {
+    public void addToCardlist() {
         if (mNameEditText.getText().length() == 0 ||
                 mPhoneEditText.getText().length() == 0 &&
                 mEmailEditText.getText().length() == 0 &&

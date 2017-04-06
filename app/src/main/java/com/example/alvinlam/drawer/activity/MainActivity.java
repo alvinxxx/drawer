@@ -29,7 +29,6 @@ import com.example.alvinlam.drawer.data.CardlistDbHelper;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private  static  final int NUM_LIST_ITEMS = 100;
     private CardlistAdapter mAdapter;
     private RecyclerView cardlistRecyclerView;
     private SQLiteDatabase mDb;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
