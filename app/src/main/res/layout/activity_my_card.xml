@@ -5,16 +5,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alvinlam.drawer.activity.MainActivity">
-
+    tools:context=".activity.MyCardActivity">
 
     <include
         android:id="@+id/main_toolbar"
         layout="@layout/main_toolbar" />
+
     <include
-        android:id="@+id/main_content_list"
-        layout="@layout/main_content_list" />
-
-
+        android:id="@+id/my_card_content"
+        layout="@layout/my_card_content_list"
+        />
 
 </android.support.design.widget.CoordinatorLayout>
+

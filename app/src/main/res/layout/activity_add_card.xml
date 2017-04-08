@@ -1,128 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AddCardActivity">
-
+    tools:context="com.example.alvinlam.drawer.activity.AddCardActivity">
     <include
         android:id="@+id/add_card_toolbar"
-        layout="@layout/add_card_toolbar"/>
+        layout="@layout/add_card_toolbar" />
 
-    <EditText
-        android:id="@+id/add_name_editText"
-        android:layout_width="334dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="97dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="8dp" />
-
-    <EditText
-        android:id="@+id/add_title_editText"
-        android:layout_width="185dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="textAutoComplete"
-        app:layout_constraintHorizontal_bias="0.37"
-        app:layout_constraintLeft_toRightOf="@+id/add_phone_editText"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_name_editText"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="8dp" />
-
-    <EditText
-        android:id="@+id/add_phone_editText"
-        android:layout_width="129dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Phone"
-        android:inputType="phone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_name_editText"
-        android:layout_marginStart="25dp" />
-
-    <EditText
-        android:id="@+id/add_email_editText"
-        android:layout_width="334dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:ems="10"
-        android:hint="Website"
-        android:inputType="textUri"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_web_editText" />
-
-    <EditText
-        android:id="@+id/add_company_address_editText"
-        android:layout_width="334dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:ems="10"
-        android:hint="Company Address"
-        android:inputType="textMultiLine"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_company_phone_editText" />
-
-    <EditText
-        android:id="@+id/add_company_phone_editText"
-        android:layout_width="334dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:ems="10"
-        android:hint="Company Phone"
-        android:inputType="phone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_company_editText" />
-
-    <EditText
-        android:id="@+id/add_company_editText"
-        android:layout_width="334dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:ems="10"
-        android:hint="Company"
-        android:inputType="textAutoComplete"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_email_editText" />
-
-    <EditText
-        android:id="@+id/add_web_editText"
-        android:layout_width="334dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_title_editText" />
+    <include
+        android:id="@+id/add_card_content"
+        layout="@layout/add_card_content" />
 
 
-
-
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

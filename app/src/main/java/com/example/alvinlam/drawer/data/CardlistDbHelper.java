@@ -36,6 +36,21 @@ public class CardlistDbHelper extends SQLiteOpenHelper {
                 "); ";
 
         sqLiteDatabase.execSQL(SQL_CREATE_CARDLIST_TABLE);
+
+        final String SQL_CREATE_MYCARD_TABLE = "CREATE TABLE " + MyCardEntry.TABLE_NAME + " (" +
+                MyCardEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                MyCardEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                MyCardEntry.COLUMN_PHONE + " INTEGER NOT NULL, " +
+                MyCardEntry.COLUMN_EMAIL + " TEXT NOT NULL, " +
+                MyCardEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
+                MyCardEntry.COLUMN_WEBSITE + " TEXT NOT NULL, " +
+                MyCardEntry.COLUMN_COMPANY + " TEXT NOT NULL, " +
+                MyCardEntry.COLUMN_COMPANY_PHONE + " INTEGER NOT NULL, " +
+                MyCardEntry.COLUMN_COMPANY_ADDRESS + " TEXT NOT NULL, " +
+                MyCardEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                "); ";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_MYCARD_TABLE);
     }
 
     @Override
@@ -45,6 +60,7 @@ public class CardlistDbHelper extends SQLiteOpenHelper {
         // In a production app, this method might be modified to ALTER the table
         // instead of dropping it, so that existing data is not deleted.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CardlistEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MyCardEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }
