@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/my_card_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -11,8 +12,8 @@
     tools:showIn="@layout/activity_my_card">
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_margin="@dimen/activity_horizontal_margin"
         card_view:cardCornerRadius="4dp"
@@ -24,10 +25,11 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.875"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp">
 
         <include
-            android:id="@+id/add_card_content"
             layout="@layout/add_card_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

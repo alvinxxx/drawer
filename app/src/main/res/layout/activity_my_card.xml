@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MyCardActivity">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
-    <include
-        android:id="@+id/main_toolbar"
-        layout="@layout/main_toolbar" />
+    <android.support.design.widget.CoordinatorLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.MyCardActivity">
 
-    <include
-        android:id="@+id/my_card_content"
-        layout="@layout/my_card_content_list"
-        />
+        <include
+            layout="@layout/add_card_toolbar" />
 
-</android.support.design.widget.CoordinatorLayout>
+        <include
+            layout="@layout/my_card_content_list"
+            />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/drawer_nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/drawer_nav_header"
+        app:menu="@menu/activity_drawer" />
+
+</android.support.v4.widget.DrawerLayout>
+
+
 

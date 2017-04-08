@@ -9,10 +9,8 @@
 
 
     <include
-        android:id="@+id/main_toolbar"
         layout="@layout/main_toolbar" />
     <include
-        android:id="@+id/main_content_list"
         layout="@layout/main_content_list" />
 
 

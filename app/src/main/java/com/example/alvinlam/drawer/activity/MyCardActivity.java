@@ -14,8 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.alvinlam.drawer.R;
@@ -27,9 +29,9 @@ import com.example.alvinlam.drawer.data.CardlistDbHelper;
  * Created by Alvin Lam on 3/29/2017.
  */
 
-public class MyCardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
+public class MyCardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MyCardActivity.class.getSimpleName();
 
     private SQLiteDatabase mDb;
     private Cursor cursor;
@@ -37,32 +39,22 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
     private int edit = 0;
     private int phone=0, cphone=0;
 
-    private TextView mNameTextView;
-    private TextView mPhoneTextView;
-    private TextView mEmailTextView;
-    private TextView mTitleTextView;
-    private TextView mWebsiteTextView;
-    private TextView mCompanyTextView;
-    private TextView mCPhoneTextView;
-    private TextView mCAddressTextView;
+    private EditText mNameEditText;
+    private EditText mPhoneEditText;
+    private EditText mEmailEditText;
+    private EditText mTitleEditText;
+    private EditText mWebsiteEditText;
+    private EditText mCompanyEditText;
+    private EditText mCPhoneEditText;
+    private EditText mCAddressEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_card);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.my_card_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Class destinationClass = AddCardActivity.class;
-                Intent intentToStartAddCardActivity = new Intent(MyCardActivity.this, destinationClass);
-                startActivity(intentToStartAddCardActivity);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,51 +64,89 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+/**
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
 
-        mNameTextView = (TextView) this.findViewById(R.id.textViewName);
-        mPhoneTextView = (TextView) this.findViewById(R.id.textViewPhone);
-        mEmailTextView = (TextView) this.findViewById(R.id.textViewEmail);
-        mTitleTextView = (TextView) this.findViewById(R.id.textViewTitle);
-        mWebsiteTextView = (TextView) this.findViewById(R.id.textViewWeb);
-        mCompanyTextView = (TextView) this.findViewById(R.id.textViewCompany);
-        mCPhoneTextView = (TextView) this.findViewById(R.id.textViewCPhone);
-        mCAddressTextView = (TextView) this.findViewById(R.id.textViewCAdress);
+        mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
+        mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
+        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
+        mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
+        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
+        mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
+        mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
+        mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
+
+        Intent intentThatStartedThisActivity = getIntent();
+
+        if (intentThatStartedThisActivity != null) {
+            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
+                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
+
+                cursor = getMyCards(id);
+
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+
+                    //set edit to 1 as True
+                    edit = 1;
+
+                    //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
+
+                    String name = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_NAME));
+                    int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_PHONE));
+                    String email = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
+                    String title = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_TITLE));
+                    String website = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_WEBSITE));
+                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
+                    int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_PHONE));
+                    String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_ADDRESS));
+
+                    mNameEditText.setText(name);
+                    mPhoneEditText.setText(Integer.toString(phone));
+                    mEmailEditText.setText(email);
+                    mTitleEditText.setText(title);
+                    mWebsiteEditText.setText(website);
+                    mCompanyEditText.setText(company);
+                    mCPhoneEditText.setText(Integer.toString(companyTelephone));
+                    mCAddressEditText.setText(companyAddress);
 
 
-        cursor = getMyCards();
+                }
 
-        if (cursor.getCount() > 0) {
-            cursor.moveToFirst();
-
-            //set edit to 1 as True
-            edit = 1;
-
-            //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
-
-            String name = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_NAME));
-            int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_PHONE));
-            String email = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
-            String title = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_TITLE));
-            String website = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_WEBSITE));
-            String company = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
-            int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_PHONE));
-            String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_ADDRESS));
-
-            mNameTextView.setText(name);
-            mPhoneTextView.setText(Integer.toString(phone));
-            mEmailTextView.setText(email);
-            mTitleTextView.setText(title);
-            mWebsiteTextView.setText(website);
-            mCompanyTextView.setText(company);
-            mCPhoneTextView.setText(Integer.toString(companyTelephone));
-            mCAddressTextView.setText(companyAddress);
-
-
+            }
         }
+ **/
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.my_card_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Context context = this;
+        Class destinationClass = MainActivity.class;
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_edit) {
+            //destinationClass = MyCardAddActivity.class;
+            return true;
+        }
+
+        Intent intentToStartActivity = new Intent(context, destinationClass);
+        intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
+        startActivity(intentToStartActivity);
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -126,18 +156,6 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void onListItemClick(View v, int position) {
-        Context context = this;
-        Class destinationClass = AddCardActivity.class;
-
-        long id = (long) v.getTag();
-
-        Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
-        intentToStartAddCardActivity.putExtra(Intent.EXTRA_TEXT, id);
-        startActivity(intentToStartAddCardActivity);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -167,7 +185,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    private Cursor getMyCards() {
+    private Cursor getMyCards(long id) {
         return mDb.query(
                 CardlistContract.MyCardEntry.TABLE_NAME,
                 null,

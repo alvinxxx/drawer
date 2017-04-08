@@ -7,11 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.alvinlam.drawer.activity.AddCardActivity">
     <include
-        android:id="@+id/add_card_toolbar"
         layout="@layout/add_card_toolbar" />
 
     <include
-        android:id="@+id/add_card_content"
         layout="@layout/add_card_content" />
 
 
