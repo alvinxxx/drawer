@@ -32,6 +32,14 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
+            android:name=".activity.MyCardAddActivity"
+            android:label="@string/my_card"
+            android:parentActivityName=".activity.MyCardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+        <activity
             android:name=".activity.AccountActivity"
             android:label="@string/my_account"
             android:theme="@style/AppTheme.NoActionBar">

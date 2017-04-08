@@ -64,7 +64,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-/**
+
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
 
@@ -77,19 +77,25 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
 
+        disableEditText(mNameEditText);
+        disableEditText(mPhoneEditText);
+        disableEditText(mEmailEditText);
+        disableEditText(mTitleEditText);
+        disableEditText(mWebsiteEditText);
+        disableEditText(mCompanyEditText);
+        disableEditText(mCPhoneEditText);
+        disableEditText(mCAddressEditText);
+
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
-
-                cursor = getMyCards(id);
+                cursor = getMyCard();
 
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
 
-                    //set edit to 1 as True
-                    edit = 1;
+                    //set edit to 0 as false for insert
+                    edit = 0;
 
                     //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
@@ -111,12 +117,21 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
                     mCPhoneEditText.setText(Integer.toString(companyTelephone));
                     mCAddressEditText.setText(companyAddress);
 
-
                 }
 
-            }
+
         }
- **/
+
+    }
+
+    public void disableEditText(EditText et){
+        et.setCursorVisible(false);
+        et.setLongClickable(false);
+        et.setClickable(false);
+        et.setFocusable(false);
+        et.setSelected(false);
+        et.setKeyListener(null);
+        et.setBackgroundResource(android.R.color.transparent);
     }
 
     @Override
@@ -131,19 +146,18 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int lid = item.getItemId();
         Context context = this;
-        Class destinationClass = MainActivity.class;
+        Class destinationClass = MyCardAddActivity.class;
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_edit) {
-            //destinationClass = MyCardAddActivity.class;
+        if (lid == R.id.action_edit) {
+            Intent intentToStartActivity = new Intent(context, destinationClass);
+            startActivity(intentToStartActivity);
             return true;
         }
 
-        Intent intentToStartActivity = new Intent(context, destinationClass);
-        intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
-        startActivity(intentToStartActivity);
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -177,7 +191,6 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         }
 
         Intent intentToStartActivity = new Intent(context, destinationClass);
-        intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
         startActivity(intentToStartActivity);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -185,7 +198,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    private Cursor getMyCards(long id) {
+    private Cursor getMyCard() {
         return mDb.query(
                 CardlistContract.MyCardEntry.TABLE_NAME,
                 null,

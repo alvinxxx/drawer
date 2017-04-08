@@ -180,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         Intent intentToStartActivity = new Intent(context, destinationClass);
-        intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
         startActivity(intentToStartActivity);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

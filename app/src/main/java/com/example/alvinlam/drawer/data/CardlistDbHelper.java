@@ -13,7 +13,7 @@ import com.example.alvinlam.drawer.data.CardlistContract.*;
 public class CardlistDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "cardlist.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public CardlistDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
