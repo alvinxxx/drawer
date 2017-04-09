@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.CardlistContract;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
+import com.example.alvinlam.drawer.data.DbFunction;
 
 /**
  * Created by Alvin Lam on 3/29/2017.
@@ -29,6 +31,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
     private SQLiteDatabase mDb;
     private Cursor cursor;
+    private DbFunction dbFunction;
     private long id = 0;
     private int edit = 0;
     private int phone=0, cphone=0;
@@ -60,36 +63,27 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         navigationView.setNavigationItemSelectedListener(this);
 
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
+        //dbFunction = new DbFunction(this);
         mDb = dbHelper.getWritableDatabase();
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
         mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_web_editText);
+        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
         mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_email_editText);
+        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
         mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
 
-        disableEditText(mNameEditText);
-        disableEditText(mPhoneEditText);
-        disableEditText(mEmailEditText);
-        disableEditText(mTitleEditText);
-        disableEditText(mWebsiteEditText);
-        disableEditText(mCompanyEditText);
-        disableEditText(mCPhoneEditText);
-        disableEditText(mCAddressEditText);
 
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
                 cursor = getMyCard();
+                        //dbFunction.select();
 
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
-
-                    //set edit to 0 as false for insert
-                    edit = 0;
 
                     //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
@@ -115,6 +109,15 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
 
         }
+
+        disableEditText(mNameEditText);
+        disableEditText(mPhoneEditText);
+        disableEditText(mEmailEditText);
+        disableEditText(mTitleEditText);
+        disableEditText(mWebsiteEditText);
+        disableEditText(mCompanyEditText);
+        disableEditText(mCPhoneEditText);
+        disableEditText(mCAddressEditText);
 
     }
 

@@ -48,7 +48,6 @@ public class DbFunction {
         cv.put(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE, cphone);
         cv.put(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS, caddress);
 
-        // Inserting Row
         mDb.update(CardlistContract.CardlistEntry.TABLE_NAME, cv, CardlistContract.CardlistEntry._ID + "=" + id, null);
         mDb.close(); // Closing database connection
     }

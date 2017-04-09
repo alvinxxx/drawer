@@ -109,11 +109,11 @@ public class MyCardAddActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int lid = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_send) {
-            addToCardlist();
+        if (lid == R.id.action_send) {
+            addToCardlist(id);
             return true;
         }
 
@@ -134,7 +134,7 @@ public class MyCardAddActivity extends AppCompatActivity {
 
 
 
-    public void addToCardlist() {
+    public void addToCardlist(long bid) {
         if (mNameEditText.getText().length() == 0 ||
                 mPhoneEditText.getText().length() == 0 &&
                         mEmailEditText.getText().length() == 0 &&
@@ -153,7 +153,6 @@ public class MyCardAddActivity extends AppCompatActivity {
         } catch (NumberFormatException ex) {
             Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
         }
-
         // Add guest info to mDb
         addNewCard(edit,
                 mNameEditText.getText().toString(),
@@ -166,27 +165,16 @@ public class MyCardAddActivity extends AppCompatActivity {
                 mCAddressEditText.getText().toString()
         );
 
-
-        //clear UI text fields
-        mNameEditText.getText().clear();
-        mPhoneEditText.getText().clear();
-        mEmailEditText.getText().clear();
-        mTitleEditText.getText().clear();
-        mWebsiteEditText.getText().clear();
-        mCompanyEditText.getText().clear();
-        mCPhoneEditText.getText().clear();
-        mCAddressEditText.getText().clear();
-
         Context context = this;
         Class destinationClass = MyCardActivity.class;
         Intent intentToStartMainActivity = new Intent(context, destinationClass);
         startActivity(intentToStartMainActivity);
     }
 
-    private long addNewCard(int edit, String name, int phone, String email, String title, String website, String company, int cphone, String caddress) {
+    private long addNewCard(int edit, String mname, int phone, String email, String title, String website, String company, int cphone, String caddress) {
 
         ContentValues cv = new ContentValues();
-        cv.put(CardlistContract.MyCardEntry.COLUMN_NAME, name);
+        cv.put(CardlistContract.MyCardEntry.COLUMN_NAME, mname);
         cv.put(CardlistContract.MyCardEntry.COLUMN_PHONE, phone);
         cv.put(CardlistContract.MyCardEntry.COLUMN_EMAIL, email);
         cv.put(CardlistContract.MyCardEntry.COLUMN_TITLE, title);
@@ -195,12 +183,18 @@ public class MyCardAddActivity extends AppCompatActivity {
         cv.put(CardlistContract.MyCardEntry.COLUMN_COMPANY_PHONE, cphone);
         cv.put(CardlistContract.MyCardEntry.COLUMN_COMPANY_ADDRESS, caddress);
 
-        // call insert to run an insert query on TABLE_NAME with the ContentValues created
-        if (edit == 1)
-            mDb.update(CardlistContract.MyCardEntry.TABLE_NAME, cv, CardlistContract.MyCardEntry._ID + "=" + id, null);
-        else
-            mDb.insert(CardlistContract.MyCardEntry.TABLE_NAME, null, cv);
+        //Log.i("add", "addToCardlist:cvout  "+ cv.get(CardlistContract.MyCardEntry.COLUMN_NAME));
 
+        // call insert to run an insert query on TABLE_NAME with the ContentValues created
+        if (edit == 1){
+            //Log.i("add", "addToCardlist:cv "+ cv.get(CardlistContract.MyCardEntry.COLUMN_NAME));
+
+            mDb.update(CardlistContract.MyCardEntry.TABLE_NAME, cv, null, null);
+            //Log.i("add", "addToCardlist: "+cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_NAME)));
+        }
+        else {
+            mDb.insert(CardlistContract.MyCardEntry.TABLE_NAME, null, cv);
+        }
         return 0;
     }
 
