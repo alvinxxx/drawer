@@ -1,6 +1,5 @@
 package com.example.alvinlam.drawer.activity;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,12 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.CardlistContract;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
+import com.example.alvinlam.drawer.data.DbFunction;
 
 
 public class AddCardActivity extends AppCompatActivity {
@@ -36,6 +35,7 @@ public class AddCardActivity extends AppCompatActivity {
     private int edit = 0;
     private int phone=0, cphone=0;
     private Cursor cursor;
+    private DbFunction dbFunction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class AddCardActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
+        dbFunction = new DbFunction(this);
         mDb = dbHelper.getWritableDatabase();
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
@@ -65,7 +66,7 @@ public class AddCardActivity extends AppCompatActivity {
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
                 id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
 
-                cursor = getCard(id);
+                cursor = dbFunction.selectByID(id);
 
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -80,7 +81,7 @@ public class AddCardActivity extends AppCompatActivity {
                     String email = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
                     String title = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
                     String website = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_WEBSITE));
-                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
+                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY));
                     int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE));
                     String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS));
 
@@ -123,19 +124,6 @@ public class AddCardActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Cursor getCard(long id) {
-        return mDb.query(
-                CardlistContract.CardlistEntry.TABLE_NAME,
-                null,
-                CardlistContract.CardlistEntry._ID + "=" + id,
-                null,
-                null,
-                null,
-                CardlistContract.CardlistEntry.COLUMN_TIMESTAMP
-        );
-    }
-
-
 
     public void addToCardlist() {
         if (mNameEditText.getText().length() == 0 ||
@@ -157,18 +145,30 @@ public class AddCardActivity extends AppCompatActivity {
             Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
         }
 
-        // Add guest info to mDb
-        addNewCard(edit,
-                mNameEditText.getText().toString(),
-                phone,
-                mEmailEditText.getText().toString(),
-                mTitleEditText.getText().toString(),
-                mWebsiteEditText.getText().toString(),
-                mCompanyEditText.getText().toString(),
-                cphone,
-                mCAddressEditText.getText().toString()
-                );
-
+        // call insert to run an insert query on TABLE_NAME with the ContentValues created
+        if (edit == 1)
+            dbFunction.update(id,
+                    mNameEditText.getText().toString(),
+                    phone,
+                    mEmailEditText.getText().toString(),
+                    mTitleEditText.getText().toString(),
+                    mWebsiteEditText.getText().toString(),
+                    mCompanyEditText.getText().toString(),
+                    cphone,
+                    mCAddressEditText.getText().toString()
+            );
+        else
+            // Add guest info to mDb
+            dbFunction.insert(
+                    mNameEditText.getText().toString(),
+                    phone,
+                    mEmailEditText.getText().toString(),
+                    mTitleEditText.getText().toString(),
+                    mWebsiteEditText.getText().toString(),
+                    mCompanyEditText.getText().toString(),
+                    cphone,
+                    mCAddressEditText.getText().toString()
+            );
 
         //clear UI text fields
         mNameEditText.getText().clear();
@@ -186,26 +186,7 @@ public class AddCardActivity extends AppCompatActivity {
         startActivity(intentToStartMainActivity);
     }
 
-    private long addNewCard(int edit, String name, int phone, String email, String title, String website, String company, int cphone, String caddress) {
 
-        ContentValues cv = new ContentValues();
-        cv.put(CardlistContract.CardlistEntry.COLUMN_NAME, name);
-        cv.put(CardlistContract.CardlistEntry.COLUMN_PHONE, phone);
-        cv.put(CardlistContract.CardlistEntry.COLUMN_EMAIL, email);
-        cv.put(CardlistContract.CardlistEntry.COLUMN_TITLE, title);
-        cv.put(CardlistContract.CardlistEntry.COLUMN_WEBSITE, website);
-        cv.put(CardlistContract.CardlistEntry.COLUMN_COMPANY, company);
-        cv.put(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE, cphone);
-        cv.put(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS, caddress);
-
-        // call insert to run an insert query on TABLE_NAME with the ContentValues created
-        if (edit == 1)
-            mDb.update(CardlistContract.CardlistEntry.TABLE_NAME, cv, CardlistContract.CardlistEntry._ID + "=" + id, null);
-        else
-            mDb.insert(CardlistContract.CardlistEntry.TABLE_NAME, null, cv);
-
-        return 0;
-    }
 
 
 }

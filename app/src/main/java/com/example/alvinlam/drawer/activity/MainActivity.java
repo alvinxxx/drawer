@@ -1,5 +1,6 @@
 package com.example.alvinlam.drawer.activity;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -7,9 +8,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,11 +24,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
 import com.example.alvinlam.drawer.data.CardlistContract;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
+import com.example.alvinlam.drawer.data.DbFunction;
+import com.example.alvinlam.drawer.data.TestUtil;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
@@ -32,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CardlistAdapter mAdapter;
     private RecyclerView cardlistRecyclerView;
     private SQLiteDatabase mDb;
+    private DbFunction dbFunction;
+
     private Cursor cursor;
 
     @Override
@@ -67,11 +76,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         cardlistRecyclerView.setHasFixedSize(true);
 
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
+        dbFunction = new DbFunction(this);
         mDb = dbHelper.getWritableDatabase();
 
-        cursor = getAllCards();
+        cursor = dbFunction.select();
+        if(cursor == null) TestUtil.insertFakeData(mDb);
         mAdapter = new CardlistAdapter(this, cursor, this);
         cardlistRecyclerView.setAdapter(mAdapter);
+
 
         // Create an item touch helper to handle swiping items off the list
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -90,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //get the id of the item being swiped
                 long id = (long) viewHolder.itemView.getTag();
                 //remove from DB
-                removeCard(id);
+                dbFunction.delete(id);
                 //update the list
-                mAdapter.swapCursor(getAllCards());
+                mAdapter.swapCursor(dbFunction.select());
             }
 
             // attach the ItemTouchHelper
@@ -112,7 +124,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main_settings, menu);
+        getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Log.d(TAG, "onQueryTextSubmit ");
+                cursor= dbFunction.selectByName(s);
+                if (cursor==null){
+                    Toast.makeText(MainActivity.this,"No records found!",Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(MainActivity.this, cursor.getCount() + " records found!",Toast.LENGTH_LONG).show();
+                }
+                mAdapter.swapCursor(cursor);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Log.d(TAG, "onQueryTextChange ");
+                cursor= dbFunction.selectByName(s);
+                if (cursor!=null){
+                    mAdapter.swapCursor(cursor);
+                }
+                return false;
+            }
+
+        });
+
         return true;
     }
 
@@ -185,23 +231,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private Cursor getAllCards() {
-        return mDb.query(
-                CardlistContract.CardlistEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                CardlistContract.CardlistEntry.COLUMN_TIMESTAMP
-        );
-    }
-
-    private boolean removeCard(long id) {
-        //  Inside, call mDb.delete to pass in the TABLE_NAME and the condition that ._ID equals id
-        return mDb.delete(CardlistContract.CardlistEntry.TABLE_NAME, CardlistContract.CardlistEntry._ID + "=" + id, null) > 0;
     }
 
 }

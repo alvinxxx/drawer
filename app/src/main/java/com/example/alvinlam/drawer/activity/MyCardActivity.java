@@ -5,23 +5,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.adapter.CardlistAdapter;
 import com.example.alvinlam.drawer.data.CardlistContract;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
 
@@ -70,9 +64,9 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
         mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
+        mEmailEditText = (EditText) this.findViewById(R.id.add_web_editText);
         mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
+        mWebsiteEditText = (EditText) this.findViewById(R.id.add_email_editText);
         mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);

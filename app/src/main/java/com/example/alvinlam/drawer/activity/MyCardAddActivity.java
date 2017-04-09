@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
@@ -52,9 +51,9 @@ public class MyCardAddActivity extends AppCompatActivity {
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
         mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
+        mEmailEditText = (EditText) this.findViewById(R.id.add_web_editText);
         mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
+        mWebsiteEditText = (EditText) this.findViewById(R.id.add_email_editText);
         mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
