@@ -10,18 +10,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.CardlistContract;
 
 public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardViewHolder> {
 
     private static final String TAG = CardlistAdapter.class.getSimpleName();
-
     private Context mContext;
     private Cursor mCursor;
     final private ListItemClickListener mOnClickListener;
+    String letter;
+    ColorGenerator generator = ColorGenerator.MATERIAL;
 
     public interface ListItemClickListener{
         void onListItemClick(View v, int parameter);
@@ -53,6 +57,16 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
         holder.nameTextView.setText(name);
         holder.titleTextView.setText(title);
         holder.itemView.setTag(id);
+
+        //        Get the first letter of list item
+        letter = String.valueOf(name.charAt(0));
+        int color = generator.getColor(letter);
+
+        //        Create a new TextDrawable for our image's background
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRound(letter, color);
+
+        holder.letter.setImageDrawable(drawable);
     }
 
 
@@ -78,11 +92,13 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
 
         TextView nameTextView;
         TextView titleTextView;
+        ImageView letter;
 
         public CardViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             titleTextView = (TextView) itemView.findViewById(R.id.title_text_view);
+            letter = (ImageView) itemView.findViewById(R.id.imageViewLetter);
             itemView.setOnClickListener(this);
         }
 

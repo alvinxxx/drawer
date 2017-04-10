@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -29,6 +32,8 @@ import com.example.alvinlam.drawer.adapter.CardlistAdapter;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
 import com.example.alvinlam.drawer.data.DbFunction;
 import com.example.alvinlam.drawer.data.TestUtil;
+
+import static com.example.alvinlam.drawer.R.id.parent;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
