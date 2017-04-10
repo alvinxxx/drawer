@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,7 +22,16 @@ import com.example.alvinlam.drawer.data.CardlistDbHelper;
 import com.example.alvinlam.drawer.data.DbFunction;
 
 
-public class AddCardActivity extends AppCompatActivity {
+public class AddCardActivity extends AppCompatActivity{
+
+    private static final String TAG = AddCardActivity.class.getSimpleName();
+
+    private SQLiteDatabase mDb;
+    private Cursor cursor;
+    private DbFunction dbFunction;
+    private long id = 0;
+    private int edit = 0;
+    private int phone=0, cphone=0;
 
     private EditText mNameEditText;
     private EditText mPhoneEditText;
@@ -29,27 +42,17 @@ public class AddCardActivity extends AppCompatActivity {
     private EditText mCPhoneEditText;
     private EditText mCAddressEditText;
 
-    private SQLiteDatabase mDb;
-    private final static String LOG_TAG = MainActivity.class.getSimpleName();
-    private long id = 0;
-    private int edit = 0;
-    private int phone=0, cphone=0;
-    private Cursor cursor;
-    private DbFunction dbFunction;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_card);
+        setContentView(R.layout.activity_my_card);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         dbFunction = new DbFunction(this);
-        mDb = dbHelper.getWritableDatabase();
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
         mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
@@ -59,6 +62,7 @@ public class AddCardActivity extends AppCompatActivity {
         mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
+
 
         Intent intentThatStartedThisActivity = getIntent();
 
@@ -71,10 +75,8 @@ public class AddCardActivity extends AppCompatActivity {
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
 
-                    //set edit to 1 as True
-                    edit = 1;
 
-                    //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
+                    //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
                     String name = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
                     int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_PHONE));
@@ -99,12 +101,32 @@ public class AddCardActivity extends AppCompatActivity {
 
             }
         }
+
+        disableEditText(mNameEditText);
+        disableEditText(mPhoneEditText);
+        disableEditText(mEmailEditText);
+        disableEditText(mTitleEditText);
+        disableEditText(mWebsiteEditText);
+        disableEditText(mCompanyEditText);
+        disableEditText(mCPhoneEditText);
+        disableEditText(mCAddressEditText);
+
+    }
+
+    public void disableEditText(EditText et){
+        et.setCursorVisible(false);
+        et.setLongClickable(false);
+        et.setClickable(false);
+        et.setFocusable(false);
+        et.setSelected(false);
+        et.setKeyListener(null);
+        et.setBackgroundResource(android.R.color.transparent);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.my_card_toolbar_menu, menu);
         return true;
     }
 
@@ -113,80 +135,20 @@ public class AddCardActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int lid = item.getItemId();
+        Context context = this;
+        Class destinationClass = AddCardAddActivity.class;
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_send) {
-            addToCardlist();
+        if (lid == R.id.action_edit) {
+            Intent intentToStartActivity = new Intent(context, destinationClass);
+            intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
+            startActivity(intentToStartActivity);
             return true;
         }
 
+
         return super.onOptionsItemSelected(item);
     }
-
-
-    public void addToCardlist() {
-        if (mNameEditText.getText().length() == 0 ||
-                mPhoneEditText.getText().length() == 0 &&
-                mEmailEditText.getText().length() == 0 &&
-                mTitleEditText.getText().length() == 0 &&
-                mWebsiteEditText.getText().length() == 0 &&
-                mCompanyEditText.getText().length() == 0 &&
-                mCPhoneEditText.getText().length() == 0 &&
-                mCAddressEditText.getText().length() == 0) {
-            return;
-        }
-
-
-        try {
-            phone = Integer.parseInt(mPhoneEditText.getText().toString());
-            cphone = Integer.parseInt(mPhoneEditText.getText().toString());
-        } catch (NumberFormatException ex) {
-            Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
-        }
-
-        // call insert to run an insert query on TABLE_NAME with the ContentValues created
-        if (edit == 1)
-            dbFunction.update(id,
-                    mNameEditText.getText().toString(),
-                    phone,
-                    mEmailEditText.getText().toString(),
-                    mTitleEditText.getText().toString(),
-                    mWebsiteEditText.getText().toString(),
-                    mCompanyEditText.getText().toString(),
-                    cphone,
-                    mCAddressEditText.getText().toString()
-            );
-        else
-            // Add guest info to mDb
-            dbFunction.insert(
-                    mNameEditText.getText().toString(),
-                    phone,
-                    mEmailEditText.getText().toString(),
-                    mTitleEditText.getText().toString(),
-                    mWebsiteEditText.getText().toString(),
-                    mCompanyEditText.getText().toString(),
-                    cphone,
-                    mCAddressEditText.getText().toString()
-            );
-
-        //clear UI text fields
-        mNameEditText.getText().clear();
-        mPhoneEditText.getText().clear();
-        mEmailEditText.getText().clear();
-        mTitleEditText.getText().clear();
-        mWebsiteEditText.getText().clear();
-        mCompanyEditText.getText().clear();
-        mCPhoneEditText.getText().clear();
-        mCAddressEditText.getText().clear();
-
-        Context context = this;
-        Class destinationClass = MainActivity.class;
-        Intent intentToStartMainActivity = new Intent(context, destinationClass);
-        startActivity(intentToStartMainActivity);
-    }
-
-
-
 
 }

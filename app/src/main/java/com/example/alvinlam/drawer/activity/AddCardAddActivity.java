@@ -1,6 +1,5 @@
 package com.example.alvinlam.drawer.activity;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,9 +15,10 @@ import android.widget.EditText;
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.CardlistContract;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
+import com.example.alvinlam.drawer.data.DbFunction;
 
 
-public class MyCardAddActivity extends AppCompatActivity {
+public class AddCardAddActivity extends AppCompatActivity {
 
     private EditText mNameEditText;
     private EditText mPhoneEditText;
@@ -35,6 +35,7 @@ public class MyCardAddActivity extends AppCompatActivity {
     private int edit = 0;
     private int phone=0, cphone=0;
     private Cursor cursor;
+    private DbFunction dbFunction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +48,14 @@ public class MyCardAddActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
+        dbFunction = new DbFunction(this);
         mDb = dbHelper.getWritableDatabase();
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
         mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_web_editText);
+        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
         mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_email_editText);
+        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
         mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
@@ -61,7 +63,10 @@ public class MyCardAddActivity extends AppCompatActivity {
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
-                cursor = getCard();
+            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
+                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
+
+                cursor = dbFunction.selectByID(id);
 
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
@@ -70,16 +75,15 @@ public class MyCardAddActivity extends AppCompatActivity {
                     edit = 1;
 
                     //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
-                    id = cursor.getColumnIndex(CardlistContract.MyCardEntry._ID);
 
-                    String name = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_NAME));
-                    int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_PHONE));
-                    String email = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
-                    String title = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_TITLE));
-                    String website = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_WEBSITE));
-                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
-                    int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_PHONE));
-                    String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_ADDRESS));
+                    String name = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
+                    int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_PHONE));
+                    String email = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
+                    String title = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
+                    String website = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_WEBSITE));
+                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY));
+                    int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE));
+                    String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS));
 
                     mNameEditText.setText(name);
                     mPhoneEditText.setText(Integer.toString(phone));
@@ -93,7 +97,7 @@ public class MyCardAddActivity extends AppCompatActivity {
 
                 }
 
-
+            }
         }
     }
 
@@ -113,11 +117,11 @@ public class MyCardAddActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_send) {
-            addToCardlist(id);
+            addToCardlist();
             return true;
         }else if (lid == android.R.id.home) {
             Context context = this;
-            Class destinationClass = MyCardActivity.class;
+            Class destinationClass = AddCardActivity.class;
             Intent intentToStartActivity = new Intent(context, destinationClass);
             intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
             startActivity(intentToStartActivity);
@@ -127,29 +131,16 @@ public class MyCardAddActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Cursor getCard() {
-        return mDb.query(
-                CardlistContract.MyCardEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                CardlistContract.MyCardEntry.COLUMN_TIMESTAMP
-        );
-    }
 
-
-
-    public void addToCardlist(long bid) {
+    public void addToCardlist() {
         if (mNameEditText.getText().length() == 0 ||
                 mPhoneEditText.getText().length() == 0 &&
-                        mEmailEditText.getText().length() == 0 &&
-                        mTitleEditText.getText().length() == 0 &&
-                        mWebsiteEditText.getText().length() == 0 &&
-                        mCompanyEditText.getText().length() == 0 &&
-                        mCPhoneEditText.getText().length() == 0 &&
-                        mCAddressEditText.getText().length() == 0) {
+                mEmailEditText.getText().length() == 0 &&
+                mTitleEditText.getText().length() == 0 &&
+                mWebsiteEditText.getText().length() == 0 &&
+                mCompanyEditText.getText().length() == 0 &&
+                mCPhoneEditText.getText().length() == 0 &&
+                mCAddressEditText.getText().length() == 0) {
             return;
         }
 
@@ -160,50 +151,41 @@ public class MyCardAddActivity extends AppCompatActivity {
         } catch (NumberFormatException ex) {
             Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
         }
-        // Add guest info to mDb
-        addNewCard(edit,
-                mNameEditText.getText().toString(),
-                phone,
-                mEmailEditText.getText().toString(),
-                mTitleEditText.getText().toString(),
-                mWebsiteEditText.getText().toString(),
-                mCompanyEditText.getText().toString(),
-                cphone,
-                mCAddressEditText.getText().toString()
-        );
-
-        Context context = this;
-        Class destinationClass = MyCardActivity.class;
-        Intent intentToStartMainActivity = new Intent(context, destinationClass);
-        startActivity(intentToStartMainActivity);
-    }
-
-    private long addNewCard(int edit, String mname, int phone, String email, String title, String website, String company, int cphone, String caddress) {
-
-        ContentValues cv = new ContentValues();
-        cv.put(CardlistContract.MyCardEntry.COLUMN_NAME, mname);
-        cv.put(CardlistContract.MyCardEntry.COLUMN_PHONE, phone);
-        cv.put(CardlistContract.MyCardEntry.COLUMN_EMAIL, email);
-        cv.put(CardlistContract.MyCardEntry.COLUMN_TITLE, title);
-        cv.put(CardlistContract.MyCardEntry.COLUMN_WEBSITE, website);
-        cv.put(CardlistContract.MyCardEntry.COLUMN_COMPANY, company);
-        cv.put(CardlistContract.MyCardEntry.COLUMN_COMPANY_PHONE, cphone);
-        cv.put(CardlistContract.MyCardEntry.COLUMN_COMPANY_ADDRESS, caddress);
-
-        //Log.i("add", "addToCardlist:cvout  "+ cv.get(CardlistContract.MyCardEntry.COLUMN_NAME));
 
         // call insert to run an insert query on TABLE_NAME with the ContentValues created
-        if (edit == 1){
-            //Log.i("add", "addToCardlist:cv "+ cv.get(CardlistContract.MyCardEntry.COLUMN_NAME));
+        if (edit == 1)
+            dbFunction.update(id,
+                    mNameEditText.getText().toString(),
+                    phone,
+                    mEmailEditText.getText().toString(),
+                    mTitleEditText.getText().toString(),
+                    mWebsiteEditText.getText().toString(),
+                    mCompanyEditText.getText().toString(),
+                    cphone,
+                    mCAddressEditText.getText().toString()
+            );
+        else
+            // Add guest info to mDb
+            dbFunction.insert(
+                    mNameEditText.getText().toString(),
+                    phone,
+                    mEmailEditText.getText().toString(),
+                    mTitleEditText.getText().toString(),
+                    mWebsiteEditText.getText().toString(),
+                    mCompanyEditText.getText().toString(),
+                    cphone,
+                    mCAddressEditText.getText().toString()
+            );
 
-            mDb.update(CardlistContract.MyCardEntry.TABLE_NAME, cv, null, null);
-            //Log.i("add", "addToCardlist: "+cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_NAME)));
-        }
-        else {
-            mDb.insert(CardlistContract.MyCardEntry.TABLE_NAME, null, cv);
-        }
-        return 0;
+
+        Context context = this;
+        Class destinationClass = AddCardActivity.class;
+        Intent intentToStartActivity = new Intent(context, destinationClass);
+        intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
+        startActivity(intentToStartActivity);
     }
+
+
 
 
 }

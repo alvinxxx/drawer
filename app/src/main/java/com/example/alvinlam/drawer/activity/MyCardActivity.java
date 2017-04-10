@@ -64,7 +64,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         //dbFunction = new DbFunction(this);
-        mDb = dbHelper.getWritableDatabase();
+        mDb = dbHelper.getReadableDatabase();
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
         mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
@@ -85,7 +85,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
 
-                    //Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
+                    //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
                     String name = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_NAME));
                     int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_PHONE));
@@ -153,7 +153,6 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
             startActivity(intentToStartActivity);
             return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }

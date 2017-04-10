@@ -13,7 +13,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTop"
-            android:label="@string/friend_card">
+            android:label="@string/friend_cards">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,19 +23,25 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
         <activity
             android:name=".activity.AddCardActivity"
-            android:label="@string/add_card"
+            android:label="@string/friend_card"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
         <activity
+            android:name=".activity.AddCardAddActivity"
+            android:label="@string/add_card"
+            android:parentActivityName=".activity.AddCardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.AddCardActivity" />
+        </activity>
+        <activity
             android:name=".activity.MyCardActivity"
-            android:label="@string/my_card"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/my_card">
         </activity>
         <activity
             android:name=".activity.MyCardAddActivity"
@@ -43,17 +49,15 @@
             android:parentActivityName=".activity.MyCardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.MyCardActivity" />
         </activity>
         <activity
             android:name=".activity.AccountActivity"
-            android:label="@string/my_account"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/my_account">
         </activity>
         <activity
             android:name=".activity.SettingActivity"
-            android:label="@string/action_settings"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/action_settings">
         </activity>
     </application>
 

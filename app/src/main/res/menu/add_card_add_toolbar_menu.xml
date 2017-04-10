@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_edit"
+        android:id="@+id/action_send"
         android:orderInCategory="200"
-        android:title="Edit"
-        android:icon="@drawable/ic_action_edit"
+        android:title="Search"
+        android:icon="@drawable/ic_action_send"
         app:showAsAction="ifRoom"
         />
 </menu>
