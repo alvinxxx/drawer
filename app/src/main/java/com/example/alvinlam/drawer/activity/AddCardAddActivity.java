@@ -39,6 +39,7 @@ public class AddCardAddActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("addcardadd", "onCreate: "+"2");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_card_precontent);
 
