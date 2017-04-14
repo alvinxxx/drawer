@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
+        fab.bringToFront();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: "+"1");
                 Class destinationClass = AddCardAddActivity.class;
                 Intent intentToStartAddCardActivity = new Intent(MainActivity.this, destinationClass);
                 startActivity(intentToStartAddCardActivity);
