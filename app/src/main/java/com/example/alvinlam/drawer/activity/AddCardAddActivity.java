@@ -1,16 +1,22 @@
 package com.example.alvinlam.drawer.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.CardlistContract;
@@ -18,7 +24,7 @@ import com.example.alvinlam.drawer.data.CardlistDbHelper;
 import com.example.alvinlam.drawer.data.DbFunction;
 
 
-public class AddCardAddActivity extends AppCompatActivity {
+public class AddCardAddActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText mNameEditText;
     private EditText mPhoneEditText;
@@ -36,6 +42,15 @@ public class AddCardAddActivity extends AppCompatActivity {
     private int phone=0, cphone=0;
     private Cursor cursor;
     private DbFunction dbFunction;
+
+    EditText editTextEmail, editTextSubject, editTextMessage;
+    Button btnSend, btnAttachment;
+    String email, subject, message, attachmentFile;
+    Uri URI = null;
+    private static final int PICK_FROM_GALLERY = 101;
+    int columnIndex;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +75,9 @@ public class AddCardAddActivity extends AppCompatActivity {
         mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
         mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
+
+        btnAttachment = (Button) findViewById(R.id.buttonAttachment);
+        btnAttachment.setOnClickListener(this);
 
         Intent intentThatStartedThisActivity = getIntent();
 
@@ -101,6 +119,45 @@ public class AddCardAddActivity extends AppCompatActivity {
             }
         }
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK) {
+            /**
+             * Get Path
+             */
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            attachmentFile = cursor.getString(columnIndex);
+            Log.e("Attachment Path:", attachmentFile);
+            URI = Uri.parse("file://" + attachmentFile);
+            cursor.close();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (v == btnAttachment) {
+            openGallery();
+        }
+
+    }
+
+    public void openGallery() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra("return-data", true);
+        startActivityForResult(
+                Intent.createChooser(intent, "Complete action using"),
+                PICK_FROM_GALLERY);
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
