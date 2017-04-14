@@ -122,9 +122,8 @@ public class AddCardAddActivity extends AppCompatActivity {
             return true;
         }else if (lid == android.R.id.home) {
             Context context = this;
-            Class destinationClass = AddCardActivity.class;
+            Class destinationClass = MainActivity.class;
             Intent intentToStartActivity = new Intent(context, destinationClass);
-            intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
             startActivity(intentToStartActivity);
             return true;
         }
@@ -180,9 +179,8 @@ public class AddCardAddActivity extends AppCompatActivity {
 
 
         Context context = this;
-        Class destinationClass = AddCardActivity.class;
+        Class destinationClass = MainActivity.class;
         Intent intentToStartActivity = new Intent(context, destinationClass);
-        intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
         startActivity(intentToStartActivity);
     }
 

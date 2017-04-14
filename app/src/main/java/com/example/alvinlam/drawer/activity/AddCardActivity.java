@@ -148,7 +148,6 @@ public class AddCardActivity extends AppCompatActivity{
         }else if (lid == android.R.id.home) {
             destinationClass = MainActivity.class;
             Intent intentToStartActivity = new Intent(context, destinationClass);
-            intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
             startActivity(intentToStartActivity);
             return true;
         }
