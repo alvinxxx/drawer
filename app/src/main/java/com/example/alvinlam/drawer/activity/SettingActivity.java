@@ -24,10 +24,7 @@ import com.example.alvinlam.drawer.adapter.CardlistAdapter;
 public class SettingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private CardlistAdapter mAdapter;
-    private RecyclerView cardlistRecyclerView;
-    private SQLiteDatabase mDb;
-    private Cursor cursor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +70,8 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
             destinationClass = MainActivity.class;
         } else if (id == R.id.nav_my_card) {
             destinationClass = MyCardActivity.class;
+        } else if (id == R.id.nav_image) {
+            destinationClass = CameraPictureActivity.class;
         } else if (id == R.id.account) {
             destinationClass = AccountActivity.class;
         } else if (id == R.id.nav_settings) {

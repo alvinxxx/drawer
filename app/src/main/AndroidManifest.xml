@@ -53,6 +53,10 @@
                 android:value=".activity.MyCardActivity" />
         </activity>
         <activity
+            android:name=".activity.CameraPictureActivity"
+            android:label="@string/image">
+        </activity>
+        <activity
             android:name=".activity.AccountActivity"
             android:label="@string/my_account">
         </activity>

@@ -222,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             destinationClass = MainActivity.class;
         } else if (id == R.id.nav_my_card) {
             destinationClass = MyCardActivity.class;
+        } else if (id == R.id.nav_image) {
+            destinationClass = CameraPictureActivity.class;
         } else if (id == R.id.account) {
             destinationClass = AccountActivity.class;
         } else if (id == R.id.nav_settings) {

@@ -10,6 +10,10 @@
             android:id="@+id/nav_my_card"
             android:icon="@android:drawable/ic_menu_my_calendar"
             android:title="@string/my_card" />
+        <item
+            android:id="@+id/nav_image"
+            android:icon="@drawable/ic_action_image"
+            android:title="@string/image" />
 
     </group>
 
