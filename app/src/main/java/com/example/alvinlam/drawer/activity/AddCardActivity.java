@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,13 +26,12 @@ import com.example.alvinlam.drawer.data.DbFunction;
 public class AddCardActivity extends AppCompatActivity{
 
     private static final String TAG = AddCardActivity.class.getSimpleName();
+    private static final String SHARE_HASHTAG = " #PocketCard";
 
     private SQLiteDatabase mDb;
     private Cursor cursor;
     private DbFunction dbFunction;
     private long id = 0;
-    private int edit = 0;
-    private int phone=0, cphone=0;
 
     private EditText mNameEditText;
     private EditText mPhoneEditText;
@@ -41,6 +41,15 @@ public class AddCardActivity extends AppCompatActivity{
     private EditText mCompanyEditText;
     private EditText mCPhoneEditText;
     private EditText mCAddressEditText;
+
+    private String name;
+    private int phone;
+    private String email;
+    private String title;
+    private String website;
+    private String company;
+    private int companyTelephone;
+    private String companyAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +87,14 @@ public class AddCardActivity extends AppCompatActivity{
 
                     //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
-                    String name = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
-                    int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_PHONE));
-                    String email = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
-                    String title = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
-                    String website = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_WEBSITE));
-                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY));
-                    int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE));
-                    String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS));
+                    name = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
+                    phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_PHONE));
+                    email = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
+                    title = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
+                    website = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_WEBSITE));
+                    company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY));
+                    companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE));
+                    companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS));
 
                     mNameEditText.setText(name);
                     mPhoneEditText.setText(Integer.toString(phone));
@@ -123,10 +132,12 @@ public class AddCardActivity extends AppCompatActivity{
         et.setBackgroundResource(android.R.color.transparent);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my_card_toolbar_menu, menu);
+        getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
+
         return true;
     }
 
@@ -150,8 +161,17 @@ public class AddCardActivity extends AppCompatActivity{
             Intent intentToStartActivity = new Intent(context, destinationClass);
             startActivity(intentToStartActivity);
             return true;
-        }
+        }else if (lid == R.id.action_share) {
+            Intent shareIntent = ShareCompat.IntentBuilder.from(this)
+                    .setType("text/plain")
+                    .setText("Name:  "+ name + "\n" + "Phone:  "+ phone + "\n" + "Email:  "+ email + "\n" + "Title:  "+ title + "\n" +
+                            "Website:  "+ website + "\n" + "Company:  "+ company + "\n" + "Company phone:  "+ companyTelephone + "\n" + "Company Address:  "+companyAddress + "\n" +
+                            SHARE_HASHTAG)
+                    .getIntent();
+            startActivity(shareIntent);
 
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

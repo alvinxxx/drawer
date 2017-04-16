@@ -1,6 +1,6 @@
 package com.example.alvinlam.drawer.data;
 
-public class Contact
+public class Card
 {
 
     // private variables
@@ -9,23 +9,23 @@ public class Contact
     byte[] _image;
 
     // Empty constructor
-    public Contact() {
+    public Card() {
 
     }
 
     // constructor
-    public Contact(int keyId, String name, byte[] image) {
+    public Card(int keyId, String name, byte[] image) {
         this._id = keyId;
         this._name = name;
         this._image = image;
 
     }
-    public Contact(String name, byte[] image) {
+    public Card(String name, byte[] image) {
         this._name = name;
         this._image = image;
 
     }
-    public Contact(int keyId) {
+    public Card(int keyId) {
         this._id = keyId;
 
     }

@@ -2,20 +2,16 @@ package com.example.alvinlam.drawer.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.adapter.CardlistAdapter;
 
 /**
  * Created by Alvin Lam on 3/29/2017.
@@ -71,7 +67,7 @@ public class SettingActivity extends AppCompatActivity implements NavigationView
         } else if (id == R.id.nav_my_card) {
             destinationClass = MyCardActivity.class;
         } else if (id == R.id.nav_image) {
-            destinationClass = CameraPictureActivity.class;
+            destinationClass = ImageActivity.class;
         } else if (id == R.id.account) {
             destinationClass = AccountActivity.class;
         } else if (id == R.id.nav_settings) {

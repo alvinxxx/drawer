@@ -22,16 +22,16 @@ import android.widget.ListView;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.ContactImageAdapter;
-import com.example.alvinlam.drawer.data.Contact;
+import com.example.alvinlam.drawer.data.Card;
 import com.example.alvinlam.drawer.data.DataBaseHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CameraPictureActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ImageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Button addImage;
-    ArrayList<Contact> imageArry = new ArrayList<Contact>();
+    ArrayList<Card> imageArry = new ArrayList<Card>();
     ContactImageAdapter imageAdapter;
     private static final int CAMERA_REQUEST = 1;
 
@@ -68,14 +68,14 @@ public class CameraPictureActivity extends AppCompatActivity implements Navigati
         /**
                  * Reading and getting all records from database
                  */
-        List<Contact> contacts = db.getAllContacts();
-        for (Contact cn : contacts) {
+        List<Card> cards = db.getAllContacts();
+        for (Card cn : cards) {
             String log = "ID:" + cn.getID() + " Name: " + cn.getName()
                     + " ,Image: " + cn.getImage();
 
             // Writing Contacts to log
             Log.d("Result: ", log);
-            // add contacts data in arrayList
+            // add cards data in arrayList
             imageArry.add(cn);
 
         }
@@ -142,9 +142,9 @@ public class CameraPictureActivity extends AppCompatActivity implements Navigati
 
                     // Inserting Contacts
                     Log.d("Insert: ", "Inserting ..");
-                    db.addContact(new Contact("Android", imageInByte));
-                    Intent i = new Intent(CameraPictureActivity.this,
-                            CameraPictureActivity.class);
+                    db.addContact(new Card("Android", imageInByte));
+                    Intent i = new Intent(ImageActivity.this,
+                            ImageActivity.class);
                     startActivity(i);
                     finish();
 
@@ -194,7 +194,7 @@ public class CameraPictureActivity extends AppCompatActivity implements Navigati
         } else if (id == R.id.nav_my_card) {
             destinationClass = MyCardActivity.class;
         } else if (id == R.id.nav_image) {
-            destinationClass = CameraPictureActivity.class;
+            destinationClass = ImageActivity.class;
         } else if (id == R.id.account) {
             destinationClass = AccountActivity.class;
         } else if (id == R.id.nav_settings) {

@@ -12,17 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.Contact;
+import com.example.alvinlam.drawer.data.Card;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
-public class ContactImageAdapter extends ArrayAdapter<Contact> {
+public class ContactImageAdapter extends ArrayAdapter<Card> {
     Context context;
     int layoutResourceId;
     // BcardImage data[] = null;
-    ArrayList<Contact> data=new ArrayList<Contact>();
-    public ContactImageAdapter(Context context, int layoutResourceId, ArrayList<Contact> data) {
+    ArrayList<Card> data=new ArrayList<Card>();
+    public ContactImageAdapter(Context context, int layoutResourceId, ArrayList<Card> data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -49,7 +49,7 @@ public class ContactImageAdapter extends ArrayAdapter<Contact> {
             holder = (ImageHolder)row.getTag();
         }
 
-        Contact picture = data.get(position);
+        Card picture = data.get(position);
         holder.txtTitle.setText(picture.getName());
         //convert byte to bitmap take from contact class
 

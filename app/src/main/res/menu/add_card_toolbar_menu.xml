@@ -9,4 +9,11 @@
         android:icon="@drawable/ic_action_edit"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="200"
+        android:title="Share"
+        android:icon="@drawable/ic_action_share"
+        app:showAsAction="always"
+        />
 </menu>

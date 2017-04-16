@@ -73,7 +73,7 @@ public class AccountActivity extends AppCompatActivity implements NavigationView
         } else if (id == R.id.nav_my_card) {
             destinationClass = MyCardActivity.class;
         } else if (id == R.id.nav_image) {
-            destinationClass = CameraPictureActivity.class;
+            destinationClass = ImageActivity.class;
         } else if (id == R.id.account) {
             destinationClass = AccountActivity.class;
         } else if (id == R.id.nav_settings) {
