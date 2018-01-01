@@ -14,7 +14,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTop"
-            android:label="@string/friend_cards">
+            android:label="@string/stock_portfolio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,7 +26,7 @@
         </activity>
         <activity
             android:name=".activity.AddCardActivity"
-            android:label="@string/friend_card"
+            android:label="@string/stock_detail"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:name=".activity.AddCardAddActivity"
-            android:label="@string/add_card"
+            android:label="@string/add_stock"
             android:parentActivityName=".activity.AddCardActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

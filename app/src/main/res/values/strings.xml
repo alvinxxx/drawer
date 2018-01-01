@@ -3,9 +3,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="friend_cards">Friend cards</string>
-    <string name="friend_card">Friend card</string>
-    <string name="add_card">Add card</string>
+    <string name="stock_portfolio">Stock profolio</string>
+    <string name="stock_detail">Stock detail</string>
+    <string name="add_stock">Add stock</string>
     <string name="my_card">My card</string>
     <string name="image">Image</string>
     <string name="my_account">Account</string>
