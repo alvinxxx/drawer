@@ -1,41 +1,46 @@
 package com.example.alvinlam.drawer.activity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.CardlistContract;
-import com.example.alvinlam.drawer.data.CardlistDbHelper;
-import com.example.alvinlam.drawer.data.DbFunction;
+import com.example.alvinlam.drawer.data.StocklistContract;
+import com.example.alvinlam.drawer.data.StocklistDbHelper;
+import com.example.alvinlam.drawer.data.StockDbFunction;
+import com.example.alvinlam.drawer.utilities.NetworkUtils;
+import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.URL;
 
 
 public class AddCardAddActivity extends AppCompatActivity {
 
-    private EditText mNameEditText;
-    private EditText mPhoneEditText;
-    private EditText mEmailEditText;
-    private EditText mTitleEditText;
-    private EditText mWebsiteEditText;
-    private EditText mCompanyEditText;
-    private EditText mCPhoneEditText;
-    private EditText mCAddressEditText;
+    private EditText mCodeEditText;
 
     private SQLiteDatabase mDb;
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
     private long id = 0;
     private int edit = 0;
-    private int phone=0, cphone=0;
+    private int code=0;
     private Cursor cursor;
-    private DbFunction dbFunction;
+    private StockDbFunction dbFunction;
+    private ProgressBar mLoadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +53,11 @@ public class AddCardAddActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        CardlistDbHelper dbHelper = new CardlistDbHelper(this);
-        dbFunction = new DbFunction(this);
+        StocklistDbHelper dbHelper = new StocklistDbHelper(this);
+        dbFunction = new StockDbFunction(this);
         mDb = dbHelper.getWritableDatabase();
 
-        mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
-        mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
-        mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
-        mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
-        mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
-        mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
+        mCodeEditText = (EditText) this.findViewById(R.id.add_code_editText);
 
         Intent intentThatStartedThisActivity = getIntent();
 
@@ -77,25 +75,8 @@ public class AddCardAddActivity extends AppCompatActivity {
 
                     //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
-                    String name = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
-                    int phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_PHONE));
-                    String email = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
-                    String title = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
-                    String website = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_WEBSITE));
-                    String company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY));
-                    int companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE));
-                    String companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS));
-
-                    mNameEditText.setText(name);
-                    mPhoneEditText.setText(Integer.toString(phone));
-                    mEmailEditText.setText(email);
-                    mTitleEditText.setText(title);
-                    mWebsiteEditText.setText(website);
-                    mCompanyEditText.setText(company);
-                    mCPhoneEditText.setText(Integer.toString(companyTelephone));
-                    mCAddressEditText.setText(companyAddress);
-
-
+                    int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+                    mCodeEditText.setText(Integer.toString(code));
                 }
 
             }
@@ -131,29 +112,103 @@ public class AddCardAddActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void makeStockSearchQuery() {
+        String stockQuery = mCodeEditText.getText().toString();
+        URL stockSearchUrl = NetworkUtils.buildUrl(stockQuery);
+        String stockSearchResults = null;
+        new StockQueryTask().execute(stockSearchUrl);
+
+    }
+
+    public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String[] doInBackground(URL... params) {
+            URL searchUrl = params[0];
+            String stockSearchResults = null;
+            try {
+                stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
+                String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(AddCardAddActivity.this, stockSearchResults);
+
+                return fullJsonStockData;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] parsedStockData) {
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+
+            String name;
+            int code;
+            long date;
+            double price;
+            double netchange;
+            double pe;
+            double high;
+            double low;
+            double perclose;
+            double volume;
+            double turnover;
+            double lot;
+
+            name = parsedStockData[0];
+            code = Integer.getInteger(parsedStockData[1]);
+            date = Long.parseLong(parsedStockData[2]);
+            price = Double.parseDouble(parsedStockData[3]);
+            netchange = Double.parseDouble(parsedStockData[4]);
+            pe = Double.parseDouble(parsedStockData[5]);
+            high = Double.parseDouble(parsedStockData[6]);
+            low = Double.parseDouble(parsedStockData[7]);
+            perclose = Double.parseDouble(parsedStockData[8]);
+            volume = Double.parseDouble(parsedStockData[9]);
+            turnover = Double.parseDouble(parsedStockData[10]);
+            lot = Double.parseDouble(parsedStockData[11]);
+
+            // Add guest info to mDb
+            dbFunction.insert(
+                    name,
+                    code,
+                    date,
+                    price,
+                    netchange,
+                    pe,
+                    high,
+                    low,
+                    perclose,
+                    volume,
+                    turnover,
+                    lot
+            );
+        }
+    }
 
     public void addToCardlist() {
-        if (mNameEditText.getText().length() == 0 ||
-                mPhoneEditText.getText().length() == 0 &&
-                mEmailEditText.getText().length() == 0 &&
-                mTitleEditText.getText().length() == 0 &&
-                mWebsiteEditText.getText().length() == 0 &&
-                mCompanyEditText.getText().length() == 0 &&
-                mCPhoneEditText.getText().length() == 0 &&
-                mCAddressEditText.getText().length() == 0) {
+        if (mCodeEditText.getText().length() == 0) {
             return;
         }
 
 
         try {
-            phone = Integer.parseInt(mPhoneEditText.getText().toString());
-            cphone = Integer.parseInt(mPhoneEditText.getText().toString());
+            code = Integer.parseInt(mCodeEditText.getText().toString());
         } catch (NumberFormatException ex) {
             Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
         }
 
         // call insert to run an insert query on TABLE_NAME with the ContentValues created
-        if (edit == 1)
+        if (edit == 1) {
+        /*
             dbFunction.update(id,
                     mNameEditText.getText().toString(),
                     phone,
@@ -164,18 +219,9 @@ public class AddCardAddActivity extends AppCompatActivity {
                     cphone,
                     mCAddressEditText.getText().toString()
             );
-        else
-            // Add guest info to mDb
-            dbFunction.insert(
-                    mNameEditText.getText().toString(),
-                    phone,
-                    mEmailEditText.getText().toString(),
-                    mTitleEditText.getText().toString(),
-                    mWebsiteEditText.getText().toString(),
-                    mCompanyEditText.getText().toString(),
-                    cphone,
-                    mCAddressEditText.getText().toString()
-            );
+        */
+        }else
+            makeStockSearchQuery();
 
 
         Context context = this;

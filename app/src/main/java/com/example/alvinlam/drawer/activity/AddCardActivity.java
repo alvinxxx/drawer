@@ -5,22 +5,18 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ShareCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.CardlistContract;
-import com.example.alvinlam.drawer.data.CardlistDbHelper;
 import com.example.alvinlam.drawer.data.DbFunction;
+import com.example.alvinlam.drawer.data.StocklistContract;
+
+import java.util.Locale;
 
 
 public class AddCardActivity extends AppCompatActivity{
@@ -34,22 +30,30 @@ public class AddCardActivity extends AppCompatActivity{
     private long id = 0;
 
     private EditText mNameEditText;
-    private EditText mPhoneEditText;
-    private EditText mEmailEditText;
-    private EditText mTitleEditText;
-    private EditText mWebsiteEditText;
-    private EditText mCompanyEditText;
-    private EditText mCPhoneEditText;
-    private EditText mCAddressEditText;
+    private EditText mCodeEditText;
+    private EditText mDateEditText;
+    private EditText mPriceEditText;
+    private EditText mNetChangeEditText;
+    private EditText mPEEditText;
+    private EditText mHighEditText;
+    private EditText mLowEditText;
+    private EditText mPreCloseEditText;
+    private EditText mVolumeEditText;
+    private EditText mTurnoverEditText;
+    private EditText mLotEditText;
 
     private String name;
-    private int phone;
-    private String email;
-    private String title;
-    private String website;
-    private String company;
-    private int companyTelephone;
-    private String companyAddress;
+    private int code;
+    private long date;
+    private double price;
+    private double netchange;
+    private double pe;
+    private double high;
+    private double low;
+    private double preclose;
+    private double volume;
+    private double turnover;
+    private double lot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +67,19 @@ public class AddCardActivity extends AppCompatActivity{
 
         dbFunction = new DbFunction(this);
 
+
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
-        mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
-        mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
-        mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
-        mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
-        mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
+        mCodeEditText = (EditText) this.findViewById(R.id.add_code_editText);
+        mDateEditText = (EditText) this.findViewById(R.id.add_date_editText);
+        mPriceEditText = (EditText) this.findViewById(R.id.add_price_editText);
+        mNetChangeEditText = (EditText) this.findViewById(R.id.add_net_change_editText);
+        mPEEditText = (EditText) this.findViewById(R.id.add_pe_editText);
+        mHighEditText = (EditText) this.findViewById(R.id.add_high_editText);
+        mLowEditText = (EditText) this.findViewById(R.id.add_low_editText);
+        mPreCloseEditText = (EditText) this.findViewById(R.id.add_pre_close_editText);
+        mVolumeEditText = (EditText) this.findViewById(R.id.add_volume_editText);
+        mTurnoverEditText = (EditText) this.findViewById(R.id.add_turnover_editText);
+        mLotEditText = (EditText) this.findViewById(R.id.add_lot_editText);
 
 
         Intent intentThatStartedThisActivity = getIntent();
@@ -84,42 +93,48 @@ public class AddCardActivity extends AppCompatActivity{
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
 
-
                     //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
-                    name = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
-                    phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_PHONE));
-                    email = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_EMAIL));
-                    title = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
-                    website = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_WEBSITE));
-                    company = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY));
-                    companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_PHONE));
-                    companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_COMPANY_ADDRESS));
+                    name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
+                    code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+                    date = cursor.getLong(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DATE));
+                    price = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
+                    netchange = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
+                    pe = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PE));
+                    high = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_HIGH));
+                    low = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
+                    preclose = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
+                    volume = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
+                    turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
+                    lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
 
                     mNameEditText.setText(name);
-                    mPhoneEditText.setText(Integer.toString(phone));
-                    mEmailEditText.setText(email);
-                    mTitleEditText.setText(title);
-                    mWebsiteEditText.setText(website);
-                    mCompanyEditText.setText(company);
-                    mCPhoneEditText.setText(Integer.toString(companyTelephone));
-                    mCAddressEditText.setText(companyAddress);
-
-
+                    mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
+                    mDateEditText.setText(String.format(Locale.getDefault(), "%d", date));
+                    mPriceEditText.setText(String.format(Locale.getDefault(), "%f", price));
+                    mNetChangeEditText.setText(String.format(Locale.getDefault(), "%f", netchange));
+                    mPEEditText.setText(String.format(Locale.getDefault(), "%f", pe));
+                    mHighEditText.setText(String.format(Locale.getDefault(), "%f", high));
+                    mLowEditText.setText(String.format(Locale.getDefault(), "%f", low));
+                    mPreCloseEditText.setText(String.format(Locale.getDefault(), "%f", preclose));
+                    mVolumeEditText.setText(String.format(Locale.getDefault(), "%f", volume));
+                    mTurnoverEditText.setText(String.format(Locale.getDefault(), "%f", turnover));
+                    mLotEditText.setText(String.format(Locale.getDefault(), "%f", lot));
                 }
-
             }
         }
-
         disableEditText(mNameEditText);
-        disableEditText(mPhoneEditText);
-        disableEditText(mEmailEditText);
-        disableEditText(mTitleEditText);
-        disableEditText(mWebsiteEditText);
-        disableEditText(mCompanyEditText);
-        disableEditText(mCPhoneEditText);
-        disableEditText(mCAddressEditText);
-
+        disableEditText(mCodeEditText);
+        disableEditText(mDateEditText);
+        disableEditText(mPriceEditText);
+        disableEditText(mNetChangeEditText);
+        disableEditText(mPEEditText);
+        disableEditText(mHighEditText);
+        disableEditText(mLowEditText);
+        disableEditText(mPreCloseEditText);
+        disableEditText(mVolumeEditText);
+        disableEditText(mTurnoverEditText);
+        disableEditText(mLotEditText);
     }
 
     public void disableEditText(EditText et){
@@ -164,8 +179,9 @@ public class AddCardActivity extends AppCompatActivity{
         }else if (lid == R.id.action_share) {
             Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                     .setType("text/plain")
-                    .setText("Name:  "+ name + "\n" + "Phone:  "+ phone + "\n" + "Email:  "+ email + "\n" + "Title:  "+ title + "\n" +
-                            "Website:  "+ website + "\n" + "Company:  "+ company + "\n" + "Company phone:  "+ companyTelephone + "\n" + "Company Address:  "+companyAddress + "\n" +
+                    .setText("Name:  "+ name + "\n" + "Code:  "+ code + "\n" + "Date:  "+ date + "\n" + "Price:  "+ price + "\n" +
+                            "Net change:  "+ netchange + "\n" + "PE:  "+ pe + "\n" + "High:  "+ high + "\n" + "Low:  "+low + "\n" +
+                            "Volume:  "+ volume + "\n" + "Turnover:  "+ turnover + "\n" + "Lot:  "+ lot + "\n" +
                             SHARE_HASHTAG)
                     .getIntent();
             startActivity(shareIntent);

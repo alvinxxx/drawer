@@ -25,135 +25,177 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/textViewTitle"
+        app:layout_constraintLeft_toRightOf="@+id/textViewName"
         android:layout_marginLeft="8dp" />
 
     <EditText
-        android:id="@+id/add_title_editText"
+        android:id="@+id/add_date_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="textAutoComplete"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintLeft_toRightOf="@+id/textViewName"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_phone_editText"
-        app:layout_constraintHorizontal_bias="0.0" />
-
-    <EditText
-        android:id="@+id/add_phone_editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:ems="10"
-        android:hint="Phone"
-        android:inputType="phone"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_name_editText"
-        app:layout_constraintLeft_toRightOf="@+id/textViewEmail"
-        android:layout_marginLeft="8dp" />
-
-    <EditText
-        android:id="@+id/add_web_editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Website"
-        android:inputType="textUri"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_email_editText"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/textViewWeb"
-        android:layout_marginLeft="8dp" />
-
-    <EditText
-        android:id="@+id/add_company_address_editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Company Address"
-        android:inputType="textMultiLine"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_company_phone_editText"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/textViewCAddress"
-        android:layout_marginLeft="8dp" />
-
-    <EditText
-        android:id="@+id/add_company_phone_editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Company Phone"
-        android:inputType="phone"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="7dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_company_editText"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/textViewCPhone"
-        android:layout_marginLeft="8dp" />
-
-    <EditText
-        android:id="@+id/add_company_editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Company"
+        android:hint="Date"
         android:inputType="textAutoComplete"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_web_editText"
-        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/textViewDate"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/textViewC"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/add_code_editText" />
 
     <EditText
-        android:id="@+id/add_email_editText"
+        android:id="@+id/add_code_editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/add_title_editText"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Code"
+        android:inputType="number"
+        app:layout_constraintLeft_toRightOf="@+id/textViewCode"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/textViewPhone"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/add_name_editText" />
+
+    <EditText
+        android:id="@+id/add_net_change_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Net Change"
+        android:inputType="textUri"
+        app:layout_constraintLeft_toRightOf="@+id/textViewNetChange"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_price_editText" />
+
+    <EditText
+        android:id="@+id/add_low_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Low"
+        android:inputType="textMultiLine"
+        app:layout_constraintLeft_toRightOf="@+id/textViewLow"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_high_editText" />
+
+    <EditText
+        android:id="@+id/add_high_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="7dp"
+        android:ems="10"
+        android:hint="High"
+        android:inputType="phone"
+        app:layout_constraintLeft_toRightOf="@+id/textViewHigh"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_pe_editText" />
+
+    <EditText
+        android:id="@+id/add_pe_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="PE"
+        android:inputType="textAutoComplete"
+        app:layout_constraintLeft_toRightOf="@+id/textViewPE"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_net_change_editText" />
+
+    <EditText
+        android:id="@+id/add_price_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Price"
+        android:inputType="textEmailAddress"
+        app:layout_constraintLeft_toRightOf="@+id/textViewPrice"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_date_editText" />
+
+    <EditText
+        android:id="@+id/add_pre_close_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Per close"
+        android:inputType="textEmailAddress"
+        app:layout_constraintLeft_toRightOf="@+id/textViewPreClose"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_low_editText" />
+
+    <EditText
+        android:id="@+id/add_volume_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Volume"
+        android:inputType="textEmailAddress"
+        app:layout_constraintLeft_toRightOf="@+id/textViewVolume"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_pre_close_editText" />
+
+    <EditText
+        android:id="@+id/add_turnover_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Turnover"
+        android:inputType="textEmailAddress"
+        app:layout_constraintLeft_toRightOf="@+id/textViewTurnover"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_volume_editText" />
+
+    <EditText
+        android:id="@+id/add_lot_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Lot"
+        android:inputType="textEmailAddress"
+        app:layout_constraintLeft_toRightOf="@+id/textViewLot"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_turnover_editText" />
+
+    <TextView
+        android:id="@+id/textViewDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="30dp"
+        android:text="Date"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCode" />
 
     <TextView
         android:id="@+id/textViewName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textSize="18sp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEmail"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -164,70 +206,114 @@
         android:layout_marginTop="18dp" />
 
     <TextView
-        android:id="@+id/textViewEmail"
+        android:id="@+id/textViewCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Phone"
-        android:textSize="18sp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginTop="28dp"
+        android:text="Code"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewName" />
 
     <TextView
-        android:id="@+id/textViewPhone"
+        android:id="@+id/textViewPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="18sp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewName"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginTop="28dp"
+        android:text="Price"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
 
     <TextView
-        android:id="@+id/textViewWeb"
+        android:id="@+id/textViewNetChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="30dp"
-        android:text="Website"
+        android:text="Net change"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPrice" />
 
     <TextView
-        android:id="@+id/textViewC"
+        android:id="@+id/textViewPE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="28dp"
-        android:text="Company"
+        android:text="PE"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewWeb"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewCPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Company Phone"
-        android:textSize="18sp"
-        android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="28dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewC" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewNetChange" />
 
     <TextView
-        android:id="@+id/textViewCAddress"
+        android:id="@+id/textViewHigh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Company Address"
-        android:textSize="18sp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="28dp"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCPhone" />
+        android:text="High"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPE" />
+
+    <TextView
+        android:id="@+id/textViewLow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Low"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHigh" />
+
+    <TextView
+        android:id="@+id/textViewPreClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Per Close"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLow" />
+
+    <TextView
+        android:id="@+id/textViewVolume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Volume"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPreClose" />
+
+    <TextView
+        android:id="@+id/textViewTurnover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Turnover"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewVolume" />
+
+    <TextView
+        android:id="@+id/textViewLot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Lot"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHigh" />
 
 
 </android.support.constraint.ConstraintLayout>

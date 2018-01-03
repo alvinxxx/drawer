@@ -24,18 +24,18 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_STOCKLIST_TABLE = "CREATE TABLE " + StocklistEntry.TABLE_NAME + " (" +
                 StocklistEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                StocklistEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                StocklistEntry.COLUMN_NAME + " VARCHAR NOT NULL, " +
                 StocklistEntry.COLUMN_CODE + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_PRICE + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_NET_CHANGE + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_PE + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_HIGH + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_LOW + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_PRE_CLOSE + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_VOLUME + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_TURNOVER + " INTEGER NOT NULL, " +
-                StocklistEntry.COLUMN_LOT + " INTEGER NOT NULL, " +
+                StocklistEntry.COLUMN_DATE + " LONG NOT NULL, " +
+                StocklistEntry.COLUMN_PRICE + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_NET_CHANGE + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_PE + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_HIGH + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_LOW + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_PRE_CLOSE + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_VOLUME + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_TURNOVER + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_LOT + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 "); ";
 
