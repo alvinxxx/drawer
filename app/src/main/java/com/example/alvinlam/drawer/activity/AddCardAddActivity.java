@@ -81,11 +81,6 @@ public class AddCardAddActivity extends AppCompatActivity {
         if (lid == R.id.action_send) {
             addToCardlist();
 
-            Context context = this;
-            Class destinationClass = MainActivity.class;
-            Intent intentToStartActivity = new Intent(context, destinationClass);
-            startActivity(intentToStartActivity);
-
             return true;
         }else if (lid == android.R.id.home) {
             Context context = this;
@@ -111,7 +106,7 @@ public class AddCardAddActivity extends AppCompatActivity {
 
         String stockQuery = mCodeEditText.getText().toString();
         URL stockSearchUrl = NetworkUtils.buildUrl(stockQuery);
-        new StockQueryTask().execute(stockSearchUrl);
+        new StockQueryTask(AddCardAddActivity.this).execute(stockSearchUrl);
 
 
     }
@@ -124,7 +119,12 @@ public class AddCardAddActivity extends AppCompatActivity {
     }
 
     public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
-        
+
+        Context context;
+        private StockQueryTask(Context context) {
+            this.context = context.getApplicationContext();
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -196,6 +196,12 @@ public class AddCardAddActivity extends AppCompatActivity {
                     lot
             );
 
+            //activity.startActivity(new Intent(activity, BuiltInCamera.class));
+
+            //Context context = this;
+            Class destinationClass = MainActivity.class;
+            Intent intentToStartActivity = new Intent(context, destinationClass);
+            context.startActivity(intentToStartActivity);
 
         }
     }
