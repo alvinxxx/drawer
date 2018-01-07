@@ -84,48 +84,18 @@ public class OpenStockJsonUtils {
         final String QUA_DATASET = "dataset";
         final String QUA_NAME = "name";
         final String QUA_CODE = "dataset_code";
-
-        final String QUA_COL = "column_names";
         final String QUA_DATA = "data";
-
-        /**
-         *
-        final String QUA_DATE = "Date";
-        final String QUA_NP = "Nominal Price";
-        final String QUA_NC = "Net Change";
-        final String QUA_PE = "P/E(x)";
-        final String QUA_HIGH = "High";
-        final String QUA_LOW = "Low";
-        final String QUA_PC = "Previous Close";
-        final String QUA_SV = "Share Volume (000)";
-        final String QUA_TO = "Turnover (000)";
-        final String QUA_LS = "Lot Size";*/
-
         final String QUA_ERROR_CODE = "quandl_error";
-        final String QUA_ERROR_MESSAGE = "message";
-/*
-        String name;
-        int code;
-        long date;
-        double price;
-        double netchange;
-        double pe;
-        double high;
-        double low;
-        double perclose;
-        double volume;
-        double turnover;
-        double lot;
- */
+
         String name;
         String code;
         String date;
         String price;
-        String netchange;
+        String netChange;
         String pe;
         String high;
         String low;
-        String perclose;
+        String preClose;
         String volume;
         String turnover;
         String lot;
@@ -140,45 +110,32 @@ public class OpenStockJsonUtils {
         JSONObject stockDataSet = stockJson.getJSONObject(QUA_DATASET);
 
         name = stockDataSet.getString(QUA_NAME);
-        //code = stockDataSet.getInt(QUA_CODE);
         code = stockDataSet.getString(QUA_CODE);
 
-        JSONArray colArray = stockDataSet.getJSONArray(QUA_COL);
         JSONArray valueArray = stockDataSet.getJSONArray(QUA_DATA).getJSONArray(0);
-/*
-        date = valueArray.getLong(0);
-        price = valueArray.getLong(1);
-        netchange = valueArray.getLong(2);
-        pe = valueArray.getLong(3);
-        high = valueArray.getLong(4);
-        low = valueArray.getLong(5);
-        perclose = valueArray.getLong(6);
-        volume = valueArray.getLong(7);
-        turnover = valueArray.getLong(8);
-        lot = valueArray.getLong(9);
-*/
+
         date = valueArray.getString(0);
         price = valueArray.getString(1);
-        netchange = valueArray.getString(2);
-        pe = valueArray.getString(3);
-        high = valueArray.getString(4);
-        low = valueArray.getString(5);
-        perclose = valueArray.getString(6);
-        volume = valueArray.getString(7);
-        turnover = valueArray.getString(8);
-        lot = valueArray.getString(9);
+        netChange = valueArray.getString(3);
+        pe = valueArray.getString(6);
+        high = valueArray.getString(7);
+        low = valueArray.getString(8);
+        preClose = valueArray.getString(9);
+        volume = valueArray.getString(10);
+        turnover = valueArray.getString(11);
+        lot = valueArray.getString(12);
 
         /* String array to hold stock String */
-        String[] parsedStockData = null;
+        String[] parsedStockData = new String[12];
         parsedStockData[0] = name;
         parsedStockData[1] = code;
         parsedStockData[2] = date;
         parsedStockData[3] = price;
-        parsedStockData[4] = netchange;
+        parsedStockData[4] = netChange;
         parsedStockData[5] = pe;
         parsedStockData[6] = high;
         parsedStockData[7] = low;
-        parsedStockData[8] = perclose;
+        parsedStockData[8] = preClose;
         parsedStockData[9] = volume;
         parsedStockData[10] = turnover;
         parsedStockData[11] = lot;

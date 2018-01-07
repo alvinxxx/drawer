@@ -8,12 +8,13 @@ import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.DbFunction;
+import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
 import java.util.Locale;
@@ -26,7 +27,7 @@ public class AddCardActivity extends AppCompatActivity{
 
     private SQLiteDatabase mDb;
     private Cursor cursor;
-    private DbFunction dbFunction;
+    private StockDbFunction dbFunction;
     private long id = 0;
 
     private EditText mNameEditText;
@@ -44,13 +45,13 @@ public class AddCardActivity extends AppCompatActivity{
 
     private String name;
     private int code;
-    private long date;
+    private String date;
     private double price;
-    private double netchange;
+    private double netChange;
     private double pe;
     private double high;
     private double low;
-    private double preclose;
+    private double preClose;
     private double volume;
     private double turnover;
     private double lot;
@@ -58,14 +59,16 @@ public class AddCardActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_card);
+        setContentView(R.layout.add_card_read_precontent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
-        dbFunction = new DbFunction(this);
+        dbFunction = new StockDbFunction(this);
 
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
@@ -89,37 +92,37 @@ public class AddCardActivity extends AppCompatActivity{
                 id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
 
                 cursor = dbFunction.selectByID(id);
-
+                Log.i(TAG, "1 "+String.valueOf(cursor.getColumnIndex("name")));
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
 
-                    //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
+                    Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
                     name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
                     code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
-                    date = cursor.getLong(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DATE));
+                    date = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DATE));
                     price = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
-                    netchange = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
+                    netChange = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
                     pe = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PE));
                     high = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_HIGH));
                     low = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
-                    preclose = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
-                    volume = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
-                    turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
-                    lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
+                    preClose = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE));
+                    volume = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_VOLUME));
+                    turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_TURNOVER));
+                    lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOT));
 
                     mNameEditText.setText(name);
                     mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
-                    mDateEditText.setText(String.format(Locale.getDefault(), "%d", date));
-                    mPriceEditText.setText(String.format(Locale.getDefault(), "%f", price));
-                    mNetChangeEditText.setText(String.format(Locale.getDefault(), "%f", netchange));
-                    mPEEditText.setText(String.format(Locale.getDefault(), "%f", pe));
-                    mHighEditText.setText(String.format(Locale.getDefault(), "%f", high));
-                    mLowEditText.setText(String.format(Locale.getDefault(), "%f", low));
-                    mPreCloseEditText.setText(String.format(Locale.getDefault(), "%f", preclose));
-                    mVolumeEditText.setText(String.format(Locale.getDefault(), "%f", volume));
-                    mTurnoverEditText.setText(String.format(Locale.getDefault(), "%f", turnover));
-                    mLotEditText.setText(String.format(Locale.getDefault(), "%f", lot));
+                    mDateEditText.setText(date);
+                    mPriceEditText.setText(String.format(Locale.getDefault(), "%.2f", price));
+                    mNetChangeEditText.setText(String.format(Locale.getDefault(), "%.2f", netChange));
+                    mPEEditText.setText(String.format(Locale.getDefault(), "%.2f", pe));
+                    mHighEditText.setText(String.format(Locale.getDefault(), "%.2f", high));
+                    mLowEditText.setText(String.format(Locale.getDefault(), "%.2f", low));
+                    mPreCloseEditText.setText(String.format(Locale.getDefault(), "%.2f", preClose));
+                    mVolumeEditText.setText(String.format(Locale.getDefault(), "%.2f", volume));
+                    mTurnoverEditText.setText(String.format(Locale.getDefault(), "%.2f", turnover));
+                    mLotEditText.setText(String.format(Locale.getDefault(), "%.2f", lot));
                 }
             }
         }
@@ -167,10 +170,12 @@ public class AddCardActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_edit) {
+            /*
             Intent intentToStartActivity = new Intent(context, destinationClass);
             intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
             startActivity(intentToStartActivity);
             return true;
+            */
         }else if (lid == android.R.id.home) {
             destinationClass = MainActivity.class;
             Intent intentToStartActivity = new Intent(context, destinationClass);
@@ -180,7 +185,7 @@ public class AddCardActivity extends AppCompatActivity{
             Intent shareIntent = ShareCompat.IntentBuilder.from(this)
                     .setType("text/plain")
                     .setText("Name:  "+ name + "\n" + "Code:  "+ code + "\n" + "Date:  "+ date + "\n" + "Price:  "+ price + "\n" +
-                            "Net change:  "+ netchange + "\n" + "PE:  "+ pe + "\n" + "High:  "+ high + "\n" + "Low:  "+low + "\n" +
+                            "Net change:  "+ netChange + "\n" + "PE:  "+ pe + "\n" + "High:  "+ high + "\n" + "Low:  "+low + "\n" +
                             "Volume:  "+ volume + "\n" + "Turnover:  "+ turnover + "\n" + "Lot:  "+ lot + "\n" +
                             SHARE_HASHTAG)
                     .getIntent();

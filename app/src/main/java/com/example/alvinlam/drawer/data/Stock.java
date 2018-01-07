@@ -8,6 +8,8 @@ public class Stock {
     // private variables
     int _id;
     String _name;
+    Double _price;
+    Double _netChange;
     byte[] _image;
 
     // Empty constructor
@@ -16,14 +18,18 @@ public class Stock {
     }
 
     // constructor
-    public Stock(int keyId, String name, byte[] image) {
+    public Stock(int keyId, String name, Double price, Double netChange, byte[] image) {
         this._id = keyId;
         this._name = name;
+        this._price = price;
+        this._netChange = netChange;
         this._image = image;
 
     }
-    public Stock(String name, byte[] image) {
+    public Stock(String name, Double price, Double netChange, byte[] image) {
         this._name = name;
+        this._price = price;
+        this._netChange = netChange;
         this._image = image;
 
     }
@@ -50,6 +56,22 @@ public class Stock {
     // setting name
     public void setName(String name) {
         this._name = name;
+    }
+
+    public Double getPrice() {
+        return this._price;
+    }
+
+    public void setPrice(Double price) {
+        this._price = price;
+    }
+
+    public Double getNetChange() {
+        return this._netChange;
+    }
+
+    public void setNetChange(Double netChange) {
+        this._netChange = netChange;
     }
 
     // getting phone number

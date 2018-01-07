@@ -2,14 +2,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/add_card_content"
+    android:id="@+id/add_card_read_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:context=".activity.AddCardAddActivity"
-    tools:showIn="@layout/add_card_precontent">
+    tools:context=".activity.AddCardActivity"
+    tools:showIn="@layout/add_card_read_precontent">
 
 
     <EditText
@@ -65,7 +65,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Net Change"
+        android:hint="Change(%)"
         android:inputType="textUri"
         app:layout_constraintLeft_toRightOf="@+id/textViewNetChange"
         app:layout_constraintRight_toRightOf="parent"
@@ -313,7 +313,9 @@
         android:text="Lot"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHigh" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTurnover" />
+
+
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,5 @@
 package com.example.alvinlam.drawer.activity;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.StocklistContract;
 import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
@@ -42,45 +40,27 @@ public class AddCardAddActivity extends AppCompatActivity {
     private StockDbFunction dbFunction;
     private ProgressBar mLoadingIndicator;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("addcardadd", "onCreate: "+"2");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_card_precontent);
+        setContentView(R.layout.add_card_add_precontent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         StocklistDbHelper dbHelper = new StocklistDbHelper(this);
         dbFunction = new StockDbFunction(this);
         mDb = dbHelper.getWritableDatabase();
 
         mCodeEditText = (EditText) this.findViewById(R.id.add_code_editText);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
-        Intent intentThatStartedThisActivity = getIntent();
-
-        if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
-
-                cursor = dbFunction.selectByID(id);
-
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-
-                    //set edit to 1 as True
-                    edit = 1;
-
-                    //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
-
-                    int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
-                    mCodeEditText.setText(Integer.toString(code));
-                }
-
-            }
-        }
     }
 
     @Override
@@ -100,6 +80,12 @@ public class AddCardAddActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_send) {
             addToCardlist();
+
+            Context context = this;
+            Class destinationClass = MainActivity.class;
+            Intent intentToStartActivity = new Intent(context, destinationClass);
+            startActivity(intentToStartActivity);
+
             return true;
         }else if (lid == android.R.id.home) {
             Context context = this;
@@ -112,16 +98,33 @@ public class AddCardAddActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void makeStockSearchQuery() {
+    public void addToCardlist() {
+        if (mCodeEditText.getText().length() == 0) {
+            return;
+        }
+
+        try {
+            code = Integer.parseInt(mCodeEditText.getText().toString());
+        } catch (NumberFormatException ex) {
+            Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
+        }
+
         String stockQuery = mCodeEditText.getText().toString();
         URL stockSearchUrl = NetworkUtils.buildUrl(stockQuery);
-        String stockSearchResults = null;
         new StockQueryTask().execute(stockSearchUrl);
+
 
     }
 
-    public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
+    public Double checkDouble(String value){
+        if (value == "null")
+            return 0.0;
+        else
+            return Double.parseDouble(value);
+    }
 
+    public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
+        
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -151,30 +154,31 @@ public class AddCardAddActivity extends AppCompatActivity {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
 
             String name;
-            int code;
-            long date;
-            double price;
-            double netchange;
-            double pe;
-            double high;
-            double low;
-            double perclose;
-            double volume;
-            double turnover;
-            double lot;
+            int code = 0;
+            String date;
+            double price = 0;
+            double netChange = 0;
+            double pe = 0;
+            double high = 0;
+            double low = 0;
+            double preClose = 0;
+            double volume = 0;
+            double turnover = 0;
+            double lot = 0;
 
             name = parsedStockData[0];
-            code = Integer.getInteger(parsedStockData[1]);
-            date = Long.parseLong(parsedStockData[2]);
-            price = Double.parseDouble(parsedStockData[3]);
-            netchange = Double.parseDouble(parsedStockData[4]);
-            pe = Double.parseDouble(parsedStockData[5]);
-            high = Double.parseDouble(parsedStockData[6]);
-            low = Double.parseDouble(parsedStockData[7]);
-            perclose = Double.parseDouble(parsedStockData[8]);
-            volume = Double.parseDouble(parsedStockData[9]);
-            turnover = Double.parseDouble(parsedStockData[10]);
-            lot = Double.parseDouble(parsedStockData[11]);
+            code = Integer.parseInt(parsedStockData[1]);
+            date = parsedStockData[2];
+
+            price = checkDouble(parsedStockData[3]);
+            netChange =  checkDouble(parsedStockData[4]);
+            pe =  checkDouble(parsedStockData[5]);
+            high =  checkDouble(parsedStockData[6]);
+            low =  checkDouble(parsedStockData[7]);
+            preClose =  checkDouble(parsedStockData[8]);
+            volume =  checkDouble(parsedStockData[9]);
+            turnover =  checkDouble(parsedStockData[10]);
+            lot =  checkDouble(parsedStockData[11]);
 
             // Add guest info to mDb
             dbFunction.insert(
@@ -182,53 +186,21 @@ public class AddCardAddActivity extends AppCompatActivity {
                     code,
                     date,
                     price,
-                    netchange,
+                    netChange,
                     pe,
                     high,
                     low,
-                    perclose,
+                    preClose,
                     volume,
                     turnover,
                     lot
             );
+
+
         }
     }
 
-    public void addToCardlist() {
-        if (mCodeEditText.getText().length() == 0) {
-            return;
-        }
 
-
-        try {
-            code = Integer.parseInt(mCodeEditText.getText().toString());
-        } catch (NumberFormatException ex) {
-            Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
-        }
-
-        // call insert to run an insert query on TABLE_NAME with the ContentValues created
-        if (edit == 1) {
-        /*
-            dbFunction.update(id,
-                    mNameEditText.getText().toString(),
-                    phone,
-                    mEmailEditText.getText().toString(),
-                    mTitleEditText.getText().toString(),
-                    mWebsiteEditText.getText().toString(),
-                    mCompanyEditText.getText().toString(),
-                    cphone,
-                    mCAddressEditText.getText().toString()
-            );
-        */
-        }else
-            makeStockSearchQuery();
-
-
-        Context context = this;
-        Class destinationClass = MainActivity.class;
-        Intent intentToStartActivity = new Intent(context, destinationClass);
-        startActivity(intentToStartActivity);
-    }
 
 
 

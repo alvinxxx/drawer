@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.CardlistContract;
 import com.example.alvinlam.drawer.data.CardlistDbHelper;
-import com.example.alvinlam.drawer.data.DbFunction;
 
 /**
  * Created by Alvin Lam on 3/29/2017.
@@ -68,18 +66,18 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+/*
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         //dbFunction = new DbFunction(this);
         mDb = dbHelper.getReadableDatabase();
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
-        mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_email_editText);
-        mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_web_editText);
-        mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
-        mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
+        mPhoneEditText = (EditText) this.findViewById(R.id.add_code_editText);
+        mEmailEditText = (EditText) this.findViewById(R.id.add_price_editText);
+        mTitleEditText = (EditText) this.findViewById(R.id.add_date_editText);
+        mWebsiteEditText = (EditText) this.findViewById(R.id.add_net_change_editText);
+        mCompanyEditText = (EditText) this.findViewById(R.id.add_pe_editText);
+        mCPhoneEditText = (EditText) this.findViewById(R.id.add_high_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
 
 
@@ -122,9 +120,9 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         disableEditText(mCompanyEditText);
         disableEditText(mCPhoneEditText);
         disableEditText(mCAddressEditText);
-
+*/
     }
-
+/*
     public void disableEditText(EditText et){
         et.setCursorVisible(false);
         et.setLongClickable(false);
@@ -134,7 +132,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         et.setKeyListener(null);
         et.setBackgroundResource(android.R.color.transparent);
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -147,6 +145,9 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        /*
+
+
         int lid = item.getItemId();
         Context context = this;
         Class destinationClass = MyCardAddActivity.class;
@@ -167,7 +168,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
             return true;
         }
-
+        */
         return super.onOptionsItemSelected(item);
     }
 

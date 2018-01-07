@@ -16,8 +16,8 @@ public class StockDbFunction {
         dbHelper = new StocklistDbHelper(context);
     }
 
-    public void insert(String name, int code, long date, double price, double netchange, double pe, double high, double low,
-                       double perclose, double volume, double turnover, double lot) {
+    public void insert(String name, int code, String date, double price, double netChange, double pe, double high, double low,
+                       double preClose, double volume, double turnover, double lot) {
 
         //Open connection to write data
         SQLiteDatabase mDb = dbHelper.getWritableDatabase();
@@ -26,11 +26,11 @@ public class StockDbFunction {
         cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, code);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, date);
         cv.put(StocklistContract.StocklistEntry.COLUMN_PRICE, price);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, netchange);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, netChange);
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, pe);
         cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, high);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, low);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, perclose);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, preClose);
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, volume);
         cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, turnover);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, lot);
@@ -38,8 +38,8 @@ public class StockDbFunction {
         mDb.insert(StocklistContract.StocklistEntry.TABLE_NAME, null, cv);
         mDb.close(); // Closing database connection
     }
-    public void update(long id, String name, int code, long date, double price, double netchange, double pe, double high, double low,
-                       double perclose, double volume, double turnover, double lot) {
+    public void update(long id, String name, int code, String date, double price, double netChange, double pe, double high, double low,
+                       double preClose, double volume, double turnover, double lot) {
         //Open connection to write data
         SQLiteDatabase mDb = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -47,11 +47,11 @@ public class StockDbFunction {
         cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, code);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, date);
         cv.put(StocklistContract.StocklistEntry.COLUMN_PRICE, price);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, netchange);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, netChange);
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, pe);
         cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, high);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, low);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, perclose);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, preClose);
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, volume);
         cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, turnover);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, lot);

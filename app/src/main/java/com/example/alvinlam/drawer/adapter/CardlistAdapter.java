@@ -16,7 +16,9 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.CardlistContract;
+import com.example.alvinlam.drawer.data.StocklistContract;
+
+import java.util.Locale;
 
 public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardViewHolder> {
 
@@ -24,6 +26,7 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
     private Context mContext;
     private Cursor mCursor;
     final private ListItemClickListener mOnClickListener;
+
     String letter;
     ColorGenerator generator = ColorGenerator.MATERIAL;
 
@@ -51,12 +54,15 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
 
         if (!mCursor.moveToPosition(position))
             return;
-        String name = mCursor.getString(mCursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_NAME));
-        String title = mCursor.getString(mCursor.getColumnIndex(CardlistContract.CardlistEntry.COLUMN_TITLE));
-        long id = mCursor.getLong(mCursor.getColumnIndex(CardlistContract.CardlistEntry._ID));
-        holder.nameTextView.setText(name);
-        holder.titleTextView.setText(title);
+        long id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
+        String name = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
+        Double price = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
+        Double netChange = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
+
         holder.itemView.setTag(id);
+        holder.nameTextView.setText(name);
+        holder.priceTextView.setText(String.format(Locale.getDefault(), "%.2f", price));
+        holder.netChangeTextView.setText(String.format(Locale.getDefault(), "%.2f", netChange));
 
         //        Get the first letter of list item
         letter = String.valueOf(name.charAt(0));
@@ -91,13 +97,16 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
     class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nameTextView;
-        TextView titleTextView;
+        TextView priceTextView;
+        TextView netChangeTextView;
+
         ImageView letter;
 
         public CardViewHolder(View itemView) {
             super(itemView);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
-            titleTextView = (TextView) itemView.findViewById(R.id.title_text_view);
+            priceTextView = (TextView) itemView.findViewById(R.id.price_text_view);
+            netChangeTextView = (TextView) itemView.findViewById(R.id.net_change_text_view);
             letter = (ImageView) itemView.findViewById(R.id.imageViewLetter);
             itemView.setOnClickListener(this);
         }

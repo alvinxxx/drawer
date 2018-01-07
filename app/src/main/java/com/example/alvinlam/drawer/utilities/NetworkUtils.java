@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -20,7 +21,9 @@ public class NetworkUtils {
             "https://www.quandl.com/api/v3/datasets/HKEX/";
     final static String FORMAT = ".json";
     final static String ROWS_PARAM = "rows";
+    final static String KEY_PARAM = "api_key";
     private static final int rows = 1;
+    private static final String key = "MmE7qENKc5bKfKzb2JoP";
     private static final String TAG = "NetworkUtils";
 
     /**
@@ -31,12 +34,13 @@ public class NetworkUtils {
      */
     public static URL buildUrl(String stockSearchQuery) {
 
-        stockSearchQuery = String.format("%05d", Integer.parseInt(stockSearchQuery));
+        stockSearchQuery = String.format(Locale.getDefault(),  "%05d", Integer.parseInt(stockSearchQuery));
 
         // build the proper query URL
         String stock_url = STOCK_BASE_URL + stockSearchQuery + FORMAT;
         Uri builtUri = Uri.parse(stock_url).buildUpon()
                 .appendQueryParameter(ROWS_PARAM, Integer.toString(rows))
+                .appendQueryParameter(KEY_PARAM, key)
                 .build();
 
         URL url = null;

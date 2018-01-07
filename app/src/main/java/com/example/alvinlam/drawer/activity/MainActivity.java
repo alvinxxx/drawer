@@ -26,9 +26,9 @@ import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
-import com.example.alvinlam.drawer.data.CardlistDbHelper;
-import com.example.alvinlam.drawer.data.DbFunction;
-import com.example.alvinlam.drawer.data.TestUtil;
+import com.example.alvinlam.drawer.data.StocklistDbHelper;
+import com.example.alvinlam.drawer.data.StockDbFunction;
+import com.example.alvinlam.drawer.data.StockTestUtil;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CardlistAdapter mAdapter;
     private RecyclerView cardlistRecyclerView;
     private SQLiteDatabase mDb;
-    private DbFunction dbFunction;
+    private StockDbFunction dbFunction;
 
     private Cursor cursor;
 
@@ -73,16 +73,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         cardlistRecyclerView.setLayoutManager(layoutManager);
         cardlistRecyclerView.setHasFixedSize(true);
 
-        CardlistDbHelper dbHelper = new CardlistDbHelper(this);
-        dbFunction = new DbFunction(this);
+        StocklistDbHelper dbHelper = new StocklistDbHelper(this);
+        dbFunction = new StockDbFunction(this);
         mDb = dbHelper.getWritableDatabase();
 
         cursor = dbFunction.select();
-        if(cursor == null) TestUtil.insertFakeData(mDb);
-        mAdapter = new CardlistAdapter(this, cursor, this);
-        cardlistRecyclerView.setAdapter(mAdapter);
+        /*
+        if(cursor == null){
 
+            StockTestUtil.insertFakeData(mDb);
+            cursor = dbFunction.select();
+        }
+        */
+        Log.d("main", "onCreate: "+"2");
 
+        if(cursor != null){
+            mAdapter = new CardlistAdapter(this, cursor, this);
+            cardlistRecyclerView.setAdapter(mAdapter);
+        }
+/*
+        Intent intentThatStartedThisActivity = getIntent();
+
+        if (intentThatStartedThisActivity != null) {
+            mAdapter.swapCursor(dbFunction.select());
+        }
+*/
         // Create an item touch helper to handle swiping items off the list
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -107,7 +122,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             // attach the ItemTouchHelper
         }).attachToRecyclerView(cardlistRecyclerView);
+
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -123,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_toolbar_menu, menu);
+
 
         // Associate searchable configuration with the SearchView
         SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -199,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Class destinationClass = AddCardActivity.class;
 
         long id = (long) v.getTag();
+        Log.i(TAG, "0 "+id);
 
         Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
         intentToStartAddCardActivity.putExtra(Intent.EXTRA_TEXT, id);

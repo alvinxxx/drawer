@@ -30,7 +30,7 @@
         android:layout_marginEnd="8dp">
 
         <include
-            layout="@layout/add_card_content"
+            layout="@layout/add_card_read_precontent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"

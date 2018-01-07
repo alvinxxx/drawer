@@ -15,7 +15,6 @@ import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.CardlistContract;
-import com.example.alvinlam.drawer.data.CardlistDbHelper;
 
 
 public class MyCardAddActivity extends AppCompatActivity {
@@ -39,23 +38,23 @@ public class MyCardAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_card_precontent);
+        setContentView(R.layout.add_card_add_precontent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+/*
         CardlistDbHelper dbHelper = new CardlistDbHelper(this);
         mDb = dbHelper.getWritableDatabase();
 
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
-        mPhoneEditText = (EditText) this.findViewById(R.id.add_phone_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_web_editText);
-        mTitleEditText = (EditText) this.findViewById(R.id.add_title_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_email_editText);
-        mCompanyEditText = (EditText) this.findViewById(R.id.add_company_editText);
-        mCPhoneEditText = (EditText) this.findViewById(R.id.add_company_phone_editText);
+        mPhoneEditText = (EditText) this.findViewById(R.id.add_code_editText);
+        mEmailEditText = (EditText) this.findViewById(R.id.add_net_change_editText);
+        mTitleEditText = (EditText) this.findViewById(R.id.add_date_editText);
+        mWebsiteEditText = (EditText) this.findViewById(R.id.add_price_editText);
+        mCompanyEditText = (EditText) this.findViewById(R.id.add_pe_editText);
+        mCPhoneEditText = (EditText) this.findViewById(R.id.add_high_editText);
         mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
 
         Intent intentThatStartedThisActivity = getIntent();
@@ -95,6 +94,7 @@ public class MyCardAddActivity extends AppCompatActivity {
 
 
         }
+        */
     }
 
     @Override
@@ -110,7 +110,7 @@ public class MyCardAddActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int lid = item.getItemId();
-
+/*
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_send) {
             addToCardlist(id);
@@ -123,7 +123,7 @@ public class MyCardAddActivity extends AppCompatActivity {
             startActivity(intentToStartActivity);
             return true;
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 

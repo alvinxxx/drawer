@@ -22,8 +22,8 @@ public class StockTestUtil {
 
         ContentValues cv = new ContentValues();
         cv.put(StocklistContract.StocklistEntry.COLUMN_NAME, "CKH Holdings");
-        cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, 0001);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, 20140221);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, 1);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, "2014-02-21");
         cv.put(StocklistContract.StocklistEntry.COLUMN_PRICE, 118.4);
         cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, 2.3);
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, 8.53);
@@ -37,8 +37,8 @@ public class StockTestUtil {
 
         cv = new ContentValues();
         cv.put(StocklistContract.StocklistEntry.COLUMN_NAME, "CLP Holdings");
-        cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, 0002);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, 20140221);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, 2);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, "2014-02-21");
         cv.put(StocklistContract.StocklistEntry.COLUMN_PRICE, 60.25);
         cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, 0.7);
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, 17.47);
@@ -52,8 +52,8 @@ public class StockTestUtil {
 
         cv = new ContentValues();
         cv.put(StocklistContract.StocklistEntry.COLUMN_NAME, "HK & China Gas");
-        cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, 0003);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, 20140221);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, 3);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, "2014-02-21");
         cv.put(StocklistContract.StocklistEntry.COLUMN_PRICE, 16.28);
         cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, 0.38);
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, 20.14);
