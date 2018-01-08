@@ -59,6 +59,27 @@ public class StockDbFunction {
         mDb.update(StocklistContract.StocklistEntry.TABLE_NAME, cv, StocklistContract.StocklistEntry._ID + "=" + id, null);
         mDb.close(); // Closing database connection
     }
+    public void replace(String name, int code, String date, double price, double netChange, double pe, double high, double low,
+                       double preClose, double volume, double turnover, double lot) {
+        //Open connection to write data
+        SQLiteDatabase mDb = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(StocklistContract.StocklistEntry.COLUMN_NAME, name);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, code);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, date);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_PRICE, price);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE, netChange);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_PE, pe);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, high);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, low);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, preClose);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, volume);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, turnover);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, lot);
+
+        mDb.replace(StocklistContract.StocklistEntry.TABLE_NAME, null, cv);
+        mDb.close(); // Closing database connection
+    }
 
     public Cursor select() {
         SQLiteDatabase mDb = dbHelper.getReadableDatabase();

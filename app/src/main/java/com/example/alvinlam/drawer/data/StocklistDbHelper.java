@@ -13,7 +13,7 @@ import com.example.alvinlam.drawer.data.StocklistContract.*;
 public class StocklistDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "stocklist.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 12;
 
     public StocklistDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,7 +25,7 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_STOCKLIST_TABLE = "CREATE TABLE " + StocklistEntry.TABLE_NAME + " (" +
                 StocklistEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 StocklistEntry.COLUMN_NAME + " TEXT NOT NULL, " +
-                StocklistEntry.COLUMN_CODE + " INTEGER NOT NULL, " +
+                StocklistEntry.COLUMN_CODE + " INTEGER NOT NULL UNIQUE, " +
                 StocklistEntry.COLUMN_DATE + " TEXT NOT NULL, " +
                 StocklistEntry.COLUMN_PRICE + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_NET_CHANGE + " DOUBLE NOT NULL, " +

@@ -181,7 +181,7 @@ public class AddCardAddActivity extends AppCompatActivity {
             lot =  checkDouble(parsedStockData[11]);
 
             // Add guest info to mDb
-            dbFunction.insert(
+            dbFunction.replace(
                     name,
                     code,
                     date,
