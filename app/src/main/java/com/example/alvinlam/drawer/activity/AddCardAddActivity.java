@@ -112,7 +112,7 @@ public class AddCardAddActivity extends AppCompatActivity {
     }
 
     public Double checkDouble(String value){
-        if (value == "null")
+        if (value.equals("null"))
             return 0.0;
         else
             return Double.parseDouble(value);

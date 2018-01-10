@@ -21,7 +21,7 @@ import com.example.alvinlam.drawer.data.StocklistContract;
 import java.util.Locale;
 
 
-public class AddCardActivity extends AppCompatActivity{
+public class SearchResultStockActivity extends AppCompatActivity{
 
     private static final String TAG = AddCardActivity.class.getSimpleName();
     private static final String SHARE_HASHTAG = " #PocketCard";
@@ -69,9 +69,6 @@ public class AddCardActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        dbFunction = new StockDbFunction(this);
-
-
         mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
         mCodeEditText = (EditText) this.findViewById(R.id.add_code_editText);
         mDateEditText = (EditText) this.findViewById(R.id.add_date_editText);
@@ -90,41 +87,36 @@ public class AddCardActivity extends AppCompatActivity{
 
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
+                String[] parsedStockData = intentThatStartedThisActivity.getStringArrayExtra(Intent.EXTRA_TEXT);
 
-                cursor = dbFunction.selectByID(id);
-                Log.i(TAG, "1 "+String.valueOf(cursor.getColumnIndex("name")));
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
 
-                    Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
+                name = parsedStockData[0];
+                code = Integer.parseInt(parsedStockData[1]);
+                date = parsedStockData[2];
 
-                    name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
-                    code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
-                    date = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DATE));
-                    price = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
-                    netChange = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
-                    pe = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PE));
-                    high = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_HIGH));
-                    low = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
-                    preClose = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE));
-                    volume = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_VOLUME));
-                    turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_TURNOVER));
-                    lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOT));
+                price = checkDouble(parsedStockData[3]);
+                netChange =  checkDouble(parsedStockData[4]);
+                pe =  checkDouble(parsedStockData[5]);
+                high =  checkDouble(parsedStockData[6]);
+                low =  checkDouble(parsedStockData[7]);
+                preClose =  checkDouble(parsedStockData[8]);
+                volume =  checkDouble(parsedStockData[9]);
+                turnover =  checkDouble(parsedStockData[10]);
+                lot =  checkDouble(parsedStockData[11]);
 
-                    mNameEditText.setText(name);
-                    mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
-                    mDateEditText.setText(date);
-                    mPriceEditText.setText(String.format(Locale.getDefault(), "%.2f", price));
-                    mNetChangeEditText.setText(String.format(Locale.getDefault(), "%.2f", netChange));
-                    mPEEditText.setText(String.format(Locale.getDefault(), "%.2f", pe));
-                    mHighEditText.setText(String.format(Locale.getDefault(), "%.2f", high));
-                    mLowEditText.setText(String.format(Locale.getDefault(), "%.2f", low));
-                    mPreCloseEditText.setText(String.format(Locale.getDefault(), "%.2f", preClose));
-                    mVolumeEditText.setText(String.format(Locale.getDefault(), "%.2f", volume));
-                    mTurnoverEditText.setText(String.format(Locale.getDefault(), "%.2f", turnover));
-                    mLotEditText.setText(String.format(Locale.getDefault(), "%.2f", lot));
-                }
+                mNameEditText.setText(name);
+                mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
+                mDateEditText.setText(date);
+                mPriceEditText.setText(String.format(Locale.getDefault(), "%.2f", price));
+                mNetChangeEditText.setText(String.format(Locale.getDefault(), "%.2f", netChange));
+                mPEEditText.setText(String.format(Locale.getDefault(), "%.2f", pe));
+                mHighEditText.setText(String.format(Locale.getDefault(), "%.2f", high));
+                mLowEditText.setText(String.format(Locale.getDefault(), "%.2f", low));
+                mPreCloseEditText.setText(String.format(Locale.getDefault(), "%.2f", preClose));
+                mVolumeEditText.setText(String.format(Locale.getDefault(), "%.2f", volume));
+                mTurnoverEditText.setText(String.format(Locale.getDefault(), "%.2f", turnover));
+                mLotEditText.setText(String.format(Locale.getDefault(), "%.2f", lot));
+
             }
         }
         disableEditText(mNameEditText);
@@ -141,6 +133,13 @@ public class AddCardActivity extends AppCompatActivity{
         disableEditText(mLotEditText);
     }
 
+    private Double checkDouble(String value) {
+        if (value.equals("null"))
+            return 0.0;
+        else
+            return Double.parseDouble(value);
+    }
+
     public void disableEditText(EditText et){
         et.setCursorVisible(false);
         et.setLongClickable(false);
@@ -155,7 +154,7 @@ public class AddCardActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_card_toolbar_minus_menu, menu);
+        getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
 
         return true;
     }
@@ -170,9 +169,25 @@ public class AddCardActivity extends AppCompatActivity{
         Class destinationClass = AddCardAddActivity.class;
 
         //noinspection SimplifiableIfStatement
-        if (lid == R.id.action_delete) {
-            dbFunction.delete(id);
-            Toast.makeText(AddCardActivity.this,"Stock Deleted",Toast.LENGTH_LONG).show();
+        if (lid == R.id.action_add) {
+            Log.d(TAG, "onoption " + volume);
+            dbFunction = new StockDbFunction(context);
+            // Add guest info to mDb
+            dbFunction.replace(
+                    name,
+                    code,
+                    date,
+                    price,
+                    netChange,
+                    pe,
+                    high,
+                    low,
+                    preClose,
+                    volume,
+                    turnover,
+                    lot
+            );
+            Toast.makeText(SearchResultStockActivity.this,"Stock Added",Toast.LENGTH_LONG).show();
 
             /*
             Intent intentToStartActivity = new Intent(context, destinationClass);

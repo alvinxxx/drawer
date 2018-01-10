@@ -23,12 +23,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
+import com.example.alvinlam.drawer.data.StockQueryTask;
 import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StockTestUtil;
+import com.example.alvinlam.drawer.utilities.NetworkUtils;
+
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CardlistAdapter.ListItemClickListener {
 
@@ -153,13 +158,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextSubmit(String s) {
                 Log.d(TAG, "onQueryTextSubmit ");
-                cursor= dbFunction.selectByName(s);
-                if (cursor==null){
-                    Toast.makeText(MainActivity.this,"No records found!",Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(MainActivity.this, cursor.getCount() + " records found!",Toast.LENGTH_LONG).show();
+
+
+                if (s.length() == 0) {
+                    return false;
                 }
-                mAdapter.swapCursor(cursor);
+
+                try {
+                    int code = Integer.parseInt(s);
+                } catch (NumberFormatException ex) {
+                    Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
+                }
+
+                URL stockSearchUrl = NetworkUtils.buildUrl(s);
+                new StockQueryTask(MainActivity.this).execute(stockSearchUrl);
+
+
+//                cursor= dbFunction.selectByName(s);
+//                if (cursor==null){
+//                    Toast.makeText(MainActivity.this,"No records found!",Toast.LENGTH_LONG).show();
+//                }else{
+//                    Toast.makeText(MainActivity.this, cursor.getCount() + " records found!",Toast.LENGTH_LONG).show();
+//                }
+//                mAdapter.swapCursor(cursor);
 
                 return false;
             }
@@ -167,10 +188,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onQueryTextChange(String s) {
                 Log.d(TAG, "onQueryTextChange ");
-                cursor= dbFunction.selectByName(s);
-                if (cursor!=null){
-                    mAdapter.swapCursor(cursor);
+                if (s.length() == 0) {
+                    return false;
                 }
+
+                try {
+                    int code = Integer.parseInt(s);
+                } catch (NumberFormatException ex) {
+                    Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
+                }
+
+                //URL stockSearchUrl = NetworkUtils.buildUrl(s);
+                //new StockQueryTask(MainActivity.this).execute(stockSearchUrl);
                 return false;
             }
 
