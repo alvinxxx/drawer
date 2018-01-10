@@ -22,8 +22,8 @@ import android.widget.ListView;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.ContactImageAdapter;
-import com.example.alvinlam.drawer.data.Card;
-import com.example.alvinlam.drawer.data.DataBaseHandler;
+import com.example.alvinlam.drawer.data.old.Card;
+import com.example.alvinlam.drawer.data.old.DataBaseHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;

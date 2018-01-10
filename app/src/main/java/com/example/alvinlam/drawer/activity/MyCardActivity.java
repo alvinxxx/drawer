@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ShareCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,8 +16,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.CardlistContract;
-import com.example.alvinlam.drawer.data.CardlistDbHelper;
+import com.example.alvinlam.drawer.data.old.CardlistContract;
 
 /**
  * Created by Alvin Lam on 3/29/2017.

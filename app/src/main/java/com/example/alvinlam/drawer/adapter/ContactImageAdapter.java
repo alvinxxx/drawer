@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.Card;
+import com.example.alvinlam.drawer.data.old.Card;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;

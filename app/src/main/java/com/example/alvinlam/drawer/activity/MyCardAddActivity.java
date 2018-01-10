@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.CardlistContract;
+import com.example.alvinlam.drawer.data.old.CardlistContract;
 
 
 public class MyCardAddActivity extends AppCompatActivity {
