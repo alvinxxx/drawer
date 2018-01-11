@@ -29,8 +29,6 @@ public class SearchResultStockActivity extends AppCompatActivity{
     private SQLiteDatabase mDb;
     private Cursor cursor;
     private StockDbFunction dbFunction;
-    private long id = 0;
-
     private EditText mNameEditText;
     private EditText mCodeEditText;
     private EditText mDateEditText;
@@ -44,6 +42,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
     private EditText mTurnoverEditText;
     private EditText mLotEditText;
 
+    private long id = 0;
     private String name;
     private int code;
     private String date;
@@ -89,7 +88,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
                 String[] parsedStockData = intentThatStartedThisActivity.getStringArrayExtra(Intent.EXTRA_TEXT);
 
-
+                id = Long.parseLong(parsedStockData[1]);
                 name = parsedStockData[0];
                 code = Integer.parseInt(parsedStockData[1]);
                 date = parsedStockData[2];
@@ -174,6 +173,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
             dbFunction = new StockDbFunction(context);
             // Add guest info to mDb
             dbFunction.replace(
+                    id,
                     name,
                     code,
                     date,

@@ -32,11 +32,7 @@ public class AddCardAddActivity extends AppCompatActivity {
     private EditText mCodeEditText;
 
     private SQLiteDatabase mDb;
-    private final static String LOG_TAG = MainActivity.class.getSimpleName();
-    private long id = 0;
-    private int edit = 0;
-    private int code=0;
-    private Cursor cursor;
+    private final static String LOG_TAG = AddCardAddActivity.class.getSimpleName();
     private StockDbFunction dbFunction;
     private ProgressBar mLoadingIndicator;
 
@@ -99,7 +95,7 @@ public class AddCardAddActivity extends AppCompatActivity {
         }
 
         try {
-            code = Integer.parseInt(mCodeEditText.getText().toString());
+            int code = Integer.parseInt(mCodeEditText.getText().toString());
         } catch (NumberFormatException ex) {
             Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
         }
@@ -153,6 +149,7 @@ public class AddCardAddActivity extends AppCompatActivity {
         protected void onPostExecute(String[] parsedStockData) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
 
+            long id;
             String name;
             int code = 0;
             String date;
@@ -166,6 +163,7 @@ public class AddCardAddActivity extends AppCompatActivity {
             double turnover = 0;
             double lot = 0;
 
+            id = Long.parseLong(parsedStockData[1]);
             name = parsedStockData[0];
             code = Integer.parseInt(parsedStockData[1]);
             date = parsedStockData[2];
@@ -182,6 +180,7 @@ public class AddCardAddActivity extends AppCompatActivity {
 
             // Add guest info to mDb
             dbFunction.replace(
+                    id,
                     name,
                     code,
                     date,

@@ -16,12 +16,13 @@ public class StockDbFunction {
         dbHelper = new StocklistDbHelper(context);
     }
 
-    public void insert(String name, int code, String date, double price, double netChange, double pe, double high, double low,
+    public void insert(long id,String name, int code, String date, double price, double netChange, double pe, double high, double low,
                        double preClose, double volume, double turnover, double lot) {
 
         //Open connection to write data
         SQLiteDatabase mDb = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(StocklistContract.StocklistEntry._ID, id);
         cv.put(StocklistContract.StocklistEntry.COLUMN_NAME, name);
         cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, code);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, date);
@@ -43,6 +44,7 @@ public class StockDbFunction {
         //Open connection to write data
         SQLiteDatabase mDb = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(StocklistContract.StocklistEntry._ID, id);
         cv.put(StocklistContract.StocklistEntry.COLUMN_NAME, name);
         cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, code);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, date);
@@ -59,11 +61,12 @@ public class StockDbFunction {
         mDb.update(StocklistContract.StocklistEntry.TABLE_NAME, cv, StocklistContract.StocklistEntry._ID + "=" + id, null);
         mDb.close(); // Closing database connection
     }
-    public void replace(String name, int code, String date, double price, double netChange, double pe, double high, double low,
+    public void replace(long id, String name, int code, String date, double price, double netChange, double pe, double high, double low,
                        double preClose, double volume, double turnover, double lot) {
         //Open connection to write data
         SQLiteDatabase mDb = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
+        cv.put(StocklistContract.StocklistEntry._ID, id);
         cv.put(StocklistContract.StocklistEntry.COLUMN_NAME, name);
         cv.put(StocklistContract.StocklistEntry.COLUMN_CODE, code);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DATE, date);
