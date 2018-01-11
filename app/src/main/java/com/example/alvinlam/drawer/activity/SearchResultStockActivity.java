@@ -55,6 +55,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
     private double volume;
     private double turnover;
     private double lot;
+    MenuItem mAdd,mDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,12 +150,13 @@ public class SearchResultStockActivity extends AppCompatActivity{
         et.setBackgroundResource(android.R.color.transparent);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
-
+        mAdd= menu.findItem(R.id.action_add);
+        mDelete = menu.findItem(R.id.action_delete);
+        mDelete.setVisible(false);
         return true;
     }
 
@@ -165,7 +167,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
         // as you specify a parent activity in AndroidManifest.xml.
         int lid = item.getItemId();
         Context context = this;
-        Class destinationClass = AddCardAddActivity.class;
+        Class destinationClass = AddCardActivity.class;
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_add) {
@@ -188,13 +190,18 @@ public class SearchResultStockActivity extends AppCompatActivity{
                     lot
             );
             Toast.makeText(SearchResultStockActivity.this,"Stock Added",Toast.LENGTH_LONG).show();
+            mAdd.setVisible(false);
+            mDelete.setVisible(true);
 
-            /*
-            Intent intentToStartActivity = new Intent(context, destinationClass);
-            intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
-            startActivity(intentToStartActivity);
             return true;
-            */
+
+        }else if (lid == R.id.action_delete) {
+            dbFunction.delete(id);
+            Toast.makeText(SearchResultStockActivity.this,"Stock Deleted",Toast.LENGTH_LONG).show();
+            mAdd.setVisible(true);
+            mDelete.setVisible(false);
+            return true;
+
         }else if (lid == android.R.id.home) {
             destinationClass = MainActivity.class;
             Intent intentToStartActivity = new Intent(context, destinationClass);

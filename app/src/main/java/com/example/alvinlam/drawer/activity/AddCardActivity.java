@@ -56,6 +56,7 @@ public class AddCardActivity extends AppCompatActivity{
     private double volume;
     private double turnover;
     private double lot;
+    MenuItem mAdd,mDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,8 +156,10 @@ public class AddCardActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_card_toolbar_minus_menu, menu);
-
+        getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
+        mAdd= menu.findItem(R.id.action_add);
+        mDelete = menu.findItem(R.id.action_delete);
+        mAdd.setVisible(false);
         return true;
     }
 
@@ -167,19 +170,41 @@ public class AddCardActivity extends AppCompatActivity{
         // as you specify a parent activity in AndroidManifest.xml.
         int lid = item.getItemId();
         Context context = this;
-        Class destinationClass = AddCardAddActivity.class;
+        Class destinationClass = SearchResultStockActivity.class;
 
         //noinspection SimplifiableIfStatement
-        if (lid == R.id.action_delete) {
+        if (lid == R.id.action_add) {
+            Log.d(TAG, "onoption " + volume);
+            dbFunction = new StockDbFunction(context);
+            // Add guest info to mDb
+            dbFunction.replace(
+                    id,
+                    name,
+                    code,
+                    date,
+                    price,
+                    netChange,
+                    pe,
+                    high,
+                    low,
+                    preClose,
+                    volume,
+                    turnover,
+                    lot
+            );
+            Toast.makeText(AddCardActivity.this,"Stock Added",Toast.LENGTH_LONG).show();
+            mAdd.setVisible(false);
+            mDelete.setVisible(true);
+
+            return true;
+
+        }else if (lid == R.id.action_delete) {
             dbFunction.delete(id);
             Toast.makeText(AddCardActivity.this,"Stock Deleted",Toast.LENGTH_LONG).show();
-
-            /*
-            Intent intentToStartActivity = new Intent(context, destinationClass);
-            intentToStartActivity.putExtra(Intent.EXTRA_TEXT, id);
-            startActivity(intentToStartActivity);
+            mAdd.setVisible(true);
+            mDelete.setVisible(false);
             return true;
-            */
+
         }else if (lid == android.R.id.home) {
             destinationClass = MainActivity.class;
             Intent intentToStartActivity = new Intent(context, destinationClass);
