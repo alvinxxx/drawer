@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/add_card_stock_code" />
+            <include layout="@layout/add_card_add_content" />
 
         </LinearLayout>
 
