@@ -11,12 +11,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.data.Stock;
 import com.example.alvinlam.drawer.data.old.CardlistContract;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alvin Lam on 3/29/2017.
@@ -64,73 +73,38 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-/*
-        CardlistDbHelper dbHelper = new CardlistDbHelper(this);
-        //dbFunction = new DbFunction(this);
-        mDb = dbHelper.getReadableDatabase();
 
-        mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
-        mPhoneEditText = (EditText) this.findViewById(R.id.add_code_editText);
-        mEmailEditText = (EditText) this.findViewById(R.id.add_price_editText);
-        mTitleEditText = (EditText) this.findViewById(R.id.add_date_editText);
-        mWebsiteEditText = (EditText) this.findViewById(R.id.add_net_change_editText);
-        mCompanyEditText = (EditText) this.findViewById(R.id.add_pe_editText);
-        mCPhoneEditText = (EditText) this.findViewById(R.id.add_high_editText);
-        mCAddressEditText = (EditText) this.findViewById(R.id.add_company_address_editText);
+        LineChart chart = (LineChart) findViewById(R.id.chart);
+        Stock s1 = new Stock();
+        s1.setPrice(10);
+        Stock s2 = new Stock();
+        s2.setPrice(20);
+        Stock s3 = new Stock();
+        s3.setPrice(40);
 
+        ArrayList<Stock> dataObjects = new ArrayList<Stock>();
 
-        Intent intentThatStartedThisActivity = getIntent();
+        dataObjects.add(s1);
+        dataObjects.add(s2);
+        dataObjects.add(s3);
 
-        if (intentThatStartedThisActivity != null) {
-                cursor = getMyCard();
+        List<Entry> entries = new ArrayList<Entry>();
+        int i = 0;
+        for (Stock data : dataObjects) {
+            float f = (float)data.getPrice();
+            // turn your data into Entry objects
+            entries.add(new Entry(i, f));
+            Log.d(TAG, "onCreate: "+i+" "+f);
 
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-
-                    name = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_NAME));
-                    phone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_PHONE));
-                    email = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
-                    title = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_TITLE));
-                    website = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_WEBSITE));
-                    company = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_EMAIL));
-                    companyTelephone = cursor.getInt(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_PHONE));
-                    companyAddress = cursor.getString(cursor.getColumnIndex(CardlistContract.MyCardEntry.COLUMN_COMPANY_ADDRESS));
-
-                    mNameEditText.setText(name);
-                    mPhoneEditText.setText(Integer.toString(phone));
-                    mEmailEditText.setText(email);
-                    mTitleEditText.setText(title);
-                    mWebsiteEditText.setText(website);
-                    mCompanyEditText.setText(company);
-                    mCPhoneEditText.setText(Integer.toString(companyTelephone));
-                    mCAddressEditText.setText(companyAddress);
-
-                }
-
-
+            i++;
         }
 
-        disableEditText(mNameEditText);
-        disableEditText(mPhoneEditText);
-        disableEditText(mEmailEditText);
-        disableEditText(mTitleEditText);
-        disableEditText(mWebsiteEditText);
-        disableEditText(mCompanyEditText);
-        disableEditText(mCPhoneEditText);
-        disableEditText(mCAddressEditText);
-*/
+        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+        LineData lineData = new LineData(dataSet);
+        chart.setData(lineData);
+        chart.invalidate(); // refresh
     }
-/*
-    public void disableEditText(EditText et){
-        et.setCursorVisible(false);
-        et.setLongClickable(false);
-        et.setClickable(false);
-        et.setFocusable(false);
-        et.setSelected(false);
-        et.setKeyListener(null);
-        et.setBackgroundResource(android.R.color.transparent);
-    }
-*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -143,30 +117,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*
 
-
-        int lid = item.getItemId();
-        Context context = this;
-        Class destinationClass = MyCardAddActivity.class;
-
-        //noinspection SimplifiableIfStatement
-        if (lid == R.id.action_edit) {
-            Intent intentToStartActivity = new Intent(context, destinationClass);
-            startActivity(intentToStartActivity);
-            return true;
-        }else if (lid == R.id.action_share) {
-            Intent shareIntent = ShareCompat.IntentBuilder.from(this)
-                    .setType("text/plain")
-                    .setText("Name:  "+ name + "\n" + "Phone:  "+ phone + "\n" + "Email:  "+ email + "\n" + "Title:  "+ title + "\n" +
-                            "Website:  "+ website + "\n" + "Company:  "+ company + "\n" + "Company phone:  "+ companyTelephone + "\n" + "Company Address:  "+companyAddress + "\n" +
-                            SHARE_HASHTAG)
-                    .getIntent();
-            startActivity(shareIntent);
-
-            return true;
-        }
-        */
         return super.onOptionsItemSelected(item);
     }
 
@@ -207,15 +158,5 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         return true;
     }
 
-    private Cursor getMyCard() {
-        return mDb.query(
-                CardlistContract.MyCardEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                CardlistContract.MyCardEntry.COLUMN_TIMESTAMP
-        );
-    }
+
 }

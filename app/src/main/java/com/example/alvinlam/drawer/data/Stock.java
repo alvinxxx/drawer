@@ -8,8 +8,8 @@ public class Stock {
     // private variables
     int _id;
     String _name;
-    Double _price;
-    Double _netChange;
+    double _price;
+    double _netChange;
     byte[] _image;
 
     // Empty constructor
@@ -18,7 +18,7 @@ public class Stock {
     }
 
     // constructor
-    public Stock(int keyId, String name, Double price, Double netChange, byte[] image) {
+    public Stock(int keyId, String name, double price, double netChange, byte[] image) {
         this._id = keyId;
         this._name = name;
         this._price = price;
@@ -26,7 +26,7 @@ public class Stock {
         this._image = image;
 
     }
-    public Stock(String name, Double price, Double netChange, byte[] image) {
+    public Stock(String name, double price, double netChange, byte[] image) {
         this._name = name;
         this._price = price;
         this._netChange = netChange;
@@ -58,19 +58,19 @@ public class Stock {
         this._name = name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return this._price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this._price = price;
     }
 
-    public Double getNetChange() {
+    public double getNetChange() {
         return this._netChange;
     }
 
-    public void setNetChange(Double netChange) {
+    public void setNetChange(double netChange) {
         this._netChange = netChange;
     }
 

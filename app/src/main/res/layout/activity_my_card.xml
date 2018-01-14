@@ -16,10 +16,8 @@
 
         <include
             layout="@layout/add_card_toolbar" />
-
         <include
-            layout="@layout/my_card_content_list"
-            />
+            layout="@layout/stock_chart" />
 
     </android.support.design.widget.CoordinatorLayout>
 
