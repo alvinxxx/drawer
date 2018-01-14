@@ -80,7 +80,7 @@ public class StockDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.add_card_read_content, container, false);
+        View rootView = inflater.inflate(R.layout.add_card_read_precontent, container, false);
 
 
         dbFunction = new StockDbFunction(getActivity().getApplicationContext());
