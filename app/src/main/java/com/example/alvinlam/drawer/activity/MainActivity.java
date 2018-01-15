@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.i(TAG, "0 "+id);
 
         Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
-        intentToStartAddCardActivity.putExtra(Intent.EXTRA_TEXT, id);
+        intentToStartAddCardActivity.putExtra(Intent.EXTRA_UID, id);
         startActivity(intentToStartAddCardActivity);
     }
 

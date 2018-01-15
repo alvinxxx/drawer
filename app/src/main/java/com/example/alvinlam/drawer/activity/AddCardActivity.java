@@ -66,9 +66,8 @@ public class AddCardActivity extends AppCompatActivity{
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
-                Log.i(TAG, "stockchart "+id);
+            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_UID)) {
+                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_UID, 0);
 
                 cursor = dbFunction.selectByID(id);
                 if (cursor.getCount() > 0) {
@@ -90,6 +89,7 @@ public class AddCardActivity extends AppCompatActivity{
                     lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOT));
                 }
             }
+
         }
 
         // Find the view pager that will allow the user to swipe between fragments
@@ -137,7 +137,6 @@ public class AddCardActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_add) {
-            Log.d(TAG, "onoption " + volume);
             dbFunction = new StockDbFunction(context);
             // Add guest info to mDb
             dbFunction.replace(
@@ -169,8 +168,6 @@ public class AddCardActivity extends AppCompatActivity{
             return true;
 
         }else if (lid == android.R.id.home) {
-            Log.i(TAG, "chart home ");
-
             destinationClass = MainActivity.class;
             Intent intentToStartActivity = new Intent(context, destinationClass);
             startActivity(intentToStartActivity);

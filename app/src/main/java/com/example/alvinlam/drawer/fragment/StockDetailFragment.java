@@ -103,8 +103,8 @@ public class StockDetailFragment extends Fragment {
         Intent intentThatStartedThisActivity = getActivity().getIntent();
 
         if (intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
-                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_TEXT, 0);
+            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_UID)) {
+                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_UID, 0);
 
                 cursor = dbFunction.selectByID(id);
                 Log.i(TAG, "1 "+String.valueOf(cursor.getColumnIndex("name")));
@@ -126,20 +126,39 @@ public class StockDetailFragment extends Fragment {
                     turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_TURNOVER));
                     lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOT));
 
-                    mNameEditText.setText(name);
-                    mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
-                    mDateEditText.setText(date);
-                    mPriceEditText.setText(String.format(Locale.getDefault(), "%.2f", price));
-                    mNetChangeEditText.setText(String.format(Locale.getDefault(), "%.2f", netChange));
-                    mPEEditText.setText(String.format(Locale.getDefault(), "%.2f", pe));
-                    mHighEditText.setText(String.format(Locale.getDefault(), "%.2f", high));
-                    mLowEditText.setText(String.format(Locale.getDefault(), "%.2f", low));
-                    mPreCloseEditText.setText(String.format(Locale.getDefault(), "%.2f", preClose));
-                    mVolumeEditText.setText(String.format(Locale.getDefault(), "%.2f", volume));
-                    mTurnoverEditText.setText(String.format(Locale.getDefault(), "%.2f", turnover));
-                    mLotEditText.setText(String.format(Locale.getDefault(), "%.2f", lot));
                 }
+            }else if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
+                String[] parsedStockData = intentThatStartedThisActivity.getStringArrayExtra(Intent.EXTRA_TEXT);
+
+                id = Long.parseLong(parsedStockData[1]);
+                name = parsedStockData[0];
+                code = Integer.parseInt(parsedStockData[1]);
+                date = parsedStockData[2];
+
+                price = checkDouble(parsedStockData[3]);
+                netChange =  checkDouble(parsedStockData[4]);
+                pe =  checkDouble(parsedStockData[5]);
+                high =  checkDouble(parsedStockData[6]);
+                low =  checkDouble(parsedStockData[7]);
+                preClose =  checkDouble(parsedStockData[8]);
+                volume =  checkDouble(parsedStockData[9]);
+                turnover =  checkDouble(parsedStockData[10]);
+                lot =  checkDouble(parsedStockData[11]);
+
             }
+            mNameEditText.setText(name);
+            mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
+            mDateEditText.setText(date);
+            mPriceEditText.setText(String.format(Locale.getDefault(), "%.2f", price));
+            mNetChangeEditText.setText(String.format(Locale.getDefault(), "%.2f", netChange));
+            mPEEditText.setText(String.format(Locale.getDefault(), "%.2f", pe));
+            mHighEditText.setText(String.format(Locale.getDefault(), "%.2f", high));
+            mLowEditText.setText(String.format(Locale.getDefault(), "%.2f", low));
+            mPreCloseEditText.setText(String.format(Locale.getDefault(), "%.2f", preClose));
+            mVolumeEditText.setText(String.format(Locale.getDefault(), "%.2f", volume));
+            mTurnoverEditText.setText(String.format(Locale.getDefault(), "%.2f", turnover));
+            mLotEditText.setText(String.format(Locale.getDefault(), "%.2f", lot));
+
         }
         disableEditText(mNameEditText);
         disableEditText(mCodeEditText);
@@ -170,7 +189,12 @@ public class StockDetailFragment extends Fragment {
         et.setBackgroundResource(android.R.color.transparent);
     }
 
-
+    private Double checkDouble(String value) {
+        if (value.equals("null"))
+            return 0.0;
+        else
+            return Double.parseDouble(value);
+    }
 
 
 }

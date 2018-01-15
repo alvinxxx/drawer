@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ShareCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.adapter.StockDetailAdapter;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
@@ -23,24 +26,10 @@ import java.util.Locale;
 
 public class SearchResultStockActivity extends AppCompatActivity{
 
-    private static final String TAG = AddCardActivity.class.getSimpleName();
     private static final String SHARE_HASHTAG = " #PocketCard";
 
-    private SQLiteDatabase mDb;
     private Cursor cursor;
     private StockDbFunction dbFunction;
-    private EditText mNameEditText;
-    private EditText mCodeEditText;
-    private EditText mDateEditText;
-    private EditText mPriceEditText;
-    private EditText mNetChangeEditText;
-    private EditText mPEEditText;
-    private EditText mHighEditText;
-    private EditText mLowEditText;
-    private EditText mPreCloseEditText;
-    private EditText mVolumeEditText;
-    private EditText mTurnoverEditText;
-    private EditText mLotEditText;
 
     private long id = 0;
     private String name;
@@ -60,7 +49,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_card_read_precontent);
+        setContentView(R.layout.stock_detail_precontent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
@@ -68,20 +57,6 @@ public class SearchResultStockActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
-        mNameEditText = (EditText) this.findViewById(R.id.add_name_editText);
-        mCodeEditText = (EditText) this.findViewById(R.id.add_code_editText);
-        mDateEditText = (EditText) this.findViewById(R.id.add_date_editText);
-        mPriceEditText = (EditText) this.findViewById(R.id.add_price_editText);
-        mNetChangeEditText = (EditText) this.findViewById(R.id.add_net_change_editText);
-        mPEEditText = (EditText) this.findViewById(R.id.add_pe_editText);
-        mHighEditText = (EditText) this.findViewById(R.id.add_high_editText);
-        mLowEditText = (EditText) this.findViewById(R.id.add_low_editText);
-        mPreCloseEditText = (EditText) this.findViewById(R.id.add_pre_close_editText);
-        mVolumeEditText = (EditText) this.findViewById(R.id.add_volume_editText);
-        mTurnoverEditText = (EditText) this.findViewById(R.id.add_turnover_editText);
-        mLotEditText = (EditText) this.findViewById(R.id.add_lot_editText);
-
 
         Intent intentThatStartedThisActivity = getIntent();
 
@@ -104,33 +79,28 @@ public class SearchResultStockActivity extends AppCompatActivity{
                 turnover =  checkDouble(parsedStockData[10]);
                 lot =  checkDouble(parsedStockData[11]);
 
-                mNameEditText.setText(name);
-                mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
-                mDateEditText.setText(date);
-                mPriceEditText.setText(String.format(Locale.getDefault(), "%.2f", price));
-                mNetChangeEditText.setText(String.format(Locale.getDefault(), "%.2f", netChange));
-                mPEEditText.setText(String.format(Locale.getDefault(), "%.2f", pe));
-                mHighEditText.setText(String.format(Locale.getDefault(), "%.2f", high));
-                mLowEditText.setText(String.format(Locale.getDefault(), "%.2f", low));
-                mPreCloseEditText.setText(String.format(Locale.getDefault(), "%.2f", preClose));
-                mVolumeEditText.setText(String.format(Locale.getDefault(), "%.2f", volume));
-                mTurnoverEditText.setText(String.format(Locale.getDefault(), "%.2f", turnover));
-                mLotEditText.setText(String.format(Locale.getDefault(), "%.2f", lot));
 
             }
         }
-        disableEditText(mNameEditText);
-        disableEditText(mCodeEditText);
-        disableEditText(mDateEditText);
-        disableEditText(mPriceEditText);
-        disableEditText(mNetChangeEditText);
-        disableEditText(mPEEditText);
-        disableEditText(mHighEditText);
-        disableEditText(mLowEditText);
-        disableEditText(mPreCloseEditText);
-        disableEditText(mVolumeEditText);
-        disableEditText(mTurnoverEditText);
-        disableEditText(mLotEditText);
+
+        // Find the view pager that will allow the user to swipe between fragments
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        // Create an adapter that knows which fragment should be shown on each page
+        StockDetailAdapter adapter = new StockDetailAdapter(this, getSupportFragmentManager());
+
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
+
+        // Find the tab layout that shows the tabs
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        // Connect the tab layout with the view pager. This will
+        //   1. Update the tab layout when the view pager is swiped
+        //   2. Update the view pager when a tab is selected
+        //   3. Set the tab layout's tab names with the view pager's adapter's titles
+        //      by calling onPageTitle()
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private Double checkDouble(String value) {
@@ -140,15 +110,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
             return Double.parseDouble(value);
     }
 
-    public void disableEditText(EditText et){
-        et.setCursorVisible(false);
-        et.setLongClickable(false);
-        et.setClickable(false);
-        et.setFocusable(false);
-        et.setSelected(false);
-        et.setKeyListener(null);
-        et.setBackgroundResource(android.R.color.transparent);
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -168,11 +130,10 @@ public class SearchResultStockActivity extends AppCompatActivity{
         int lid = item.getItemId();
         Context context = this;
         Class destinationClass = AddCardActivity.class;
+        dbFunction = new StockDbFunction(context);
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_add) {
-            Log.d(TAG, "onoption " + volume);
-            dbFunction = new StockDbFunction(context);
             // Add guest info to mDb
             dbFunction.replace(
                     id,
