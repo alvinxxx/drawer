@@ -64,8 +64,8 @@ public class NetworkUtils {
         // build the proper query URL
         String stock_url = STOCK_BASE_URL + stockSearchQuery + FORMAT;
         Uri builtUri = Uri.parse(stock_url).buildUpon()
-                .appendQueryParameter(ROWS_PARAM, Integer.toString(rows))
-                .appendQueryParameter(COLS_PARAM, Integer.toString(days))
+                .appendQueryParameter(ROWS_PARAM, Integer.toString(days))
+                .appendQueryParameter(COLS_PARAM, Integer.toString(cols))
                 .appendQueryParameter(KEY_PARAM, key)
                 .build();
 
