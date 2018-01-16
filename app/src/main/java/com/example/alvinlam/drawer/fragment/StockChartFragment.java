@@ -32,9 +32,13 @@ import com.example.alvinlam.drawer.data.StocklistContract;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.json.JSONException;
 
@@ -54,7 +58,7 @@ public class StockChartFragment extends Fragment {
     private long id = 0;
     private Cursor cursor;
     private StockDbFunction dbFunction;
-    int days = 20;
+    int days = 5;
 
     private String name;
     private int code;
@@ -157,39 +161,42 @@ public class StockChartFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String[][] parsedStockData) {
+        protected void onPostExecute(final String[][] parsedStockData) {
 
             LineChart chart = (LineChart) rootView.findViewById(R.id.chart);
-
-
-            Stock s1 = new Stock();
-            s1.setPrice(10);
-            Stock s2 = new Stock();
-            s2.setPrice(40);
-            Stock s3 = new Stock();
-            s3.setPrice(20);
-
-            ArrayList<Stock> dataObjects = new ArrayList<Stock>();
-
-            dataObjects.add(s1);
-            dataObjects.add(s2);
-            dataObjects.add(s3);
-
             List<Entry> entries = new ArrayList<Entry>();
-            int i = 0;
-            for (Stock data : dataObjects) {
-                float f = (float)data.getPrice();
-                // turn your data into Entry objects
-                entries.add(new Entry(i, f));
-                Log.d(TAG, "onCreate: "+i+" "+f);
 
-                i++;
+            float chartPrice = 0;
+            for (int i = 0; i<parsedStockData.length; i++) {
+                try{
+                    chartPrice =Float.parseFloat(parsedStockData[i][1]);
+                }catch(NumberFormatException e){
+                    Log.d(TAG, "onPostExecute: number format");
+                }
+                // turn your data into Entry objects
+                entries.add(new Entry(i, chartPrice));
             }
 
             LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+            dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
             LineData lineData = new LineData(dataSet);
             chart.setData(lineData);
             chart.invalidate(); // refresh
+
+
+            IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    return parsedStockData[(int) value][0];
+                }
+
+            };
+
+            XAxis xAxis = chart.getXAxis();
+            xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+            xAxis.setValueFormatter(formatter);
 
         }
     }

@@ -23,9 +23,12 @@ public class NetworkUtils {
     final static String ROWS_PARAM = "rows";
     final static String KEY_PARAM = "api_key";
     final static String COLS_PARAM = "column_index";
+    final static String ORDER_PARAM = "order";
+
 
     private static final int rows = 1;
     private static final int cols = 1;
+    private static final String order = "asc";
 
     private static final String key = "MmE7qENKc5bKfKzb2JoP";
     private static final String TAG = "NetworkUtils";
@@ -66,6 +69,7 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(stock_url).buildUpon()
                 .appendQueryParameter(ROWS_PARAM, Integer.toString(days))
                 .appendQueryParameter(COLS_PARAM, Integer.toString(cols))
+                .appendQueryParameter(ORDER_PARAM, order)
                 .appendQueryParameter(KEY_PARAM, key)
                 .build();
 

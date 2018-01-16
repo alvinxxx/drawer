@@ -163,7 +163,7 @@ public class OpenStockJsonUtils {
         String code;
         String date;
         String price;
-        int days = 20;
+        int days = 5;
         String[][] parsedStockData = new String[days][2];
 
 
@@ -186,6 +186,10 @@ public class OpenStockJsonUtils {
 
             parsedStockData[i][0] = date;
             parsedStockData[i][1] = price;
+            //Log.d("a", "getChartDataFromJson: "+parsedStockData[i][0]);
+            //Log.d("b", "getChartDataFromJson: "+parsedStockData[i][1]);
+
+
         }
 
 
