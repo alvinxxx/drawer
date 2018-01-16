@@ -142,4 +142,54 @@ public class OpenStockJsonUtils {
 
         return parsedStockData;
     }
+
+    /**
+     * Parse the JSON and convert it into ContentValue that can be inserted into our database.
+     *
+     * @param context         An application context, such as a service or activity context.
+     * @param stockJsonStr The JSON to parse into ContentValue.
+     *
+     * @return A ContentValue parsed from the JSON.
+     */
+    public static String[][] getChartDataFromJson(Context context, String stockJsonStr)
+            throws JSONException {
+        final String QUA_DATASET = "dataset";
+        final String QUA_NAME = "name";
+        final String QUA_CODE = "dataset_code";
+        final String QUA_DATA = "data";
+        final String QUA_ERROR_CODE = "quandl_error";
+
+        String name;
+        String code;
+        String date;
+        String price;
+        int days = 20;
+        String[][] parsedStockData = new String[days][2];
+
+
+        JSONObject stockJson = new JSONObject(stockJsonStr);
+
+        /* Is there an error? */
+        if (stockJson.has(QUA_ERROR_CODE)) {
+            return null;
+        }
+
+        JSONObject stockDataSet = stockJson.getJSONObject(QUA_DATASET);
+
+        name = stockDataSet.getString(QUA_NAME);
+        code = stockDataSet.getString(QUA_CODE);
+
+        for (int i=0;i<days;i++){
+            JSONArray valueArray = stockDataSet.getJSONArray(QUA_DATA).getJSONArray(i);
+            date = valueArray.getString(0);
+            price = valueArray.getString(1);
+
+            parsedStockData[i][0] = date;
+            parsedStockData[i][1] = price;
+        }
+
+
+
+        return parsedStockData;
+    }
 }

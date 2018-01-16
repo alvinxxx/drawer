@@ -69,7 +69,6 @@ public class StockDetailFragment extends Fragment {
     private double volume;
     private double turnover;
     private double lot;
-    MenuItem mAdd,mDelete;
 
     public StockDetailFragment() {
         // Required empty public constructor

@@ -22,7 +22,11 @@ public class NetworkUtils {
     final static String FORMAT = ".json";
     final static String ROWS_PARAM = "rows";
     final static String KEY_PARAM = "api_key";
+    final static String COLS_PARAM = "column_index";
+
     private static final int rows = 1;
+    private static final int cols = 1;
+
     private static final String key = "MmE7qENKc5bKfKzb2JoP";
     private static final String TAG = "NetworkUtils";
 
@@ -53,6 +57,27 @@ public class NetworkUtils {
         return url;
     }
 
+    public static URL buildUrl(String stockSearchQuery, int days) {
+
+        stockSearchQuery = String.format(Locale.getDefault(),  "%05d", Integer.parseInt(stockSearchQuery));
+
+        // build the proper query URL
+        String stock_url = STOCK_BASE_URL + stockSearchQuery + FORMAT;
+        Uri builtUri = Uri.parse(stock_url).buildUpon()
+                .appendQueryParameter(ROWS_PARAM, Integer.toString(rows))
+                .appendQueryParameter(COLS_PARAM, Integer.toString(days))
+                .appendQueryParameter(KEY_PARAM, key)
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "buildUrl: "+ builtUri);
+        return url;
+    }
 
 
     /**
