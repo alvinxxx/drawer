@@ -16,8 +16,13 @@
 
         <include
             layout="@layout/add_card_toolbar" />
-        <include
-            layout="@layout/stock_chart" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="testNotification"
+            android:text="Test Notification" />
 
     </android.support.design.widget.CoordinatorLayout>
 

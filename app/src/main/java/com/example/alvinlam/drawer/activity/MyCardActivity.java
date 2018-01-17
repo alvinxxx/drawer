@@ -14,11 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.Stock;
 import com.example.alvinlam.drawer.data.old.CardlistContract;
+import com.example.alvinlam.drawer.utilities.NotificationUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -74,35 +76,12 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        LineChart chart = (LineChart) findViewById(R.id.chart);
-        Stock s1 = new Stock();
-        s1.setPrice(10);
-        Stock s2 = new Stock();
-        s2.setPrice(20);
-        Stock s3 = new Stock();
-        s3.setPrice(40);
 
-        ArrayList<Stock> dataObjects = new ArrayList<Stock>();
+    }
 
-        dataObjects.add(s1);
-        dataObjects.add(s2);
-        dataObjects.add(s3);
-
-        List<Entry> entries = new ArrayList<Entry>();
-        int i = 0;
-        for (Stock data : dataObjects) {
-            float f = (float)data.getPrice();
-            // turn your data into Entry objects
-            entries.add(new Entry(i, f));
-            Log.d(TAG, "onCreate: "+i+" "+f);
-
-            i++;
-        }
-
-        LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh
+    // COMPLETED (14) Create a method called testNotification that triggers NotificationUtils' remindUserBecauseCharging
+    public void testNotification(View view) {
+        NotificationUtils.remindUserBecauseCharging(this);
     }
 
     @Override
