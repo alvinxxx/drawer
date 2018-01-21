@@ -1,8 +1,23 @@
 package com.example.alvinlam.drawer.sync;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.view.View;
 
+import com.example.alvinlam.drawer.activity.AddCardAddActivity;
+import com.example.alvinlam.drawer.activity.MainActivity;
+import com.example.alvinlam.drawer.data.StockDbFunction;
+import com.example.alvinlam.drawer.data.StocklistContract;
+import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.NotificationUtils;
+import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class ReminderTasks {
 
@@ -32,7 +47,35 @@ public class ReminderTasks {
     private static void doQuery(Context context) {
         //PreferenceUtilities.incrementChargingReminderCount(context);
         //NotificationUtils.remindUser(context);
+        StockDbFunction dbFunction = new StockDbFunction(context);
 
+        Cursor mCursor = dbFunction.select();
+        int length = mCursor.getCount();
+        long[] id_list = new long[length];
+        long id = 0;
+
+        if (length > 0){
+            for (int i = 0; i < mCursor.getCount(); i++) {
+                mCursor.moveToPosition(i);
+                //id_list[i] = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
+                id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
+                URL stockSearchUrl = NetworkUtils.buildUrl(String.valueOf(id));
+
+                String stockSearchResults = null;
+                try {
+                    stockSearchResults = NetworkUtils.getResponseFromHttpUrl(stockSearchUrl);
+                    String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(context, stockSearchResults);
+                    dbFunction.replaceByArray(fullJsonStockData);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
+
+
 }
 
