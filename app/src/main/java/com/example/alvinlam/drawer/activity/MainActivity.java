@@ -22,15 +22,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
 import com.example.alvinlam.drawer.data.StockQueryTask;
 import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.data.StockDbFunction;
-import com.example.alvinlam.drawer.data.StockTestUtil;
+import com.example.alvinlam.drawer.sync.ReminderUtilities;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 
 import java.net.URL;
@@ -127,6 +125,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             // attach the ItemTouchHelper
         }).attachToRecyclerView(cardlistRecyclerView);
+
+        // COMPLETED (23) Schedule the charging reminder
+        ReminderUtilities.scheduleQueryReminder(this);
 
     }
 

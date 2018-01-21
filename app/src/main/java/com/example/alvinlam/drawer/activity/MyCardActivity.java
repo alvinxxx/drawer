@@ -11,23 +11,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.Stock;
-import com.example.alvinlam.drawer.data.old.CardlistContract;
 import com.example.alvinlam.drawer.utilities.NotificationUtils;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Alvin Lam on 3/29/2017.
@@ -79,9 +69,9 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
     }
 
-    // COMPLETED (14) Create a method called testNotification that triggers NotificationUtils' remindUserBecauseCharging
+    // COMPLETED (14) Create a method called testNotification that triggers NotificationUtils' remindUser
     public void testNotification(View view) {
-        NotificationUtils.remindUserBecauseCharging(this);
+        NotificationUtils.remindUser(this);
     }
 
     @Override

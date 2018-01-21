@@ -79,8 +79,12 @@ public class StockDbFunction {
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, volume);
         cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, turnover);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, lot);
+        long result = mDb.insertWithOnConflict(StocklistContract.StocklistEntry.TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_IGNORE);
+        if (result == -1) {
+            mDb.update(StocklistContract.StocklistEntry.TABLE_NAME, cv, StocklistContract.StocklistEntry._ID + "=" + id, null);
+        }
 
-        mDb.replace(StocklistContract.StocklistEntry.TABLE_NAME, null, cv);
+        //mDb.replace(StocklistContract.StocklistEntry.TABLE_NAME, null, cv);
         mDb.close(); // Closing database connection
     }
 
