@@ -22,6 +22,8 @@
 
     <string name="stock_stat">Statistic</string>
     <string name="stock_chart">Chart</string>
+    <string name="stock_alert">Alert</string>
+
     <string name="stock_notification_title">StockAlertMe</string>
     <string name="stock_notification_body">Check out the stock recommendation</string>
 

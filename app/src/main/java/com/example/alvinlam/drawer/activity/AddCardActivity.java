@@ -73,7 +73,7 @@ public class AddCardActivity extends AppCompatActivity{
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
 
-                    Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
+                    Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
                     name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
                     code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));

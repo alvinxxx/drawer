@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.fragment.StockAlertFragment;
 import com.example.alvinlam.drawer.fragment.StockChartFragment;
 import com.example.alvinlam.drawer.fragment.StockDetailFragment;
 
@@ -31,13 +32,16 @@ public class StockDetailAdapter extends FragmentPagerAdapter {
             case 1:
                 StockChartFragment mChartFragment = new StockChartFragment();
                 return mChartFragment;
+            case 2:
+                StockAlertFragment mAlertFragment = new StockAlertFragment();
+                return mAlertFragment;
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -47,6 +51,8 @@ public class StockDetailAdapter extends FragmentPagerAdapter {
                 return mContext.getString(R.string.stock_detail);
             case 1:
                 return mContext.getString(R.string.stock_chart);
+            case 2:
+                return mContext.getString(R.string.stock_alert);
         }
         return null;
     }
