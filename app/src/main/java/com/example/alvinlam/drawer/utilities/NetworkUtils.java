@@ -1,5 +1,8 @@
 package com.example.alvinlam.drawer.utilities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
@@ -83,6 +86,27 @@ public class NetworkUtils {
         return url;
     }
 
+    public static boolean hasInternetConnection(Context mContext) {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo wifiNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (wifiNetwork != null && wifiNetwork.isConnected()) {
+            return true;
+        }
+
+        NetworkInfo mobileNetwork = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (mobileNetwork != null && mobileNetwork.isConnected()) {
+            return true;
+        }
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            return true;
+        }
+        return false;
+    }
+
+
 
     /**
      * This method returns the entire result from the HTTP response.
@@ -91,22 +115,33 @@ public class NetworkUtils {
      * @return The contents of the HTTP response.
      * @throws IOException Related to network and stream reading
      */
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        try {
-            InputStream in = urlConnection.getInputStream();
+    public static String getResponseFromHttpUrl(URL url, Context mContext) throws IOException {
+        int response = 0;
+        boolean internet = hasInternetConnection(mContext);
+        System.out.println(internet);
+        while(internet){
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
+            response = urlConnection.getResponseCode();
+            if(response == HttpURLConnection.HTTP_OK){
+                try {
+                    InputStream in = urlConnection.getInputStream();
 
-            boolean hasInput = scanner.hasNext();
-            if (hasInput) {
-                return scanner.next();
-            } else {
-                return null;
+                    Scanner scanner = new Scanner(in);
+                    scanner.useDelimiter("\\A");
+
+                    boolean hasInput = scanner.hasNext();
+                    if (hasInput) {
+                        return scanner.next();
+                    } else {
+                        return null;
+                    }
+                } finally {
+                    urlConnection.disconnect();
+                }
             }
-        } finally {
-            urlConnection.disconnect();
+
         }
+        return null;
     }
 }

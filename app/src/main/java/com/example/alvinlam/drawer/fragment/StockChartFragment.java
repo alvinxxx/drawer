@@ -48,8 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -65,6 +63,8 @@ public class StockChartFragment extends Fragment {
     private String date;
     private double price;
     private double netChange;
+    private static final String TAG = "StockChartFragment";
+
 
     public StockChartFragment() {
         // Required empty public constructor
@@ -147,10 +147,12 @@ public class StockChartFragment extends Fragment {
             Log.d(TAG, "doInBackground: "+searchUrl);
             String stockSearchResults = null;
             try {
-                stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-                String[][] fullJsonStockData = OpenStockJsonUtils.getChartDataFromJson(context, stockSearchResults);
-
-                return fullJsonStockData;
+                boolean internet = NetworkUtils.hasInternetConnection(context);
+                if(internet){
+                    stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl, context);
+                    String[][] fullJsonStockData = OpenStockJsonUtils.getChartDataFromJson(context, stockSearchResults);
+                    return fullJsonStockData;
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -163,40 +165,43 @@ public class StockChartFragment extends Fragment {
         @Override
         protected void onPostExecute(final String[][] parsedStockData) {
 
-            LineChart chart = (LineChart) rootView.findViewById(R.id.chart);
-            List<Entry> entries = new ArrayList<Entry>();
+            if(parsedStockData!=null){
+                LineChart chart = (LineChart) rootView.findViewById(R.id.chart);
+                List<Entry> entries = new ArrayList<Entry>();
 
-            float chartPrice = 0;
-            for (int i = 0; i<parsedStockData.length; i++) {
-                try{
-                    chartPrice =Float.parseFloat(parsedStockData[i][1]);
-                }catch(NumberFormatException e){
-                    Log.d(TAG, "onPostExecute: number format");
+                float chartPrice = 0;
+                for (int i = 0; i<parsedStockData.length; i++) {
+                    try{
+                        chartPrice =Float.parseFloat(parsedStockData[i][1]);
+                    }catch(NumberFormatException e){
+                        Log.d(TAG, "onPostExecute: number format");
+                    }
+                    // turn your data into Entry objects
+                    entries.add(new Entry(i, chartPrice));
                 }
-                // turn your data into Entry objects
-                entries.add(new Entry(i, chartPrice));
+
+                LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
+                dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+                LineData lineData = new LineData(dataSet);
+                chart.setData(lineData);
+                chart.invalidate(); // refresh
+
+
+                IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return parsedStockData[(int) value][0];
+                    }
+
+                };
+
+                XAxis xAxis = chart.getXAxis();
+                xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+                xAxis.setValueFormatter(formatter);
             }
 
-            LineDataSet dataSet = new LineDataSet(entries, "Label"); // add entries to dataset
-            dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-
-            LineData lineData = new LineData(dataSet);
-            chart.setData(lineData);
-            chart.invalidate(); // refresh
-
-
-            IAxisValueFormatter formatter = new IAxisValueFormatter() {
-
-                @Override
-                public String getFormattedValue(float value, AxisBase axis) {
-                    return parsedStockData[(int) value][0];
-                }
-
-            };
-
-            XAxis xAxis = chart.getXAxis();
-            xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
-            xAxis.setValueFormatter(formatter);
 
         }
     }

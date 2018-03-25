@@ -132,11 +132,13 @@ public class AddCardAddActivity extends AppCompatActivity {
             URL searchUrl = params[0];
             String stockSearchResults = null;
             try {
-                stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl);
-                String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(AddCardAddActivity.this, stockSearchResults);
+                boolean internet = NetworkUtils.hasInternetConnection(context);
+                if(internet) {
+                    stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl, context);
+                    String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(AddCardAddActivity.this, stockSearchResults);
 
-                return fullJsonStockData;
-
+                    return fullJsonStockData;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
