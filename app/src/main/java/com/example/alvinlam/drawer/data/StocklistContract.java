@@ -23,6 +23,33 @@ public class StocklistContract {
         public static final String COLUMN_VOLUME = "volume";
         public static final String COLUMN_TURNOVER = "turnover";
         public static final String COLUMN_LOT = "lot";
+        public static final String COLUMN_DY = "dy";
+        public static final String COLUMN_DPS = "dps";
+        public static final String COLUMN_EPS = "eps";
+        public static final String COLUMN_SMA20 = "sma20";
+        public static final String COLUMN_STD20 = "std20";
+        public static final String COLUMN_STD20L = "std20l";
+        public static final String COLUMN_STD20H = "std20h";
+        public static final String COLUMN_SMA50 = "sma50";
+        public static final String COLUMN_STD50 = "std50";
+        public static final String COLUMN_STD50L = "std50l";
+        public static final String COLUMN_STD50H = "std50h";
+        public static final String COLUMN_SMA100 = "sma100";
+        public static final String COLUMN_STD100 = "std100";
+        public static final String COLUMN_STD100L = "std100l";
+        public static final String COLUMN_STD100H = "std100h";
+        public static final String COLUMN_SMA250 = "sma250";
+        public static final String COLUMN_STD250 = "std250";
+        public static final String COLUMN_STD250L = "std250l";
+        public static final String COLUMN_STD250H = "std250h";
+        public static final String COLUMN_20L = "l20";
+        public static final String COLUMN_20H = "h20";
+        public static final String COLUMN_50L = "l50";
+        public static final String COLUMN_50H = "h50";
+        public static final String COLUMN_100L = "l100";
+        public static final String COLUMN_100H = "h100";
+        public static final String COLUMN_250L = "l250";
+        public static final String COLUMN_250H = "h250";
     }
 
 }

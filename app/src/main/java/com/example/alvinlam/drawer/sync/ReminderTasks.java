@@ -66,7 +66,7 @@ public class ReminderTasks {
                     boolean internet = NetworkUtils.hasInternetConnection(context);
                     if(internet){
                         stockSearchResults = NetworkUtils.getResponseFromHttpUrl(stockSearchUrl, context);
-                        String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(context, stockSearchResults);
+                        String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(stockSearchResults);
                         dbFunction.replaceByArray(fullJsonStockData);
                     }
                 } catch (IOException e) {

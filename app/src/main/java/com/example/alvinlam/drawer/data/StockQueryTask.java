@@ -44,7 +44,7 @@ public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
             boolean internet = NetworkUtils.hasInternetConnection(context);
             if(internet){
                 stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl, context);
-                String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(context, stockSearchResults);
+                String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(stockSearchResults);
                 return fullJsonStockData;
             }
         } catch (IOException e) {

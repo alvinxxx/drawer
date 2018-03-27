@@ -35,18 +35,19 @@ public class AddCardActivity extends AppCompatActivity{
     private StockDbFunction dbFunction;
 
     private long id = 0;
-    private String name;
+    private String name, date;
     private int code;
-    private String date;
-    private double price;
-    private double netChange;
-    private double pe;
-    private double high;
-    private double low;
-    private double preClose;
-    private double volume;
-    private double turnover;
-    private double lot;
+    private double price, netChange, pe, high, low, preClose, volume, turnover, lot,
+                    dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
+                    sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
+                    l20, h20, l50, h50, l100, h100, l250, h250;
+
+
+
+
+
+
+
     MenuItem mAdd,mDelete;
 
     @Override
@@ -140,20 +141,13 @@ public class AddCardActivity extends AppCompatActivity{
             dbFunction = new StockDbFunction(context);
             // Add guest info to mDb
             dbFunction.replace(
-                    id,
-                    name,
-                    code,
-                    date,
-                    price,
-                    netChange,
-                    pe,
-                    high,
-                    low,
-                    preClose,
-                    volume,
-                    turnover,
-                    lot
+                    id, name, code, date,
+                    price, netChange, pe, high, low, preClose, volume, turnover, lot,
+                    dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
+                    sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
+                    l20, h20, l50, h50, l100, h100, l250, h250
             );
+
             Toast.makeText(context,"Stock Added",Toast.LENGTH_LONG).show();
             mAdd.setVisible(false);
             mDelete.setVisible(true);

@@ -18,6 +18,7 @@ import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardActivity;
 import com.example.alvinlam.drawer.activity.AddCardAddActivity;
 import com.example.alvinlam.drawer.activity.MainActivity;
+import com.example.alvinlam.drawer.activity.StockAlertAddActivity;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
@@ -45,17 +46,17 @@ public class StockAlertFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.stock_alert_content_list, container, false);
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.main_fab);
-        /*fab.bringToFront();
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.stock_alert_fab);
+        fab.bringToFront();
 
         fab.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Class destinationClass = AddCardAddActivity.class;
-                Intent intentToStartAddCardActivity = new Intent(MainActivity.this, destinationClass);
+                Class destinationClass = StockAlertAddActivity.class;
+                Intent intentToStartAddCardActivity = new Intent(getActivity().getApplicationContext(), destinationClass);
                 startActivity(intentToStartAddCardActivity);
             }
-        });*/
+        });
 
         stockAlertListRecyclerView = (RecyclerView) rootView.findViewById(R.id.stock_alert_list_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());

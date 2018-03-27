@@ -2,7 +2,6 @@ package com.example.alvinlam.drawer.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,8 +15,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.example.alvinlam.drawer.R;
-import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.data.StockDbFunction;
+import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
 
@@ -27,21 +26,21 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class AddCardAddActivity extends AppCompatActivity {
+public class StockAlertAddActivity extends AppCompatActivity {
 
     private EditText mCodeEditText;
 
     private SQLiteDatabase mDb;
-    private final static String LOG_TAG = AddCardAddActivity.class.getSimpleName();
+    private final static String LOG_TAG = StockAlertAddActivity.class.getSimpleName();
     private StockDbFunction dbFunction;
     private ProgressBar mLoadingIndicator;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("addcardadd", "onCreate: "+"2");
+        Log.d("stockalertadd", "onCreate: "+"2");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_card_add_precontent);
+        setContentView(R.layout.stock_alert_read_precontent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
@@ -105,7 +104,7 @@ public class AddCardAddActivity extends AppCompatActivity {
         URL stockSearchUrlF = NetworkUtils.buildUrlF(stockQuery);
         URL stockSearchUrlT = NetworkUtils.buildUrlT(stockQuery);
 
-        new StockQueryTask(AddCardAddActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+        new StockQueryTask(StockAlertAddActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
 
 
     }
@@ -143,16 +142,12 @@ public class AddCardAddActivity extends AppCompatActivity {
                         stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl, context);
                         arrayJSONstring[i] = stockSearchResults;
 
-
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 i++;
             }
-            Log.d("addcard", "getFullStockDataFromArray2: "+arrayJSONstring[0]);
-            Log.d("addcard", "getFullStockDataFromArray2: "+arrayJSONstring[1]);
-            Log.d("addcard", "getFullStockDataFromArray2: "+arrayJSONstring[2]);
 
             String[] fullJsonStockData  = new String[0];
             try {

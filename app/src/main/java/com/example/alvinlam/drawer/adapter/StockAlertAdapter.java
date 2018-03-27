@@ -108,8 +108,8 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
             super(itemView);
             currentTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             conditionTextView = (TextView) itemView.findViewById(R.id.price_text_view);
-            expectTextView = (TextView) itemView.findViewById(R.id.net_change_text_view);
-            distanceTextView = (TextView) itemView.findViewById(R.id.net_change_text_view);
+            expectTextView = (TextView) itemView.findViewById(R.id.expect_text_view);
+            distanceTextView = (TextView) itemView.findViewById(R.id.distance_text_view);
             letter = (ImageView) itemView.findViewById(R.id.imageViewLetter);
             itemView.setOnClickListener(this);
         }
