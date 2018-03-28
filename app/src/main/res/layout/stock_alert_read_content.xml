@@ -9,6 +9,14 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:showIn="@layout/stock_alert_read_precontent">
 
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        tools:layout_editor_absoluteX="42dp"
+        tools:layout_editor_absoluteY="24dp" />
+
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -18,8 +26,8 @@
         android:layout_width="64dp"
         android:layout_height="33dp"
         android:text="Buy"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="82dp" />
 
     <RadioButton
         android:id="@+id/buttonSell"
@@ -27,7 +35,7 @@
         android:layout_height="33dp"
         android:text="Sell"
         tools:layout_editor_absoluteX="260dp"
-        tools:layout_editor_absoluteY="8dp" />
+        tools:layout_editor_absoluteY="82dp" />
 
     <TextView
         android:id="@+id/textViewCurrentResult"
@@ -35,7 +43,7 @@
         android:layout_height="wrap_content"
         android:text="Result"
         tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="63dp" />
+        tools:layout_editor_absoluteY="133dp" />
 
     <TextView
         android:id="@+id/textViewTargetResult"
@@ -43,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="Result"
         tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="220dp" />
+        tools:layout_editor_absoluteY="288dp" />
 
     <TextView
         android:id="@+id/textViewDistanceResult"
@@ -51,7 +59,7 @@
         android:layout_height="wrap_content"
         android:text="Result"
         tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="265dp" />
+        tools:layout_editor_absoluteY="333dp" />
 
     <TextView
         android:id="@+id/textViewOrder"
@@ -59,7 +67,7 @@
         android:layout_height="wrap_content"
         android:text="Order"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteY="87dp" />
 
     <TextView
         android:id="@+id/textViewCurrent"
@@ -67,7 +75,7 @@
         android:layout_height="wrap_content"
         android:text="Indicator"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="63dp" />
+        tools:layout_editor_absoluteY="133dp" />
 
     <TextView
         android:id="@+id/textViewWindow"
@@ -75,7 +83,7 @@
         android:layout_height="wrap_content"
         android:text="Window"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="162dp" />
+        tools:layout_editor_absoluteY="232dp" />
 
     <TextView
         android:id="@+id/textViewCondtion"
@@ -83,7 +91,7 @@
         android:layout_height="wrap_content"
         android:text="Condition"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="114dp" />
+        tools:layout_editor_absoluteY="197dp" />
 
     <TextView
         android:id="@+id/textViewDistance"
@@ -91,7 +99,7 @@
         android:layout_height="wrap_content"
         android:text="Distance"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="272dp" />
+        tools:layout_editor_absoluteY="342dp" />
 
     <TextView
         android:id="@+id/textViewTarget"
@@ -99,41 +107,49 @@
         android:layout_height="wrap_content"
         android:text="Target"
         tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="220dp" />
+        tools:layout_editor_absoluteY="288dp" />
 
     <Spinner
         android:id="@+id/spinnerCurrent"
         android:layout_width="123dp"
         android:layout_height="35dp"
         tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="56dp" />
+        tools:layout_editor_absoluteY="125dp" />
 
     <Spinner
         android:id="@+id/spinnerCondtion"
         android:layout_width="123dp"
         android:layout_height="35dp"
         tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="106dp" />
+        tools:layout_editor_absoluteY="181dp" />
 
     <Spinner
         android:id="@+id/spinnerWindow"
         android:layout_width="123dp"
         android:layout_height="35dp"
         tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="155dp" />
+        tools:layout_editor_absoluteY="230dp" />
 
     <Spinner
         android:id="@+id/spinnerWindow2"
         android:layout_width="123dp"
         android:layout_height="35dp"
         tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="211dp" />
+        tools:layout_editor_absoluteY="284dp" />
 
     <SeekBar
         android:id="@+id/seekBar2"
         android:layout_width="124dp"
         android:layout_height="36dp"
         tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="264dp" />
+        tools:layout_editor_absoluteY="333dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch"
+        tools:layout_editor_absoluteX="246dp"
+        tools:layout_editor_absoluteY="24dp" />
 
 </android.support.constraint.ConstraintLayout>

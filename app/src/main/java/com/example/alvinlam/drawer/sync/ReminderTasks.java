@@ -60,13 +60,19 @@ public class ReminderTasks {
                 //id_list[i] = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
                 id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
                 URL stockSearchUrl = NetworkUtils.buildUrl(String.valueOf(id));
+                URL stockSearchUrlF = NetworkUtils.buildUrlF(String.valueOf(id));
+                URL stockSearchUrlT = NetworkUtils.buildUrlT(String.valueOf(id));
 
-                String stockSearchResults = null;
+                String[] arrayJSONstring =  new String[3];
+
                 try {
                     boolean internet = NetworkUtils.hasInternetConnection(context);
                     if(internet){
-                        stockSearchResults = NetworkUtils.getResponseFromHttpUrl(stockSearchUrl, context);
-                        String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromJson(stockSearchResults);
+                        arrayJSONstring[0] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrl, context);
+                        arrayJSONstring[1] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlF, context);
+                        arrayJSONstring[2] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlT, context);
+
+                        String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
                         dbFunction.replaceByArray(fullJsonStockData);
                     }
                 } catch (IOException e) {
