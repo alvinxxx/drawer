@@ -63,7 +63,7 @@ public class StockAlertFragment extends Fragment {
         stockAlertListRecyclerView.setLayoutManager(layoutManager);
         stockAlertListRecyclerView.setHasFixedSize(true);
 
-        Intent intentThatStartedThisActivity = getActivity().getIntent();
+        //Intent intentThatStartedThisActivity = getActivity().getIntent();
 
 
 

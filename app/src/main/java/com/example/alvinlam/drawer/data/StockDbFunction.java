@@ -140,7 +140,6 @@ public class StockDbFunction {
                 sma100 = 0, std100 = 0, std100l = 0, std100h = 0, sma250 = 0, std250 = 0, std250l = 0, std250h = 0,
                 l20 = 0, h20 = 0, l50 = 0, h50 = 0, l100 = 0, h100 = 0, l250 = 0, h250 = 0;
 
-
         id = Long.parseLong(parsedStockData[1]);
         name = parsedStockData[0];
         code = Integer.parseInt(parsedStockData[1]);
@@ -247,7 +246,7 @@ public class StockDbFunction {
                 null,
                 StocklistContract.StocklistEntry.COLUMN_TIMESTAMP
         );
-        Log.d("stockdbfunc", "select: "+cursor);
+        //Log.d("stockdbfunc", "select: "+cursor);
 
         if (cursor == null) {
             return null;
