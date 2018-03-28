@@ -253,7 +253,7 @@ public class OpenStockJsonUtils {
 
 
         /* String array to hold stock String */
-        String[] parsedStockData = new String[100];
+        String[] parsedStockData = new String[39];
         parsedStockData[0] = name;
         parsedStockData[1] = code;
         parsedStockData[2] = date;

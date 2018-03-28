@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.StockDbFunction;
@@ -104,8 +105,13 @@ public class StockAlertAddActivity extends AppCompatActivity {
         URL stockSearchUrlF = NetworkUtils.buildUrlF(stockQuery);
         URL stockSearchUrlT = NetworkUtils.buildUrlT(stockQuery);
 
-        new StockQueryTask(StockAlertAddActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
-
+        boolean internet = NetworkUtils.hasInternetConnection(this);
+        if(internet) {
+            new StockQueryTask(StockAlertAddActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+        }else{
+            //no internet toast
+            Toast.makeText(StockAlertAddActivity.this,"No internet",Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -131,32 +137,31 @@ public class StockAlertAddActivity extends AppCompatActivity {
 
         @Override
         protected String[] doInBackground(URL... params) {
-            String[] arrayJSONstring =  new String[params.length];
-            int i =0;
-            for(URL searchUrl : params){
-                String stockSearchResults = null;
-
-                try {
-                    boolean internet = NetworkUtils.hasInternetConnection(context);
-                    if(internet) {
+            boolean internet = NetworkUtils.hasInternetConnection(context);
+            if(internet) {
+                String[] arrayJSONstring = new String[params.length];
+                int i = 0;
+                for (URL searchUrl : params) {
+                    String stockSearchResults = null;
+                    try {
                         stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl, context);
                         arrayJSONstring[i] = stockSearchResults;
-
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
+                    i++;
+                }
+
+                String[] fullJsonStockData = new String[1];
+                try {
+                    fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                i++;
-            }
 
-            String[] fullJsonStockData  = new String[0];
-            try {
-                fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                return fullJsonStockData;
             }
-
-            return fullJsonStockData;
+            return null;
         }
 
         @Override

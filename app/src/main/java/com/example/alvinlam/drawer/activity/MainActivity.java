@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
@@ -126,9 +127,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // attach the ItemTouchHelper
         }).attachToRecyclerView(cardlistRecyclerView);
 
-        // COMPLETED (23) Schedule the charging reminder
-        ReminderUtilities.scheduleQueryReminder(this);
 
+        boolean internet = NetworkUtils.hasInternetConnection(this);
+        if(internet) {
+            // COMPLETED (23) Schedule the charging reminder
+            ReminderUtilities.scheduleQueryReminder(this);
+        }else{
+            //no internet toast
+            Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -172,7 +179,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 URL stockSearchUrl = NetworkUtils.buildUrl(s);
-                new StockQueryTask(MainActivity.this).execute(stockSearchUrl);
+                URL stockSearchUrlF = NetworkUtils.buildUrlF(s);
+                URL stockSearchUrlT = NetworkUtils.buildUrlT(s);
+
+                boolean internet = NetworkUtils.hasInternetConnection(MainActivity.this);
+                if(internet) {
+                    new StockQueryTask(MainActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+                }else{
+                    //no internet toast
+                    Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();
+                }
 
 
 //                cursor= dbFunction.selectByName(s);
@@ -209,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /**
     private void openLocationInMap() {
         String addressString = "1600 Ampitheatre Parkway, CA";
         Uri geoLocation = Uri.parse("geo:0,0?q=" + addressString);
@@ -222,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "Couldn't call " + geoLocation.toString()
                     + ", no receiving apps installed!");
         }
-    }
+    }**/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -235,8 +252,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mAdapter = new CardlistAdapter(this, cursor, this);
                 cardlistRecyclerView.setAdapter(mAdapter);
                 return true;
-            case R.id.action_map:
-                openLocationInMap();
+            //case R.id.action_map:
+                //openLocationInMap();
         }
 
         return super.onOptionsItemSelected(item);
