@@ -25,7 +25,6 @@ import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardAddActivity;
 import com.example.alvinlam.drawer.activity.MainActivity;
 import com.example.alvinlam.drawer.activity.SearchResultStockActivity;
-import com.example.alvinlam.drawer.data.Stock;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StockQueryTask;
 import com.example.alvinlam.drawer.data.StocklistContract;
