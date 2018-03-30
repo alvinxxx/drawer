@@ -13,7 +13,7 @@ import com.example.alvinlam.drawer.data.StocklistContract.*;
 public class StocklistDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "stocklist.db";
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 16;
 
     public StocklistDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -23,7 +23,7 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         final String SQL_CREATE_STOCKLIST_TABLE = "CREATE TABLE " + StocklistEntry.TABLE_NAME + " (" +
-                StocklistEntry._ID + " INTEGER PRIMARY KEY," +
+                StocklistEntry._ID + " INTEGER PRIMARY KEY, " +
                 StocklistEntry.COLUMN_NAME + " TEXT NOT NULL, " +
                 StocklistEntry.COLUMN_CODE + " INTEGER NOT NULL UNIQUE, " +
                 StocklistEntry.COLUMN_DATE + " TEXT NOT NULL, " +
@@ -67,6 +67,23 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
                 "); ";
 
         sqLiteDatabase.execSQL(SQL_CREATE_STOCKLIST_TABLE);
+
+        final String SQL_CREATE_STOCKALERT_TABLE = "CREATE TABLE " + StockAlertEntry.TABLE_NAME + " (" +
+                StockAlertEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                StockAlertEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_CODE + " INTEGER NOT NULL, " +
+                StockAlertEntry.COLUMN_ACTIVE + " INTEGER NOT NULL, " +
+                StockAlertEntry.COLUMN_BUY + " INTEGER NOT NULL, " +
+                StockAlertEntry.COLUMN_INDICATOR + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_CONDITION + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_WINDOW + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_TARGET + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_DISTANCE + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                "); ";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_STOCKALERT_TABLE);
+
     }
 
     @Override
@@ -76,6 +93,8 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
         // In a production app, this method might be modified to ALTER the table
         // instead of dropping it, so that existing data is not deleted.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StocklistEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StockAlertEntry.TABLE_NAME);
+
         onCreate(sqLiteDatabase);
     }
 }

@@ -27,29 +27,24 @@
     <string name="stock_notification_title">StockAlertMe</string>
     <string name="stock_notification_body">Check out the stock recommendation</string>
 
-    <string-array name="indicator">
+    <string-array name="array_indicator">
         <item>Price</item>
         <item>Dividend Yield</item>
         <item>PE</item>
     </string-array>
 
-    <string-array name="condition">
+    <string-array name="array_condition">
         <item>Less than \u003c</item>
         <item>Greater than \u003e</item>
         <item>Equal \u003d</item>
     </string-array>
 
-    <string-array name="window">
+    <string-array name="array_window">
         <item>20</item>
         <item>50</item>
         <item>100</item>
         <item>250</item>
     </string-array>
 
-    <string-array name="target">
-        <item>SMA</item>
-        <item>Low</item>
-        <item>High</item>
-    </string-array>
 
 </resources>

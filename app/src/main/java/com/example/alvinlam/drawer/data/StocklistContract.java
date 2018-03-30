@@ -52,4 +52,17 @@ public class StocklistContract {
         public static final String COLUMN_250H = "h250";
     }
 
+    public static final class StockAlertEntry implements BaseColumns {
+        public static final String TABLE_NAME = "stockAlert";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_CODE = "code";
+        public static final String COLUMN_ACTIVE = "active";
+        public static final String COLUMN_BUY = "buy";
+        public static final String COLUMN_INDICATOR = "indicator";
+        public static final String COLUMN_CONDITION = "condition";
+        public static final String COLUMN_WINDOW = "window";
+        public static final String COLUMN_TARGET = "target";
+        public static final String COLUMN_DISTANCE = "distance";
+    }
 }

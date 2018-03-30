@@ -11,11 +11,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
@@ -27,14 +36,18 @@ import java.io.IOException;
 import java.net.URL;
 
 
-public class StockAlertAddActivity extends AppCompatActivity {
+public class StockAlertAddActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText mCodeEditText;
 
-    private SQLiteDatabase mDb;
+    //private SQLiteDatabase mDb;
     private final static String LOG_TAG = StockAlertAddActivity.class.getSimpleName();
-    private StockDbFunction dbFunction;
-    private ProgressBar mLoadingIndicator;
+    private StockAlertDbFunction dbFunction;
+
+    private Switch switchActive;
+    private RadioButton buttonBuy, buttonSell;
+    private Spinner spinnerCurrent, spinnerCondition, spinnerWindow;
+    private AutoCompleteTextView autoCompleteTextViewTarget, autoCompleteTextViewDistance;
+    private TextView textViewACode, textViewAName, textViewCurrentResult, textViewWindowResult, textViewDistanceResult, textViewFinalResult;
 
 
     @Override
@@ -51,12 +64,58 @@ public class StockAlertAddActivity extends AppCompatActivity {
         }
 
         StocklistDbHelper dbHelper = new StocklistDbHelper(this);
-        dbFunction = new StockDbFunction(this);
-        mDb = dbHelper.getWritableDatabase();
+        dbFunction = new StockAlertDbFunction(this);
+        //mDb = dbHelper.getWritableDatabase();
 
-        mCodeEditText = (EditText) this.findViewById(R.id.add_code_editText);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        textViewACode = (TextView) this.findViewById(R.id.textViewACode);
+        textViewAName = (TextView) this.findViewById(R.id.textViewAName);
+        switchActive = (Switch) this.findViewById(R.id.switchActive);
+        buttonBuy = (RadioButton) this.findViewById(R.id.buttonBuy);
+        buttonSell = (RadioButton) this.findViewById(R.id.buttonSell);
+        spinnerCurrent = (Spinner) this.findViewById(R.id.spinnerCurrent);
+        spinnerCondition = (Spinner) this.findViewById(R.id.spinnerCondtion);
+        spinnerWindow = (Spinner) this.findViewById(R.id.spinnerWindow);
+        autoCompleteTextViewTarget = (AutoCompleteTextView) this.findViewById(R.id.autoCompleteTextViewTarget);
+        autoCompleteTextViewDistance = (AutoCompleteTextView) this.findViewById(R.id.autoCompleteTextViewDistance);
+        textViewCurrentResult = (TextView) this.findViewById(R.id.textViewCurrentResult);
+        textViewWindowResult = (TextView) this.findViewById(R.id.textViewWindowResult);
+        textViewDistanceResult = (TextView) this.findViewById(R.id.textViewDistanceResult);
+        textViewFinalResult = (TextView) this.findViewById(R.id.textViewFinalResult);
 
+        ArrayAdapter<CharSequence> adapterCurrent = ArrayAdapter.createFromResource(this,
+                R.array.array_indicator, android.R.layout.simple_spinner_item);
+        adapterCurrent.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCurrent.setAdapter(adapterCurrent);
+        spinnerCurrent.setSelection(adapterCurrent.getPosition("Price"));
+        spinnerCurrent.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapterCondition = ArrayAdapter.createFromResource(this,
+                R.array.array_condition, android.R.layout.simple_spinner_item);
+        adapterCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCondition.setAdapter(adapterCondition);
+        spinnerCondition.setSelection(adapterCondition.getPosition("Less than \\u003c"));
+        spinnerCondition.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapterWindow = ArrayAdapter.createFromResource(this,
+                R.array.array_window, android.R.layout.simple_spinner_item);
+        adapterWindow.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWindow.setAdapter(adapterWindow);
+        spinnerWindow.setSelection(adapterWindow.getPosition("20"));
+        spinnerWindow.setOnItemSelectedListener(this);
+
+        String[] array_target = {"SMA", "Low", "High"};
+
+        ArrayAdapter<String> adapterTarget = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, array_target);
+        autoCompleteTextViewTarget.setThreshold(1);//will start working from first character
+        autoCompleteTextViewTarget.setAdapter(adapterTarget);//setting the adapter data into the AutoCompleteTextView
+
+        String[] array_distance = {"-1STD", "-2STD", "1STD", "2STD"};
+
+        ArrayAdapter<String> adapterDistance = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, array_distance);
+        autoCompleteTextViewTarget.setThreshold(1);//will start working from first character
+        autoCompleteTextViewTarget.setAdapter(adapterDistance);//setting the adapter data into the AutoCompleteTextView
     }
 
     @Override
@@ -64,6 +123,41 @@ public class StockAlertAddActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.add_card_add_toolbar_menu, menu);
         return true;
+    }
+
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+                               int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        switch (parent.getId()){
+            case R.id.spinnerCurrent:
+                //cursor: Get current indicator
+
+                //setText of textview
+
+                //Do something
+                Toast.makeText(this, "Current Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.spinnerCondtion:
+                //Do another thing
+                Toast.makeText(this, "Condition Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.spinnerWindow:
+                //cursor: Get current indicator
+
+                //setText of textview Window
+
+                //setText of textview FinalResult
+
+                //Do another thing
+                Toast.makeText(this, "Window Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // Another interface callback
     }
 
     @Override
@@ -75,7 +169,7 @@ public class StockAlertAddActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_send) {
-            addToCardlist();
+            addToStockAlert();
 
             return true;
         }else if (lid == android.R.id.home) {
@@ -89,156 +183,36 @@ public class StockAlertAddActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void addToCardlist() {
-        if (mCodeEditText.getText().length() == 0) {
-            return;
-        }
-
+    public void addToStockAlert() {
+        //get the output
+        String name = textViewAName.getText().toString();
+        int code = 0;
         try {
-            int code = Integer.parseInt(mCodeEditText.getText().toString());
+            code = Integer.parseInt(textViewACode.getText().toString());
         } catch (NumberFormatException ex) {
             Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
         }
 
-        String stockQuery = mCodeEditText.getText().toString();
-        URL stockSearchUrl = NetworkUtils.buildUrl(stockQuery);
-        URL stockSearchUrlF = NetworkUtils.buildUrlF(stockQuery);
-        URL stockSearchUrlT = NetworkUtils.buildUrlT(stockQuery);
+        boolean activeBoolean = switchActive.isChecked();
+        int active = 0;
+        if(activeBoolean){active = 1;}
+        boolean buyBoolean = buttonBuy.isChecked();
+        int buy = 0;
+        if(buyBoolean){buy = 1;}
 
-        boolean internet = NetworkUtils.hasInternetConnection(this);
-        if(internet) {
-            new StockQueryTask(StockAlertAddActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
-        }else{
-            //no internet toast
-            Toast.makeText(StockAlertAddActivity.this,"No internet",Toast.LENGTH_LONG).show();
-        }
+
+        String current = spinnerCurrent.getSelectedItem().toString();
+        String condition = spinnerCondition.getSelectedItem().toString();
+        String target = autoCompleteTextViewTarget.getText().toString();
+        String window = spinnerWindow.getSelectedItem().toString();
+        String distance = autoCompleteTextViewDistance.getText().toString();
+
+        //send to db
+        dbFunction.insert(name, code, active, buy, current, condition,
+                window, target, distance);
 
     }
 
-    public Double checkDouble(String value){
-        if (value.equals("null"))
-            return 0.0;
-        else
-            return Double.parseDouble(value);
-    }
-
-    public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
-
-        Context context;
-        private StockQueryTask(Context context) {
-            this.context = context.getApplicationContext();
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected String[] doInBackground(URL... params) {
-            boolean internet = NetworkUtils.hasInternetConnection(context);
-            if(internet) {
-                String[] arrayJSONstring = new String[params.length];
-                int i = 0;
-                for (URL searchUrl : params) {
-                    String stockSearchResults = null;
-                    try {
-                        stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl, context);
-                        arrayJSONstring[i] = stockSearchResults;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    i++;
-                }
-
-                String[] fullJsonStockData = new String[1];
-                try {
-                    fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return fullJsonStockData;
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String[] parsedStockData) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-
-            long id;
-            String name;
-            int code = 0;
-            String date;
-            double price, netChange, pe, high, low, preClose, volume, turnover, lot,
-                    dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
-                    sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
-                    l20, h20, l50, h50, l100, h100, l250, h250;
-
-            id = Long.parseLong(parsedStockData[1]);
-            name = parsedStockData[0];
-            code = Integer.parseInt(parsedStockData[1]);
-            date = parsedStockData[2];
-
-            price = checkDouble(parsedStockData[3]);
-            netChange =  checkDouble(parsedStockData[4]);
-            pe =  checkDouble(parsedStockData[5]);
-            high =  checkDouble(parsedStockData[6]);
-            low =  checkDouble(parsedStockData[7]);
-            preClose =  checkDouble(parsedStockData[8]);
-            volume =  checkDouble(parsedStockData[9]);
-            turnover =  checkDouble(parsedStockData[10]);
-            lot =  checkDouble(parsedStockData[11]);
-            dy = checkDouble(parsedStockData[12]);
-            dps =  checkDouble(parsedStockData[13]);
-            eps =  checkDouble(parsedStockData[14]);
-            sma20 =  checkDouble(parsedStockData[15]);
-            std20 =  checkDouble(parsedStockData[16]);
-            std20l =  checkDouble(parsedStockData[17]);
-            std20h =  checkDouble(parsedStockData[18]);
-            sma50 =  checkDouble(parsedStockData[19]);
-            std50 =  checkDouble(parsedStockData[20]);
-            std50l =  checkDouble(parsedStockData[21]);
-            std50h =  checkDouble(parsedStockData[22]);
-            sma100 =  checkDouble(parsedStockData[23]);
-            std100 =  checkDouble(parsedStockData[24]);
-            std100l =  checkDouble(parsedStockData[25]);
-            std100h =  checkDouble(parsedStockData[26]);
-            sma250 =  checkDouble(parsedStockData[27]);
-            std250 =  checkDouble(parsedStockData[28]);
-            std250l =  checkDouble(parsedStockData[29]);
-            std250h =  checkDouble(parsedStockData[30]);
-            l20 =  checkDouble(parsedStockData[31]);
-            h20 =  checkDouble(parsedStockData[32]);
-            l50 =  checkDouble(parsedStockData[33]);
-            h50 =  checkDouble(parsedStockData[34]);
-            l100 =  checkDouble(parsedStockData[35]);
-            h100 =  checkDouble(parsedStockData[36]);
-            l250 =  checkDouble(parsedStockData[37]);
-            h250 =  checkDouble(parsedStockData[38]);
-
-
-
-            // Add guest info to mDb
-            dbFunction.replace(
-                    id, name, code, date,
-                    price, netChange, pe, high, low, preClose, volume, turnover, lot,
-                    dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
-                    sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
-                    l20, h20, l50, h50, l100, h100, l250, h250
-            );
-
-            //activity.startActivity(new Intent(activity, BuiltInCamera.class));
-
-            //Context context = this;
-            Class destinationClass = MainActivity.class;
-            Intent intentToStartActivity = new Intent(context, destinationClass);
-            context.startActivity(intentToStartActivity);
-
-        }
-    }
 
 
 

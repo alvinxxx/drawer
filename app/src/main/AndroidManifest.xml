@@ -53,6 +53,16 @@
                 android:value=".activity.MainActivity" />
         </activity>
         <activity
+            android:name=".activity.StockAlertAddActivity"
+            android:label="@string/stock_alert"
+            android:parentActivityName=".activity.AddCardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.AddCardActivity" />
+        </activity>
+
+
+        <activity
             android:name=".activity.MyCardActivity"
             android:label="@string/my_card">
         </activity>
@@ -76,11 +86,6 @@
             android:name=".activity.SettingActivity"
             android:label="@string/action_settings">
         </activity>
-
-        <provider
-            android:name="com.example.alvinlam.drawer.data.StockContentProvider"
-            android:authorities="com.example.alvinlam.drawer"
-            android:exported="false"/>
 
         <!--This is required for immediate syncs -->
         <service

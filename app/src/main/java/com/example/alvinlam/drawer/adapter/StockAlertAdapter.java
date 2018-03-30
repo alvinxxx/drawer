@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -54,19 +55,24 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
 
         if (!mCursor.moveToPosition(position))
             return;
-        long id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
-        String name = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
-        Double price = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
-        Double netChange = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
+        long id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StockAlertEntry._ID));
+        int buy = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_BUY));
+
+        int code = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CODE));
+        String current = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_INDICATOR));
+        String condition = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CONDITION));
+        String target = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_TARGET));
+        String distance = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
 
         holder.itemView.setTag(id);
-        holder.currentTextView.setText(name);
-        holder.conditionTextView.setText(String.format(Locale.getDefault(), "%.2f", price));
-        holder.expectTextView.setText(String.format(Locale.getDefault(), "%.2f", netChange));
-        holder.distanceTextView.setText(String.format(Locale.getDefault(), "%.2f", netChange));
+        holder.codeTextView.setText(String.format(Locale.getDefault(), "%04d", code));
+        holder.currentTextView.setText(current);
+        holder.conditionTextView.setText(condition);
+        holder.expectTextView.setText(target);
+        holder.distanceTextView.setText(distance);
 
         //        Get the first letter of list item
-        letter = String.valueOf(name.charAt(0));
+        letter = String.valueOf(buy);
         int color = generator.getColor(letter);
 
         //        Create a new TextDrawable for our image's background
@@ -97,20 +103,25 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
 
     class StockAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView codeTextView;
         TextView currentTextView;
         TextView conditionTextView;
         TextView expectTextView;
         TextView distanceTextView;
 
         ImageView letter;
+        Switch alertSwitch;
 
         public StockAlertViewHolder(View itemView) {
             super(itemView);
-            currentTextView = (TextView) itemView.findViewById(R.id.name_text_view);
-            conditionTextView = (TextView) itemView.findViewById(R.id.price_text_view);
-            expectTextView = (TextView) itemView.findViewById(R.id.expect_text_view);
-            distanceTextView = (TextView) itemView.findViewById(R.id.distance_text_view);
-            letter = (ImageView) itemView.findViewById(R.id.imageViewLetter);
+            alertSwitch = (Switch) itemView.findViewById(R.id.switchAlert);
+
+            codeTextView = (TextView) itemView.findViewById(R.id.codeATextView);
+            currentTextView = (TextView) itemView.findViewById(R.id.currentATextView);
+            conditionTextView = (TextView) itemView.findViewById(R.id.conditionATextView);
+            expectTextView = (TextView) itemView.findViewById(R.id.expectATextView);
+            distanceTextView = (TextView) itemView.findViewById(R.id.distanceATextView);
+            letter = (ImageView) itemView.findViewById(R.id.imageViewALetter);
             itemView.setOnClickListener(this);
         }
 

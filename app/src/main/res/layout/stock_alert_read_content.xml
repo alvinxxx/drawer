@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/add_card_read_content"
+    android:id="@+id/stock_alert_read_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -10,146 +10,234 @@
     tools:showIn="@layout/stock_alert_read_precontent">
 
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/textViewFinalResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:text="Result"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDistanceResult"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewACode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="Name"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="24dp" />
+        app:layout_constraintBottom_toTopOf="@+id/textViewOrder"
+        app:layout_constraintEnd_toStartOf="@+id/switchActive"
+        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintStart_toEndOf="@+id/textViewACode"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Switch
+        android:id="@+id/switchActive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:checked="true"/>
 
     <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/radioGroup"
+        android:layout_width="196dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="24dp"
+        android:orientation='horizontal'
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switchActive">
 
-    <RadioButton
-        android:id="@+id/buttonBuy"
-        android:layout_width="64dp"
-        android:layout_height="33dp"
-        android:text="Buy"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="82dp" />
+        <RadioButton
+            android:id="@+id/buttonBuy"
+            android:layout_width="64dp"
+            android:layout_height="33dp"
+            android:text="Buy"
+            app:layout_constraintStart_toEndOf="@+id/textViewOrder"
+            app:layout_constraintTop_toTopOf="parent"
+            android:checked = "true"/>
 
-    <RadioButton
-        android:id="@+id/buttonSell"
-        android:layout_width="68dp"
-        android:layout_height="33dp"
-        android:text="Sell"
-        tools:layout_editor_absoluteX="260dp"
-        tools:layout_editor_absoluteY="82dp" />
+        <RadioButton
+            android:id="@+id/buttonSell"
+            android:layout_width="69dp"
+            android:layout_height="33dp"
+            android:text="Sell"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.675"
+            app:layout_constraintStart_toEndOf="@+id/buttonBuy"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/textViewCurrentResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
         android:text="Result"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="133dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toEndOf="@+id/spinnerCurrent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <TextView
-        android:id="@+id/textViewTargetResult"
+        android:id="@+id/textViewWindowResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
         android:text="Result"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="288dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintStart_toEndOf="@+id/spinnerWindow"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewTarget" />
 
     <TextView
         android:id="@+id/textViewDistanceResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
         android:text="Result"
-        tools:layout_editor_absoluteX="289dp"
-        tools:layout_editor_absoluteY="333dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintStart_toEndOf="@+id/autoCompleteTextViewDistance"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerWindow" />
 
     <TextView
         android:id="@+id/textViewOrder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:text="Order"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="87dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewACode" />
 
     <TextView
         android:id="@+id/textViewCurrent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:text="Indicator"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="133dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOrder" />
 
     <TextView
         android:id="@+id/textViewWindow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:text="Window"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="232dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTarget" />
 
     <TextView
         android:id="@+id/textViewCondtion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:text="Condition"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="197dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCurrent" />
 
     <TextView
         android:id="@+id/textViewDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:text="Distance"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="342dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewWindow" />
 
     <TextView
         android:id="@+id/textViewTarget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
         android:text="Target"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="288dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCondtion" />
 
     <Spinner
         android:id="@+id/spinnerCurrent"
         android:layout_width="123dp"
         android:layout_height="35dp"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="125dp" />
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewCurrent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <Spinner
         android:id="@+id/spinnerCondtion"
         android:layout_width="123dp"
         android:layout_height="35dp"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="181dp" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.316"
+        app:layout_constraintStart_toEndOf="@+id/textViewCondtion"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCurrent" />
 
     <Spinner
         android:id="@+id/spinnerWindow"
         android:layout_width="123dp"
         android:layout_height="35dp"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="230dp" />
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewWindow"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewTarget" />
 
-    <Spinner
-        android:id="@+id/spinnerWindow2"
-        android:layout_width="123dp"
-        android:layout_height="35dp"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="284dp" />
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextViewTarget"
+        android:layout_width="127dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toEndOf="@+id/textViewTarget"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerCondtion" />
 
-    <SeekBar
-        android:id="@+id/seekBar2"
-        android:layout_width="124dp"
-        android:layout_height="36dp"
-        tools:layout_editor_absoluteX="140dp"
-        tools:layout_editor_absoluteY="333dp" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Switch"
-        tools:layout_editor_absoluteX="246dp"
-        tools:layout_editor_absoluteY="24dp" />
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextViewDistance"
+        android:layout_width="127dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@+id/textViewDistance"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerWindow" />
 
 </android.support.constraint.ConstraintLayout>
