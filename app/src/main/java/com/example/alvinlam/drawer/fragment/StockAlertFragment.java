@@ -40,11 +40,13 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
     private static final String SHARE_HASHTAG = " #PocketCard";
 
     private RecyclerView stockAlertListRecyclerView;
-    private StockAlertDbFunction dbFunction;
+    private StockDbFunction dbFunction;
+    private StockAlertDbFunction dbAFunction;
     private SQLiteDatabase mDb;
     private Cursor cursor;
     private StockAlertAdapter mAdapter;
 
+    private long id = 0;
 
     public StockAlertFragment() {
         // Required empty public constructor
@@ -74,25 +76,35 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
         stockAlertListRecyclerView.setLayoutManager(layoutManager);
         stockAlertListRecyclerView.setHasFixedSize(true);
 
-        StocklistDbHelper dbHelper = new StocklistDbHelper(getActivity().getApplicationContext());
-        dbFunction = new StockAlertDbFunction(getActivity().getApplicationContext());
-        mDb = dbHelper.getWritableDatabase();
+        dbFunction = new StockDbFunction(getActivity().getApplicationContext());
+        dbAFunction = new StockAlertDbFunction(getActivity().getApplicationContext());
 
-        if(cursor == null){
+        Intent intentThatStartedThisActivity = getActivity().getIntent();
 
-            StockAlertTestUtil.insertFakeData(mDb);
-            cursor = dbFunction.select();
+        if (intentThatStartedThisActivity != null) {
+            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_UID)) {
+                id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_UID, 0);
+
+                cursor = dbFunction.selectByID(id);
+                int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+
+                cursor = dbAFunction.selectByCode(code);
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                }
+            }else if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
+                //String[] parsedStockData = intentThatStartedThisActivity.getStringArrayExtra(Intent.EXTRA_TEXT);
+
+            }
         }
-
-        cursor = dbFunction.select();
 
         if(cursor != null){
             mAdapter = new StockAlertAdapter(getActivity().getApplicationContext(), cursor, this);
             stockAlertListRecyclerView.setAdapter(mAdapter);
         }
 
-        //Intent intentThatStartedThisActivity = getActivity().getIntent();
-// Create an item touch helper to handle swiping items off the list
+
+        // Create an item touch helper to handle swiping items off the list
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
             // Override onMove and simply return false inside
@@ -109,9 +121,9 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
                 //get the id of the item being swiped
                 long id = (long) viewHolder.itemView.getTag();
                 //remove from DB
-                dbFunction.delete(id);
+                dbAFunction.delete(id);
                 //update the list
-                mAdapter.swapCursor(dbFunction.select());
+                mAdapter.swapCursor(dbAFunction.select());
             }
 
             // attach the ItemTouchHelper
@@ -129,7 +141,7 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
         Class destinationClass = StockAlertAddActivity.class;
 
         long id = (long) v.getTag();
-        //Log.i(TAG, "0 "+id);
+        Log.i(TAG, "onclick "+id);
 
         Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
         intentToStartAddCardActivity.putExtra(Intent.EXTRA_UID, id);

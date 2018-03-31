@@ -72,7 +72,9 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
         holder.distanceTextView.setText(distance);
 
         //        Get the first letter of list item
-        letter = String.valueOf(buy);
+        if(buy == 1){ letter = "B";}
+        else{letter="S";}
+        //letter = String.valueOf(buy);
         int color = generator.getColor(letter);
 
         //        Create a new TextDrawable for our image's background

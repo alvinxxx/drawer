@@ -34,9 +34,9 @@
     </string-array>
 
     <string-array name="array_condition">
-        <item>Less than \u003c</item>
-        <item>Greater than \u003e</item>
-        <item>Equal \u003d</item>
+        <item>Less than</item>
+        <item>Greater than</item>
+        <item>Equal to</item>
     </string-array>
 
     <string-array name="array_window">

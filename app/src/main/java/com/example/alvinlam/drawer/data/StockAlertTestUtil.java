@@ -28,7 +28,7 @@ public class StockAlertTestUtil {
         cv.put(StocklistContract.StockAlertEntry.COLUMN_ACTIVE, 1); //active?
         cv.put(StocklistContract.StockAlertEntry.COLUMN_BUY, 1); //buy
         cv.put(StocklistContract.StockAlertEntry.COLUMN_INDICATOR, "Price");
-        cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, "Less than \\u003c");
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, "Less than <");
         cv.put(StocklistContract.StockAlertEntry.COLUMN_WINDOW, 20);
         cv.put(StocklistContract.StockAlertEntry.COLUMN_TARGET, "SMA");
         cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, "-2STD");
@@ -41,10 +41,10 @@ public class StockAlertTestUtil {
         cv.put(StocklistContract.StockAlertEntry.COLUMN_ACTIVE, 1); //active?
         cv.put(StocklistContract.StockAlertEntry.COLUMN_BUY, 0); //sell
         cv.put(StocklistContract.StockAlertEntry.COLUMN_INDICATOR, "Price");
-        cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, "Less than \\u003c");
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, "Greater than >");
         cv.put(StocklistContract.StockAlertEntry.COLUMN_WINDOW, 20);
         cv.put(StocklistContract.StockAlertEntry.COLUMN_TARGET, "SMA");
-        cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, "-2STD");
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, "2STD");
         list.add(cv);
 
         //insert all guests in one transaction

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.StockDetailAdapter;
+import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 import com.example.alvinlam.drawer.fragment.StockDetailFragment;
@@ -33,6 +34,7 @@ public class AddCardActivity extends AppCompatActivity{
 
     private Cursor cursor;
     private StockDbFunction dbFunction;
+    private StockAlertDbFunction dbAFunction;
 
     private long id = 0;
     private String name, date;
@@ -41,12 +43,6 @@ public class AddCardActivity extends AppCompatActivity{
                     dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
                     l20, h20, l50, h50, l100, h100, l250, h250;
-
-
-
-
-
-
 
     MenuItem mAdd,mDelete;
 
@@ -63,7 +59,7 @@ public class AddCardActivity extends AppCompatActivity{
         }
 
         dbFunction = new StockDbFunction(getApplicationContext());
-
+        dbAFunction = new StockAlertDbFunction(getApplicationContext());
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
@@ -147,6 +143,9 @@ public class AddCardActivity extends AppCompatActivity{
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
                     l20, h20, l50, h50, l100, h100, l250, h250
             );
+            //add default alert for each stock
+            dbAFunction.insert(name, code, 1);
+            dbAFunction.insert(name, code, 0);
 
             Toast.makeText(context,"Stock Added",Toast.LENGTH_LONG).show();
             mAdd.setVisible(false);
@@ -156,6 +155,7 @@ public class AddCardActivity extends AppCompatActivity{
 
         }else if (lid == R.id.action_delete) {
             dbFunction.delete(id);
+            dbAFunction.deleteByCode(code);
             Toast.makeText(context,"Stock Deleted",Toast.LENGTH_LONG).show();
             mAdd.setVisible(true);
             mDelete.setVisible(false);

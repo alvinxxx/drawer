@@ -22,11 +22,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
+import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockQueryTask;
+import com.example.alvinlam.drawer.data.StocklistContract;
 import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.sync.ReminderUtilities;
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView cardlistRecyclerView;
     private SQLiteDatabase mDb;
     private StockDbFunction dbFunction;
+    private StockAlertDbFunction dbAFunction;
 
     private Cursor cursor;
 
@@ -118,8 +122,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //Inside, get the viewHolder's itemView's tag and store in a long variable id
                 //get the id of the item being swiped
                 long id = (long) viewHolder.itemView.getTag();
+                //String codeString = ((TextView) viewHolder.itemView.findViewById(R.id.codeATextView)).getText().toString();
+                //int code = Integer.parseInt(codeString);
+                cursor = dbFunction.selectByID(id);
+                int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+
                 //remove from DB
                 dbFunction.delete(id);
+                dbAFunction.deleteByCode(code);
                 //update the list
                 mAdapter.swapCursor(dbFunction.select());
             }

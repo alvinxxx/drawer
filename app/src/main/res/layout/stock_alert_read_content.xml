@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/stock_alert_read_content"
+    android:id="@+id/stock_alert_read0_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -98,6 +98,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         android:text="Result"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toEndOf="@+id/spinnerCurrent"
@@ -109,10 +110,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="28dp"
         android:text="Result"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toEndOf="@+id/spinnerWindow"
         app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewTarget" />
 
@@ -122,10 +124,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="32dp"
         android:text="Result"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.441"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toEndOf="@+id/autoCompleteTextViewDistance"
         app:layout_constraintTop_toBottomOf="@+id/spinnerWindow" />
 
@@ -193,20 +196,20 @@
         android:id="@+id/spinnerCurrent"
         android:layout_width="123dp"
         android:layout_height="35dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/textViewCurrent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <Spinner
         android:id="@+id/spinnerCondtion"
-        android:layout_width="123dp"
+        android:layout_width="187dp"
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.316"
+        app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toEndOf="@+id/textViewCondtion"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCurrent" />
 
@@ -214,7 +217,7 @@
         android:id="@+id/spinnerWindow"
         android:layout_width="123dp"
         android:layout_height="35dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toEndOf="@+id/textViewWindow"
         app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewTarget" />
@@ -227,7 +230,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintHorizontal_bias="0.388"
         app:layout_constraintStart_toEndOf="@+id/textViewTarget"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCondtion" />
 
@@ -235,8 +238,8 @@
         android:id="@+id/autoCompleteTextViewDistance"
         android:layout_width="127dp"
         android:layout_height="47dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toEndOf="@+id/textViewDistance"
         app:layout_constraintTop_toBottomOf="@+id/spinnerWindow" />
 

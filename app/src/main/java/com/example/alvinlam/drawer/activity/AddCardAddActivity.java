@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StocklistDbHelper;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
@@ -35,6 +36,8 @@ public class AddCardAddActivity extends AppCompatActivity {
     private SQLiteDatabase mDb;
     private final static String LOG_TAG = AddCardAddActivity.class.getSimpleName();
     private StockDbFunction dbFunction;
+    private StockAlertDbFunction dbAFunction;
+
     private ProgressBar mLoadingIndicator;
 
 
@@ -54,6 +57,7 @@ public class AddCardAddActivity extends AppCompatActivity {
         StocklistDbHelper dbHelper = new StocklistDbHelper(this);
         dbFunction = new StockDbFunction(this);
         mDb = dbHelper.getWritableDatabase();
+        dbAFunction = new StockAlertDbFunction(this);
 
         mCodeEditText = (EditText) this.findViewById(R.id.add_code_editText);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
@@ -233,8 +237,10 @@ public class AddCardAddActivity extends AppCompatActivity {
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
                     l20, h20, l50, h50, l100, h100, l250, h250
             );
+            //add default alert for each stock
+            dbAFunction.insert(name, code, 1);
+            dbAFunction.insert(name, code, 0);
 
-            //activity.startActivity(new Intent(activity, BuiltInCamera.class));
 
             //Context context = this;
             Class destinationClass = MainActivity.class;

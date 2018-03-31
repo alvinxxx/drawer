@@ -16,6 +16,42 @@ public class StockAlertDbFunction {
         dbHelper = new StocklistDbHelper(context);
     }
 
+    public void insert(String name, int code, int order) {
+        String indicator = "Price";
+        String conditionBuy = "Less than";
+        String conditionSell = "Greater than";
+        String window = "20";
+        String target = "SMA";
+        String distanceBuy = "-2 STD";
+        String distanceSell = "+2 STD";
+
+
+        //Open connection to write data
+        SQLiteDatabase mDb = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_NAME, name);
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_CODE, code);
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_ACTIVE, 1);
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_BUY, order);
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_INDICATOR, indicator);
+        //condition
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_WINDOW, window);
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_TARGET, target);
+        //distance
+
+        if(order == 1){
+            cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, conditionBuy);
+            cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, distanceBuy);
+        }else{
+            cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, conditionSell);
+            cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, distanceSell);
+        }
+
+
+        mDb.insert(StocklistContract.StockAlertEntry.TABLE_NAME, null, cv);
+        mDb.close(); // Closing database connection
+    }
+
     public void insert(String name, int code, int active, int order, String indicator, String condition,
                         String window, String target,  String distance) {
 
@@ -157,6 +193,26 @@ public class StockAlertDbFunction {
         return cursor;
     }
 
+    public Cursor selectByCode(int code) {
+        SQLiteDatabase mDb = dbHelper.getReadableDatabase();
+        Cursor cursor = mDb.query(
+                StocklistContract.StockAlertEntry.TABLE_NAME,
+                null,
+                StocklistContract.StockAlertEntry.COLUMN_CODE + "=" + code,
+                null,
+                null,
+                null,
+                StocklistContract.StockAlertEntry.COLUMN_TIMESTAMP
+        );
+        if (cursor == null) {
+            return null;
+        } else if (!cursor.moveToFirst()) {
+            cursor.close();
+            return null;
+        }
+        return cursor;
+    }
+
     public Cursor selectByName(String search) {
         //Open connection to read only
         SQLiteDatabase mDb = dbHelper.getReadableDatabase();
@@ -184,5 +240,12 @@ public class StockAlertDbFunction {
         //  Inside, call mDb.delete to pass in the TABLE_NAME and the condition that ._ID equals id
         return mDb.delete(StocklistContract.StockAlertEntry.TABLE_NAME,
                 StocklistContract.StockAlertEntry._ID + "=" + id, null) > 0;
+    }
+
+    public boolean deleteByCode(int code) {
+        SQLiteDatabase mDb = dbHelper.getWritableDatabase();
+        //  Inside, call mDb.delete to pass in the TABLE_NAME and the condition that ._ID equals id
+        return mDb.delete(StocklistContract.StockAlertEntry.TABLE_NAME,
+                StocklistContract.StockAlertEntry.COLUMN_CODE + "=" + code, null) > 0;
     }
 }
