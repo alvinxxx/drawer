@@ -78,6 +78,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
             }
         }
 
+
         // Find the view pager that will allow the user to swipe between fragments
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
@@ -129,6 +130,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_add) {
+
             // Add guest info to mDb
             dbFunction.replace(
                     id, name, code, date,

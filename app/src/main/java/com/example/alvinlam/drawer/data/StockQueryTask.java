@@ -49,7 +49,7 @@ public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
                 arrayJSONstring[2] = NetworkUtils.getResponseFromHttpUrl(params[2], context);
 
                 String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
-                dbFunction.replaceByArray(fullJsonStockData);
+                //dbFunction.replaceByArray(fullJsonStockData);
                 return fullJsonStockData;
             }
         } catch (IOException e) {

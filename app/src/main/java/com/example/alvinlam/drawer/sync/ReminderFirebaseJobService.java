@@ -1,8 +1,12 @@
 package com.example.alvinlam.drawer.sync;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.AsyncTask;
 
+import com.example.alvinlam.drawer.data.StockAlertDbFunction;
+import com.example.alvinlam.drawer.data.StockDbFunction;
+import com.example.alvinlam.drawer.data.StocklistContract;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
@@ -12,6 +16,14 @@ import com.firebase.jobdispatcher.RetryStrategy;
 public class ReminderFirebaseJobService extends JobService {
 
     private AsyncTask mBackgroundTask;
+    private StockDbFunction dbFunction;
+    private StockAlertDbFunction dbAFunction;
+    private Cursor cursor;
+    private Cursor cursorAlert;
+
+    private long id = 0;
+    private int code, active, buy;
+    private String name, current, currentResult, condition, target, window, windowResult, distance, distanceResult, finalResult;
 
 
     // COMPLETED (4) Override onStartJob
@@ -58,6 +70,29 @@ public class ReminderFirebaseJobService extends JobService {
                  */
 
                 jobFinished(jobParameters, false);
+
+                //TODO job finish update stock info, then check if the condition is met
+                // get all alert records, get the related stock data, compare, put into array_buy and array_sell
+                //if array length > 0, send respective notification
+
+
+                dbFunction = new StockDbFunction(getApplicationContext());
+                dbAFunction = new StockAlertDbFunction(getApplicationContext());
+
+                cursorAlert = dbAFunction.select();
+
+                code = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CODE));
+                //name = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_NAME));
+                active = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_ACTIVE));
+                buy = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_BUY));
+                current = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_INDICATOR));
+                condition = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CONDITION));
+                target = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_TARGET));
+                window = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_WINDOW));
+                distance = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
+
+
+
             }
         };
 

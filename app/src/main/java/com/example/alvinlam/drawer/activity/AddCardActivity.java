@@ -134,6 +134,7 @@ public class AddCardActivity extends AppCompatActivity{
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_add) {
+
             dbFunction = new StockDbFunction(context);
             // Add guest info to mDb
             dbFunction.replace(

@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 cursor = dbFunction.selectByID(id);
                 int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
 
+                dbAFunction = new StockAlertDbFunction(getApplicationContext());
+
                 //remove from DB
                 dbFunction.delete(id);
                 dbAFunction.deleteByCode(code);

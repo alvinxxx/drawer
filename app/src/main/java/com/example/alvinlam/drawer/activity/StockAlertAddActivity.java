@@ -54,6 +54,7 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
 
     private Switch switchActive;
     private RadioButton buttonBuy, buttonSell;
+    private RadioGroup buttonGroupBuy;
     private Spinner spinnerCurrent, spinnerCondition, spinnerWindow;
     private AutoCompleteTextView autoCompleteTextViewTarget, autoCompleteTextViewDistance;
     private TextView textViewACode, textViewAName, textViewCurrentResult, textViewWindowResult, textViewDistanceResult, textViewFinalResult;
@@ -61,6 +62,7 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
     private long id = 0;
     private int code, active, buy;
     private String name, current, currentResult, condition, target, window, windowResult, distance, distanceResult, finalResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +76,13 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-
+        dbFunction = new StockDbFunction(this);
         dbAFunction = new StockAlertDbFunction(this);
 
         textViewACode = (TextView) this.findViewById(R.id.textViewACode);
         textViewAName = (TextView) this.findViewById(R.id.textViewAName);
         switchActive = (Switch) this.findViewById(R.id.switchActive);
+        buttonGroupBuy = (RadioGroup) this.findViewById(R.id.radioGroup);
         buttonBuy = (RadioButton) this.findViewById(R.id.buttonBuy);
         buttonSell = (RadioButton) this.findViewById(R.id.buttonSell);
         spinnerCurrent = (Spinner) this.findViewById(R.id.spinnerCurrent);
@@ -92,6 +95,41 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
         textViewDistanceResult = (TextView) this.findViewById(R.id.textViewDistanceResult);
         textViewFinalResult = (TextView) this.findViewById(R.id.textViewFinalResult);
 
+
+        String[] array_target = {"SMA", "Low", "High"};
+        String[] array_distance = { "-2 STD", "-2 STD_L","-2 STD_H",
+                "-1 STD", "-1 STD_L","-1 STD_H", "0",
+                "+1 STD", "+1 STD_L","+1 STD_H",
+                "+2 STD", "+2 STD_L","+2 STD_H",};
+
+        ArrayAdapter<CharSequence> adapterCurrent = ArrayAdapter.createFromResource(this,
+                R.array.array_indicator, android.R.layout.simple_spinner_item);
+        adapterCurrent.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<CharSequence> adapterCondition = ArrayAdapter.createFromResource(this,
+                R.array.array_condition, android.R.layout.simple_spinner_item);
+        adapterCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<CharSequence> adapterWindow = ArrayAdapter.createFromResource(this,
+                R.array.array_window, android.R.layout.simple_spinner_item);
+        adapterWindow.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        ArrayAdapter<String> adapterTarget = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, array_target);
+        ArrayAdapter<String> adapterDistance = new ArrayAdapter<String>
+                (this, android.R.layout.select_dialog_item, array_distance);
+
+        spinnerCurrent.setAdapter(adapterCurrent);
+        spinnerCurrent.setOnItemSelectedListener(this);
+
+
+        spinnerCondition.setAdapter(adapterCondition);
+        spinnerCondition.setOnItemSelectedListener(this);
+
+
+        spinnerWindow.setAdapter(adapterWindow);
+        spinnerWindow.setOnItemSelectedListener(this);
+
         Intent intentThatStartedThisActivity = getIntent();
 
         if (intentThatStartedThisActivity != null) {
@@ -99,7 +137,7 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
                 id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_UID, 0);
 
                 cursor = dbAFunction.selectByID(id);
-                Log.i("stockalert", "onclick "+id);
+                //Log.i("stockalert", "onclick "+id);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
 
@@ -113,54 +151,55 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
                     window = cursor.getString(cursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_WINDOW));
                     distance = cursor.getString(cursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
 
-                    Log.i(StockAlertAddActivity.class.getName(), name);
+                    Log.i(StockAlertAddActivity.class.getName(), condition);
 
+                    if(active == 1){switchActive.setChecked(true);}
+                    else{switchActive.setChecked(false);}
+
+                    if(buy == 1){
+                        buttonGroupBuy.check(R.id.buttonBuy);
+                    }
+                    else{
+                        buttonGroupBuy.check(R.id.buttonSell);
+                    }
+
+                    //Log.i(StockAlertAddActivity.class.getName(), String.valueOf(adapterCurrent.getPosition(condition)));
+
+                    spinnerCurrent.setSelection(adapterCondition.getPosition(current));
+                    spinnerCondition.setSelection(adapterCondition.getPosition(condition));
+                    spinnerWindow.setSelection(adapterWindow.getPosition(window));
+                    autoCompleteTextViewTarget.setText(target);
+                    autoCompleteTextViewDistance.setText(distance);
+
+                    if(cursor!=null){
+                        cursor.close();
+                    }
 
                 }
+            }else if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
+                String[] parsedStockData = intentThatStartedThisActivity.getStringArrayExtra(Intent.EXTRA_TEXT);
+
+                code = Integer.parseInt(parsedStockData[0]);
+                name = parsedStockData[1];
+
+
             }
             textViewACode.setText(String.format(Locale.getDefault(), "%d", code));
             textViewAName.setText(name);
         }
 
 
-        ArrayAdapter<CharSequence> adapterCurrent = ArrayAdapter.createFromResource(this,
-                R.array.array_indicator, android.R.layout.simple_spinner_item);
-        adapterCurrent.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCurrent.setAdapter(adapterCurrent);
-        spinnerCurrent.setSelection(adapterCurrent.getPosition("Price"));
-        spinnerCurrent.setOnItemSelectedListener(this);
 
-        ArrayAdapter<CharSequence> adapterCondition = ArrayAdapter.createFromResource(this,
-                R.array.array_condition, android.R.layout.simple_spinner_item);
-        adapterCondition.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCondition.setAdapter(adapterCondition);
-        spinnerCondition.setSelection(adapterCondition.getPosition("Less than"));
-        spinnerCondition.setOnItemSelectedListener(this);
 
-        ArrayAdapter<CharSequence> adapterWindow = ArrayAdapter.createFromResource(this,
-                R.array.array_window, android.R.layout.simple_spinner_item);
-        adapterWindow.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerWindow.setAdapter(adapterWindow);
-        spinnerWindow.setSelection(adapterWindow.getPosition("20"));
-        spinnerWindow.setOnItemSelectedListener(this);
 
-        String[] array_target = {"SMA", "Low", "High"};
-
-        ArrayAdapter<String> adapterTarget = new ArrayAdapter<String>
-                (this, android.R.layout.select_dialog_item, array_target);
         autoCompleteTextViewTarget.setThreshold(1);//will start working from first character
         autoCompleteTextViewTarget.setAdapter(adapterTarget);//setting the adapter data into the AutoCompleteTextView
 
-        String[] array_distance = { "-2 STD", "-2 STD_L","-2 STD_H",
-                                    "-1 STD", "-1 STD_L","-1 STD_H", "0",
-                                    "+1 STD", "+1 STD_L","+1 STD_H",
-                                    "+2 STD", "+2 STD_L","+2 STD_H",};
+        autoCompleteTextViewDistance.addTextChangedListener(this);
+        autoCompleteTextViewDistance.setThreshold(1);//will start working from first character
+        autoCompleteTextViewDistance.setAdapter(adapterDistance);//setting the adapter data into the AutoCompleteTextView
+        //showResult(array_distance[0]);
 
-        ArrayAdapter<String> adapterDistance = new ArrayAdapter<String>
-                (this, android.R.layout.select_dialog_item, array_distance);
-        autoCompleteTextViewTarget.addTextChangedListener(this);
-        autoCompleteTextViewTarget.setThreshold(1);//will start working from first character
-        autoCompleteTextViewTarget.setAdapter(adapterDistance);//setting the adapter data into the AutoCompleteTextView
     }
 
     @Override
@@ -170,21 +209,27 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
         return true;
     }
 
-
+    //spinner
     public void onItemSelected(AdapterView<?> parent, View view,
-                               int pos, long id) {
+                               int pos, long idx) {
+        /**
         // An item was selected. You can retrieve the selected item using
         // parent.getItemAtPosition(pos)
         Double result = 0.0;
         String selectValue = parent.getSelectedItem().toString();
 
+        //dbAFunction = new StockAlertDbFunction(this);
+        dbFunction = new StockDbFunction(this);
+
         //cursor: Get current indicator
+        //cursor = dbAFunction.selectByID(id);
+        //code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CODE));
+
         cursorResult = dbFunction.selectByID((long) code);
 
         switch (parent.getId()){
             case R.id.spinnerCurrent:
                 String[] array_current = getResources().getStringArray(R.array.array_indicator);
-
                 if(selectValue.equals(array_current[0])){
                     result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
                 }else if (selectValue.equals(array_current[1])){
@@ -195,6 +240,7 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
 
                 //setText of textview
                 textViewCurrentResult.setText(String.format(Locale.getDefault(), "%.2f", result));
+                textViewCurrentResult.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.spinnerWindow:
@@ -211,75 +257,89 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
                 }
                 //setText of textview Window
                 textViewWindowResult.setText(String.format(Locale.getDefault(), "%.2f", result));
-                //setText of textview FinalResult
-                //Double finalResult = result+;
-                //textViewFinalResult.setText(String.format(Locale.getDefault(), "%.2f", result));
+                textViewWindowResult.setVisibility(View.VISIBLE);
+
 
                 break;
         }
+        if(cursorResult!=null){
+            cursorResult.close();
+        }
+         **/
     }
+
     //spinner
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
     }
 
+    public void showResult(CharSequence s) {
+        cursorResult = dbFunction.selectByID((long) code);
+
+        Double result=0.0, resultFinal, sma;
+        String[] array_window = getResources().getStringArray(R.array.array_window);
+
+        window = spinnerWindow.getSelectedItem().toString();
+        String distance = s.toString();
+        int value = Integer.parseInt(distance.split(" ")[0]);
+        String type = distance.split(" ")[1];
+
+        if (window.equals(array_window[0])) {
+            if (type.equals("STD")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20));
+            } else if (type.equals("STD_L")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20L));
+            } else if (type.equals("STD_H")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20H));
+            }
+        } else if (window.equals(array_window[1])) {
+            if (type.equals("STD")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50));
+            } else if (type.equals("STD_L")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50L));
+            } else if (type.equals("STD_H")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50H));
+            }
+        } else if (window.equals(array_window[2])) {
+            if (type.equals("STD")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100));
+            } else if (type.equals("STD_L")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100L));
+            } else if (type.equals("STD_H")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100H));
+            }
+        } else if (window.equals(array_window[3])) {
+            if (type.equals("STD")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
+            } else if (type.equals("STD_L")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250L));
+            } else if (type.equals("STD_H")) {
+                result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250H));
+            }
+        }
+        textViewDistanceResult.setText(String.format(Locale.getDefault(), "%.2f", result));
+        textViewDistanceResult.setVisibility(View.VISIBLE);
+
+        sma = Double.parseDouble(textViewWindowResult.getText().toString());
+        resultFinal = sma + value*result;
+        textViewFinalResult.setText(String.format(Locale.getDefault(), "%.2f", resultFinal));
+        textViewFinalResult.setVisibility(View.VISIBLE);
+        if(cursorResult!=null){
+            cursorResult.close();
+        }
+
+    }
+
+
     //autoCompleteTextView
     @Override
     public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-        cursorResult = dbFunction.selectByID((long) code);
-
 
         if(count > 5){
             new Handler().postDelayed(new Runnable(){
                 public void run(){
                     //write db insertion logic here...
-                    Double result=0.0, resultFinal, sma;
-                    String[] array_window = getResources().getStringArray(R.array.array_window);
-
-                    window = spinnerWindow.getSelectedItem().toString();
-                    String distance = s.toString();
-                    int value = Integer.parseInt(distance.split(" ")[0]);
-                    String type = distance.split(" ")[1];
-
-                    if (window.equals(array_window[0])) {
-                        if (type.equals("STD")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20));
-                        } else if (type.equals("STD_L")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20L));
-                        } else if (type.equals("STD_H")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20H));
-                        }
-                    } else if (window.equals(array_window[1])) {
-                        if (type.equals("STD")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50));
-                        } else if (type.equals("STD_L")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50L));
-                        } else if (type.equals("STD_H")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50H));
-                        }
-                    } else if (window.equals(array_window[2])) {
-                        if (type.equals("STD")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100));
-                        } else if (type.equals("STD_L")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100L));
-                        } else if (type.equals("STD_H")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100H));
-                        }
-                    } else if (window.equals(array_window[3])) {
-                        if (type.equals("STD")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
-                        } else if (type.equals("STD_L")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250L));
-                        } else if (type.equals("STD_H")) {
-                            result = cursorResult.getDouble(cursorResult.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250H));
-                        }
-                    }
-                    textViewDistanceResult.setText(String.format(Locale.getDefault(), "%.2f", result));
-
-                    sma = Double.parseDouble(textViewWindowResult.getText().toString());
-                    resultFinal = sma + value*result;
-                    textViewFinalResult.setText(String.format(Locale.getDefault(), "%.2f", resultFinal));
-
+                    //showResult(s);
                 }},700);
         }
 
@@ -309,16 +369,20 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
 
             return true;
         }else if (lid == android.R.id.home) {
-            Context context = this;
-            Class destinationClass = AddCardActivity.class;
-            Intent intentToStartActivity = new Intent(context, destinationClass);
-            //intentToStartActivity.putExtra(Intent.EXTRA_UID, (long)code);
-
-            startActivity(intentToStartActivity);
+            goBack();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goBack(){
+        Context context = this;
+        Class destinationClass = AddCardActivity.class;
+        Intent intentToStartActivity = new Intent(context, destinationClass);
+        intentToStartActivity.putExtra(Intent.EXTRA_UID, (long)code);
+        //TODO: return to alert tab
+        startActivity(intentToStartActivity);
     }
 
     public void addToStockAlert() {
@@ -346,9 +410,14 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
         String distance = autoCompleteTextViewDistance.getText().toString();
 
         //send to db
-        dbAFunction.insert(name, code, active, buy, current, condition,
+        if(id == 0)
+            dbAFunction.insert(name, code, active, buy, current, condition,
                 window, target, distance);
+        else
+            dbAFunction.replace(id, name, code, active, buy, current, condition,
+                    window, target, distance);
 
+        goBack();
     }
 
 

@@ -59,18 +59,6 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
 
         View rootView = inflater.inflate(R.layout.stock_alert_content_list, container, false);
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.stock_alert_fab);
-        fab.bringToFront();
-
-        fab.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Class destinationClass = StockAlertAddActivity.class;
-                Intent intentToStartAddCardActivity = new Intent(getActivity().getApplicationContext(), destinationClass);
-                startActivity(intentToStartAddCardActivity);
-            }
-        });
-
         stockAlertListRecyclerView = (RecyclerView) rootView.findViewById(R.id.stock_alert_list_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         stockAlertListRecyclerView.setLayoutManager(layoutManager);
@@ -87,11 +75,26 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
 
                 cursor = dbFunction.selectByID(id);
                 int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+                String name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
 
                 cursor = dbAFunction.selectByCode(code);
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                 }
+                final String[] letter = {String.valueOf(code), name};
+                FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.stock_alert_fab);
+                fab.bringToFront();
+
+                fab.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Class destinationClass = StockAlertAddActivity.class;
+                        Intent intentToStartAddCardActivity = new Intent(getActivity().getApplicationContext(), destinationClass);
+                        intentToStartAddCardActivity.putExtra(Intent.EXTRA_TEXT, letter);
+                        startActivity(intentToStartAddCardActivity);
+                    }
+                });
+
             }else if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
                 //String[] parsedStockData = intentThatStartedThisActivity.getStringArrayExtra(Intent.EXTRA_TEXT);
 
@@ -102,6 +105,7 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
             mAdapter = new StockAlertAdapter(getActivity().getApplicationContext(), cursor, this);
             stockAlertListRecyclerView.setAdapter(mAdapter);
         }
+
 
 
         // Create an item touch helper to handle swiping items off the list
@@ -137,6 +141,7 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
 
     @Override
     public void onListItemClick(View v, int position) {
+        //TODO: switch
         Context context = getActivity().getApplicationContext();
         Class destinationClass = StockAlertAddActivity.class;
 
