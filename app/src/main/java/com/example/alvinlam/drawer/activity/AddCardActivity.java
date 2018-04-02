@@ -52,6 +52,7 @@ public class AddCardActivity extends AppCompatActivity{
         setContentView(R.layout.stock_detail_precontent);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,6 +74,7 @@ public class AddCardActivity extends AppCompatActivity{
                     Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
                     name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
+                    toolbar.setTitle(name);
                     code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
                     date = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DATE));
                     price = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));

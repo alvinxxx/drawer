@@ -19,6 +19,8 @@ import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.sync.ReminderIntentService;
 import com.example.alvinlam.drawer.sync.ReminderTasks;
 
+import java.util.List;
+
 /**
  * Utility class for creating hydration notifications
  */
@@ -30,6 +32,9 @@ public class NotificationUtils {
      * arbitrary and can be set to whatever you like. 1138 is in no way significant.
      */
     private static final int REMINDER_NOTIFICATION_ID = 1138;
+    private static final int REMINDER_NOTIFICATION_ID_BUY = 1139;
+    private static final int REMINDER_NOTIFICATION_ID_SELL = 1140;
+
     /**
      * This pending intent id is used to uniquely reference the pending intent
      */
@@ -44,6 +49,49 @@ public class NotificationUtils {
         notificationManager.cancelAll();
     }
 
+    public static void remindUserBuy(Context context, String codeString) {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .setSmallIcon(R.drawable.ic_icon_money)
+                .setLargeIcon(largeIcon(context))
+                .setContentTitle(context.getString(R.string.stock_notification_title_buy))
+                .setContentText(context.getString(R.string.stock_notification_body_buy)+codeString)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.stock_notification_body_buy)+codeString))
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setContentIntent(contentIntent(context))
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            notificationBuilder.setPriority(Notification.PRIORITY_HIGH);
+        }
+
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(REMINDER_NOTIFICATION_ID_BUY, notificationBuilder.build());
+    }
+
+    public static void remindUserSell(Context context, String codeString) {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
+                .setSmallIcon(R.drawable.ic_icon_money)
+                .setLargeIcon(largeIcon(context))
+                .setContentTitle(context.getString(R.string.stock_notification_title_sell))
+                .setContentText(context.getString(R.string.stock_notification_body_sell)+codeString)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.stock_notification_body_sell)+codeString))
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setContentIntent(contentIntent(context))
+                .setAutoCancel(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            notificationBuilder.setPriority(Notification.PRIORITY_HIGH);
+        }
+
+        NotificationManager notificationManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(REMINDER_NOTIFICATION_ID_SELL, notificationBuilder.build());
+    }
 
     public static void remindUser(Context context) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)

@@ -27,6 +27,12 @@
     <string name="stock_notification_title">StockAlertMe</string>
     <string name="stock_notification_body">Check out the stock recommendation</string>
 
+    <string name="stock_notification_title_buy">Buy Notification</string>
+    <string name="stock_notification_body_buy">Stocks that reach your target buying price:</string>
+
+    <string name="stock_notification_title_sell">Sell Notification</string>
+    <string name="stock_notification_body_sell">Stocks that reach your target selling price:</string>
+
     <string-array name="array_indicator">
         <item>Price</item>
         <item>Dividend Yield</item>
