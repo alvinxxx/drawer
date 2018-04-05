@@ -65,4 +65,25 @@ public class StocklistContract {
         public static final String COLUMN_TARGET = "target";
         public static final String COLUMN_DISTANCE = "distance";
     }
+
+    public static final class RiskAssessQuestionEntry implements BaseColumns {
+        public static final String TABLE_NAME = "raq";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_QUESTION = "question";
+    }
+
+    public static final class RiskAssessAnswerEntry implements BaseColumns {
+        public static final String TABLE_NAME = "raa";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_ANSWER = "answer";
+        public static final String COLUMN_SCORE = "score";
+        public static final String COLUMN_QID = "qid";
+    }
+
+    public static final class RiskAssessRecordEntry implements BaseColumns {
+        public static final String TABLE_NAME = "rar";
+        public static final String COLUMN_TIMESTAMP = "timestamp";
+        public static final String COLUMN_QID= "qid";
+        public static final String COLUMN_SCORE = "score";
+    }
 }

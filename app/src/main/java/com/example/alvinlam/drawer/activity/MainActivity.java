@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //no internet toast
             Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();
         }
+
     }
 
 

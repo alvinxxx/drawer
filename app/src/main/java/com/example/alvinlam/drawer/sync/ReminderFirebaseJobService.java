@@ -9,6 +9,7 @@ import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
+import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.NotificationUtils;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.JobParameters;
@@ -81,172 +82,175 @@ public class ReminderFirebaseJobService extends JobService {
                 // get all alert records, get the related stock data, compare, put into array_buy and array_sell
                 //if array length > 0, send respective notification
 
+                boolean internet = NetworkUtils.hasInternetConnection(getApplicationContext());
+                if (internet) {
 
-                dbFunction = new StockDbFunction(getApplicationContext());
-                dbAFunction = new StockAlertDbFunction(getApplicationContext());
+                    dbFunction = new StockDbFunction(getApplicationContext());
+                    dbAFunction = new StockAlertDbFunction(getApplicationContext());
 
-                cursorAlert = dbAFunction.select();
-                int length = cursorAlert.getCount();
-                List<String> noti_buy = new ArrayList<String>();
-                List<String> noti_sell = new ArrayList<String>();
+                    cursorAlert = dbAFunction.select();
+                    int length = cursorAlert.getCount();
+                    List<String> noti_buy = new ArrayList<String>();
+                    List<String> noti_sell = new ArrayList<String>();
 
-                if (length > 0) {
-                    for (int i = 0; i < length; i++) {
-                        cursorAlert.moveToPosition(i);
-                        active = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_ACTIVE));
+                    if (length > 0) {
+                        for (int i = 0; i < length; i++) {
+                            cursorAlert.moveToPosition(i);
+                            active = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_ACTIVE));
 
-                        if (active == 1) {
-                            //name = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_NAME));
+                            if (active == 1) {
+                                //name = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_NAME));
 
-                            //get the latest stock data
-                            code = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CODE));
-                            cursor = dbFunction.selectByID((long) code); //use code to get its data in stocklist table
+                                //get the latest stock data
+                                code = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CODE));
+                                cursor = dbFunction.selectByID((long) code); //use code to get its data in stocklist table
 
-                            //get the alert user input subject
-                            current = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_INDICATOR));
-                            //get the stock real subject data
-                            String[] array_current = getResources().getStringArray(R.array.array_indicator);
-                            if (current.equals(array_current[0])) {
-                                currentResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
-                            } else if (current.equals(array_current[1])) {
-                                currentResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DY));
-                            } else if (current.equals(array_current[2])) {
-                                currentResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PE));
-                            }
-
-                            //get the alert user input object
-                            target = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_TARGET));
-                            String[] array_target = {"SMA", "Low", "High"};
-                            window = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_WINDOW));
-                            String[] array_window = getResources().getStringArray(R.array.array_window);
-
-                            //get the stock real object data: SMA/Low/High
-                            if (target.equals(array_target[0])) {         //SMA
-                                if (window.equals(array_window[0])) {         //20
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA20));
-                                } else if (window.equals(array_window[1])) {  //50
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA50));
-                                } else if (window.equals(array_window[2])) {  //100
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA100));
-                                } else if (window.equals(array_window[3])) {  //250
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA250));
+                                //get the alert user input subject
+                                current = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_INDICATOR));
+                                //get the stock real subject data
+                                String[] array_current = getResources().getStringArray(R.array.array_indicator);
+                                if (current.equals(array_current[0])) {
+                                    currentResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
+                                } else if (current.equals(array_current[1])) {
+                                    currentResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DY));
+                                } else if (current.equals(array_current[2])) {
+                                    currentResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PE));
                                 }
-                            } else if (target.equals(array_target[1])) { //Low
-                                if (window.equals(array_window[0])) {         //20
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20L));
-                                } else if (window.equals(array_window[1])) {  //50
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50L));
-                                } else if (window.equals(array_window[2])) {  //100
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100L));
-                                } else if (window.equals(array_window[3])) {  //250
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250L));
-                                }
-                            } else if (target.equals(array_target[2])) { //High
-                                if (window.equals(array_window[0])) {         //20
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20H));
-                                } else if (window.equals(array_window[1])) {  //50
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50H));
-                                } else if (window.equals(array_window[2])) {  //100
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100H));
-                                } else if (window.equals(array_window[3])) {  //250
-                                    windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250H));
-                                }
-                            }
 
-                            //get the stock real object data: distance for SMA
-                            distance = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
-                            int value = Integer.parseInt(distance.split(" ")[0]);
-                            String type = distance.split(" ")[1];
+                                //get the alert user input object
+                                target = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_TARGET));
+                                String[] array_target = {"SMA", "Low", "High"};
+                                window = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_WINDOW));
+                                String[] array_window = getResources().getStringArray(R.array.array_window);
 
-                            if (window.equals(array_window[0])) {   //20
-                                if (type.equals("STD")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20));
-                                } else if (type.equals("STD_L")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20L));
-                                } else if (type.equals("STD_H")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20H));
-                                }
-                            } else if (window.equals(array_window[1])) {
-                                if (type.equals("STD")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50));
-                                } else if (type.equals("STD_L")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50L));
-                                } else if (type.equals("STD_H")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50H));
-                                }
-                            } else if (window.equals(array_window[2])) {
-                                if (type.equals("STD")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100));
-                                } else if (type.equals("STD_L")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100L));
-                                } else if (type.equals("STD_H")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100H));
-                                }
-                            } else if (window.equals(array_window[3])) {
-                                if (type.equals("STD")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
-                                } else if (type.equals("STD_L")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250L));
-                                } else if (type.equals("STD_H")) {
-                                    distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250H));
-                                }
-                            }
-
-                            finalResult = windowResult + value * distanceResult;
-
-
-                            condition = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CONDITION));
-                            String[] array_condition = getResources().getStringArray(R.array.array_condition);
-
-                            //put into buy array
-                            buy = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_BUY));
-
-
-                            if (condition.equals(array_condition[0])) {         //less
-                                if (currentResult < finalResult){
-                                    if(buy == 1){
-                                        noti_buy.add(String.valueOf(code));
-                                    }else if(buy == 0){
-                                        noti_sell.add(String.valueOf(code));
+                                //get the stock real object data: SMA/Low/High
+                                if (target.equals(array_target[0])) {         //SMA
+                                    if (window.equals(array_window[0])) {         //20
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA20));
+                                    } else if (window.equals(array_window[1])) {  //50
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA50));
+                                    } else if (window.equals(array_window[2])) {  //100
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA100));
+                                    } else if (window.equals(array_window[3])) {  //250
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA250));
+                                    }
+                                } else if (target.equals(array_target[1])) { //Low
+                                    if (window.equals(array_window[0])) {         //20
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20L));
+                                    } else if (window.equals(array_window[1])) {  //50
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50L));
+                                    } else if (window.equals(array_window[2])) {  //100
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100L));
+                                    } else if (window.equals(array_window[3])) {  //250
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250L));
+                                    }
+                                } else if (target.equals(array_target[2])) { //High
+                                    if (window.equals(array_window[0])) {         //20
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20H));
+                                    } else if (window.equals(array_window[1])) {  //50
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50H));
+                                    } else if (window.equals(array_window[2])) {  //100
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100H));
+                                    } else if (window.equals(array_window[3])) {  //250
+                                        windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250H));
                                     }
                                 }
-                            } else if (condition.equals(array_condition[1])) {  //great
-                                if (currentResult > finalResult){
-                                    if(buy == 1){
-                                        noti_buy.add(String.valueOf(code));
-                                    }else if(buy == 0){
-                                        noti_sell.add(String.valueOf(code));
+
+                                //get the stock real object data: distance for SMA
+                                distance = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
+                                int value = Integer.parseInt(distance.split(" ")[0]);
+                                String type = distance.split(" ")[1];
+
+                                if (window.equals(array_window[0])) {   //20
+                                    if (type.equals("STD")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20));
+                                    } else if (type.equals("STD_L")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20L));
+                                    } else if (type.equals("STD_H")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20H));
+                                    }
+                                } else if (window.equals(array_window[1])) {
+                                    if (type.equals("STD")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50));
+                                    } else if (type.equals("STD_L")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50L));
+                                    } else if (type.equals("STD_H")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50H));
+                                    }
+                                } else if (window.equals(array_window[2])) {
+                                    if (type.equals("STD")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100));
+                                    } else if (type.equals("STD_L")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100L));
+                                    } else if (type.equals("STD_H")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100H));
+                                    }
+                                } else if (window.equals(array_window[3])) {
+                                    if (type.equals("STD")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
+                                    } else if (type.equals("STD_L")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250L));
+                                    } else if (type.equals("STD_H")) {
+                                        distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250H));
                                     }
                                 }
-                            } else if (condition.equals(array_condition[2])) {  //equal
-                                if (currentResult == finalResult){
-                                    if(buy == 1){
-                                        noti_buy.add(String.valueOf(code));
-                                    }else if(buy == 0){
-                                        noti_sell.add(String.valueOf(code));
+
+                                finalResult = windowResult + value * distanceResult;
+
+
+                                condition = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CONDITION));
+                                String[] array_condition = getResources().getStringArray(R.array.array_condition);
+
+                                //put into buy array
+                                buy = cursorAlert.getInt(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_BUY));
+
+
+                                if (condition.equals(array_condition[0])) {         //less
+                                    if (currentResult < finalResult) {
+                                        if (buy == 1) {
+                                            noti_buy.add(String.valueOf(code));
+                                        } else if (buy == 0) {
+                                            noti_sell.add(String.valueOf(code));
+                                        }
+                                    }
+                                } else if (condition.equals(array_condition[1])) {  //great
+                                    if (currentResult > finalResult) {
+                                        if (buy == 1) {
+                                            noti_buy.add(String.valueOf(code));
+                                        } else if (buy == 0) {
+                                            noti_sell.add(String.valueOf(code));
+                                        }
+                                    }
+                                } else if (condition.equals(array_condition[2])) {  //equal
+                                    if (currentResult == finalResult) {
+                                        if (buy == 1) {
+                                            noti_buy.add(String.valueOf(code));
+                                        } else if (buy == 0) {
+                                            noti_sell.add(String.valueOf(code));
+                                        }
                                     }
                                 }
+
                             }
 
                         }
-
                     }
-                }
-                if(noti_buy.size() > 0){
-                    String joined = TextUtils.join(",", noti_buy);
+                    if (noti_buy.size() > 0) {
+                        String joined = TextUtils.join(",", noti_buy);
 
-                    NotificationUtils.remindUserBuy(getApplicationContext(), joined);
-                }
-                if(noti_sell.size() > 0){
-                    String joined = TextUtils.join(",", noti_sell);
+                        NotificationUtils.remindUserBuy(getApplicationContext(), joined);
+                    }
+                    if (noti_sell.size() > 0) {
+                        String joined = TextUtils.join(",", noti_sell);
 
-                    NotificationUtils.remindUserSell(getApplicationContext(), joined);
-                }
+                        NotificationUtils.remindUserSell(getApplicationContext(), joined);
+                    }
 
 
-                if (cursor != null) {
-                    cursor.close();
-                    cursorAlert.close();
+                    if (cursor != null) {
+                        cursor.close();
+                        cursorAlert.close();
+                    }
                 }
             }
         };

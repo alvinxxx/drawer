@@ -13,7 +13,7 @@ import com.example.alvinlam.drawer.data.StocklistContract.*;
 public class StocklistDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "stocklist.db";
-    private static final int DATABASE_VERSION = 28;
+    private static final int DATABASE_VERSION = 42;
 
     public StocklistDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -84,6 +84,31 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL(SQL_CREATE_STOCKALERT_TABLE);
 
+        final String SQL_CREATE_RAQ_TABLE = "CREATE TABLE " + RiskAssessQuestionEntry.TABLE_NAME + " (" +
+                RiskAssessQuestionEntry._ID + " INTEGER PRIMARY KEY," +
+                RiskAssessQuestionEntry.COLUMN_QUESTION + " TEXT NOT NULL, " +
+                RiskAssessQuestionEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                "); ";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_RAQ_TABLE);
+
+        final String SQL_CREATE_RAA_TABLE = "CREATE TABLE " + RiskAssessAnswerEntry.TABLE_NAME + " (" +
+                RiskAssessAnswerEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                RiskAssessAnswerEntry.COLUMN_ANSWER + " TEXT NOT NULL, " +
+                RiskAssessAnswerEntry.COLUMN_SCORE + " INTEGER NOT NULL, " +
+                RiskAssessAnswerEntry.COLUMN_QID + " INTEGER NOT NULL, " +
+                RiskAssessAnswerEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                "); ";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_RAA_TABLE);
+
+        final String SQL_CREATE_RAR_TABLE = "CREATE TABLE " + RiskAssessRecordEntry.TABLE_NAME + " (" +
+                RiskAssessRecordEntry.COLUMN_QID + " INTEGER PRIMARY KEY," +
+                RiskAssessRecordEntry.COLUMN_SCORE + " INTEGER NOT NULL, " +
+                RiskAssessRecordEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                "); ";
+
+        sqLiteDatabase.execSQL(SQL_CREATE_RAR_TABLE);
     }
 
     @Override
@@ -94,6 +119,9 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
         // instead of dropping it, so that existing data is not deleted.
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StocklistEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + StockAlertEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RiskAssessQuestionEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RiskAssessAnswerEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RiskAssessRecordEntry.TABLE_NAME);
 
         onCreate(sqLiteDatabase);
     }

@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ana_card_read_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:context=".activity.AddCardActivity"
+    tools:showIn="@layout/add_ana_read_precontent">
+
+
+    <EditText
+        android:id="@+id/ana_std50h_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="50"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toEndOf="@+id/ana_std50l_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std20h_editText" />
+
+    <EditText
+        android:id="@+id/ana_std20h_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="20"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.463"
+        app:layout_constraintStart_toEndOf="@+id/ana_std20l_editText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaSTDH" />
+
+    <EditText
+        android:id="@+id/ana_std100h_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="100"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ana_std100l_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std50h_editText" />
+
+    <EditText
+        android:id="@+id/ana_std250h_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="250"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ana_std250l_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std100h_editText" />
+
+    <EditText
+        android:id="@+id/ana_std50l_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="50"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_std50_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std20l_editText" />
+
+    <EditText
+        android:id="@+id/ana_std20l_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="20"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_std20_editText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaSTDL" />
+
+    <EditText
+        android:id="@+id/ana_std100l_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="100"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_std100_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std50l_editText" />
+
+    <EditText
+        android:id="@+id/ana_std250l_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="250"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_std250_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std100l_editText" />
+
+    <EditText
+        android:id="@+id/ana_std50_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="50"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_sma50_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std20_editText" />
+
+    <EditText
+        android:id="@+id/ana_std20_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="20"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_sma20_editText"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaSTD" />
+
+    <EditText
+        android:id="@+id/ana_std100_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="100"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_sma100_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std50_editText" />
+
+    <EditText
+        android:id="@+id/ana_std250_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="250"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/ana_sma250_editText"
+        app:layout_constraintTop_toBottomOf="@+id/ana_std100_editText" />
+
+    <TextView
+        android:id="@+id/textViewAnaSTDH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="STD(H)"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toEndOf="@+id/textViewAnaSTDL"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaTech" />
+
+    <TextView
+        android:id="@+id/textViewAnaSTDL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:text="STD(L)"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/textViewAnaSTD"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaTech" />
+
+    <TextView
+        android:id="@+id/textViewAnaSTD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:text="STD"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/textViewAnaSMA"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaTech" />
+
+    <TextView
+        android:id="@+id/textViewAnaSMA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="8dp"
+        android:text="SMA"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaTech" />
+
+    <TextView
+        android:id="@+id/textViewAna250"
+        android:layout_width="42dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="26dp"
+        android:text="250"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAna100" />
+
+    <TextView
+        android:id="@+id/textViewAna100"
+        android:layout_width="41dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="26dp"
+        android:text="100"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAna50" />
+
+    <TextView
+        android:id="@+id/textViewAna50"
+        android:layout_width="37dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="26dp"
+        android:text="50"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAna20" />
+
+    <TextView
+        android:id="@+id/textViewAna20"
+        android:layout_width="39dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="20"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaSMA" />
+
+    <EditText
+        android:id="@+id/ana_sma20_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="20"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/textViewAna20"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaSMA" />
+
+    <EditText
+        android:id="@+id/ana_sma50_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="50"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/textViewAna50"
+        app:layout_constraintTop_toBottomOf="@+id/ana_sma20_editText" />
+
+    <EditText
+        android:id="@+id/ana_sma100_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="100"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/textViewAna100"
+        app:layout_constraintTop_toBottomOf="@+id/ana_sma50_editText" />
+
+    <EditText
+        android:id="@+id/ana_sma250_editText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="250"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toEndOf="@+id/textViewAna250"
+        app:layout_constraintTop_toBottomOf="@+id/ana_sma100_editText" />
+
+    <TextView
+        android:id="@+id/textViewAnaTech"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:text="Technical Analysis"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaDPS" />
+
+    <EditText
+        android:id="@+id/ana_pe_editText"
+        android:layout_width="77dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="PE"
+        android:inputType="textUri"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaFund" />
+
+    <EditText
+        android:id="@+id/ana_eps_editText"
+        android:layout_width="77dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="52dp"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="EPS"
+        android:inputType="textMultiLine"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaPE" />
+
+    <EditText
+        android:id="@+id/ana_dy_editText"
+        android:layout_width="77dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="52dp"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="DY"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaEPS" />
+
+    <EditText
+        android:id="@+id/ana_dps_editText"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="52dp"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="DPS"
+        android:inputType="textEmailAddress"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaDY" />
+
+    <TextView
+        android:id="@+id/textViewAnaPE"
+        android:layout_width="168dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:text="Price Earning (PE)"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toStartOf="@+id/ana_pe_editText"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaFund" />
+
+    <TextView
+        android:id="@+id/textViewAnaFund"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Fundamental Analysis"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAnaEPS"
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:text="Earning Per Share"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toStartOf="@+id/ana_eps_editText"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaPE" />
+
+    <TextView
+        android:id="@+id/textViewAnaDY"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="24dp"
+        android:text="Dividend Yield "
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toStartOf="@+id/ana_dy_editText"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaEPS" />
+
+    <TextView
+        android:id="@+id/textViewAnaDPS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="Dividend Per Share"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toStartOf="@+id/ana_dps_editText"
+        app:layout_constraintHorizontal_bias="0.869"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAnaDY" />
+
+
+</android.support.constraint.ConstraintLayout>

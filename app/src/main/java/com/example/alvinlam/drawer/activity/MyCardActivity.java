@@ -5,18 +5,26 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.data.RiskAssessDbFunction;
+import com.example.alvinlam.drawer.data.RiskAssessTestUtil;
+import com.example.alvinlam.drawer.data.StocklistContract;
+import com.example.alvinlam.drawer.data.StocklistDbHelper;
+import com.example.alvinlam.drawer.data.old.DbFunction;
 import com.example.alvinlam.drawer.utilities.NotificationUtils;
 
 /**
@@ -30,24 +38,9 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
     private SQLiteDatabase mDb;
     private Cursor cursor;
+    private RiskAssessDbFunction dbFunction;
 
-    private EditText mNameEditText;
-    private EditText mPhoneEditText;
-    private EditText mEmailEditText;
-    private EditText mTitleEditText;
-    private EditText mWebsiteEditText;
-    private EditText mCompanyEditText;
-    private EditText mCPhoneEditText;
-    private EditText mCAddressEditText;
-
-    private String name;
-    private int phone;
-    private String email;
-    private String title;
-    private String website;
-    private String company;
-    private int companyTelephone;
-    private String companyAddress;
+    private TextView textViewRASResult, textViewRASTypeLabel, textViewRASTypeValue, textViewRASDesValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +49,17 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.risk_assess_fab);
+        fab.bringToFront();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Class destinationClass = RiskAssessActivity.class;
+                Intent intentToStartAddCardActivity = new Intent(MyCardActivity.this, destinationClass);
+                startActivity(intentToStartAddCardActivity);
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -66,18 +70,75 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        dbFunction = new RiskAssessDbFunction(this);
+        //select Q and A, if null, insert Q and A
+        cursor = dbFunction.selectQuestion();
+        if(cursor == null){
+            Log.d("mycard", "onCreate if: ");
+            StocklistDbHelper dbHelper = new StocklistDbHelper(this);
+            mDb = dbHelper.getWritableDatabase();
+            RiskAssessTestUtil.insertData(mDb);
+        }
+        //cursor = dbFunction.selectQuestion();
+
+        Log.d("mycard", "onCreate after if: ");
+
+        cursor = dbFunction.selectTotalScore();
+        textViewRASResult = (TextView) findViewById(R.id.textViewRASResult);
+        textViewRASTypeLabel = (TextView) findViewById(R.id.textViewRASTypeLabel);
+        textViewRASTypeValue = (TextView) findViewById(R.id.textViewRASTypeValue);
+        textViewRASDesValue = (TextView) findViewById(R.id.textViewRASDesValue);
+
+        if(cursor == null){
+            textViewRASResult.setText(0);
+            textViewRASTypeLabel.setVisibility(View.INVISIBLE);
+            textViewRASTypeValue.setVisibility(View.INVISIBLE);
+            textViewRASDesValue.setVisibility(View.INVISIBLE);
+
+        }else{
+            int total = cursor.getInt(0);// get final total
+            //Log.d("riskdb", "selectTotalScore: "+  total);
+            textViewRASResult.setText(String.valueOf(total));
+            //score--> advice
+
+            if (total >= 14 && total <= 21){
+                textViewRASTypeValue.setText(R.string.investor_type_1);
+                textViewRASDesValue.setText(R.string.investor_des_1);
+            }else if (total >= 22 && total <= 30){
+                textViewRASTypeValue.setText(R.string.investor_type_2);
+                textViewRASDesValue.setText(R.string.investor_des_2);
+            }else if (total >= 31 && total <= 39){
+                textViewRASTypeValue.setText(R.string.investor_type_3);
+                textViewRASDesValue.setText(R.string.investor_des_3);
+            }else if (total >= 40 && total <= 48){
+                textViewRASTypeValue.setText(R.string.investor_type_4);
+                textViewRASDesValue.setText(R.string.investor_des_4);
+            }else if (total >= 49 && total <= 56){
+                textViewRASTypeValue.setText(R.string.investor_type_5);
+                textViewRASDesValue.setText(R.string.investor_des_5);
+            }
+
+            if(total != 0){
+                textViewRASTypeLabel.setVisibility(View.VISIBLE);
+                textViewRASTypeValue.setVisibility(View.VISIBLE);
+                textViewRASDesValue.setVisibility(View.VISIBLE);
+            }
+
+        }
+
+
+
+        if(cursor != null) {
+            cursor.close();
+        }
 
     }
 
-    // COMPLETED (14) Create a method called testNotification that triggers NotificationUtils' remindUser
-    public void testNotification(View view) {
-        NotificationUtils.remindUser(this);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
+        //getMenuInflater().inflate(R.menu.add_card_toolbar_menu, menu);
         return true;
     }
 

@@ -61,13 +61,12 @@
                 android:value=".activity.AddCardActivity" />
         </activity>
 
-
         <activity
             android:name=".activity.MyCardActivity"
             android:label="@string/my_card">
         </activity>
         <activity
-            android:name=".activity.MyCardAddActivity"
+            android:name=".activity.RiskAssessActivity"
             android:label="@string/my_card"
             android:parentActivityName=".activity.MyCardActivity">
             <meta-data

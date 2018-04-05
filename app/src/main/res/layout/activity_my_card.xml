@@ -17,12 +17,8 @@
         <include
             layout="@layout/add_card_toolbar" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="testNotification"
-            android:text="Test Notification" />
+        <include
+            layout="@layout/risk_assess_score_precontent" />
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -6,7 +6,7 @@
     <string name="stock_portfolio">Stock profolio</string>
     <string name="stock_detail">Stock detail</string>
     <string name="add_stock">Add stock</string>
-    <string name="my_card">My card</string>
+    <string name="my_card">My Risk Assessment</string>
     <string name="image">Image</string>
     <string name="my_account">Account</string>
     <string name="action_settings">Settings</string>
@@ -21,6 +21,7 @@
     <string name="search_hint">Search</string>
 
     <string name="stock_stat">Statistic</string>
+    <string name="stock_analysis">Analysis</string>
     <string name="stock_chart">Chart</string>
     <string name="stock_alert">Alert</string>
 
@@ -32,6 +33,34 @@
 
     <string name="stock_notification_title_sell">Sell Notification</string>
     <string name="stock_notification_body_sell">Stocks that reach your target selling price:</string>
+
+    <string name="investor_type_1">Defensive</string>
+    <string name="investor_type_2">Conservative</string>
+    <string name="investor_type_3">Balanced</string>
+    <string name="investor_type_4">Growth</string>
+    <string name="investor_type_5">Aggressive</string>
+
+    <string name="investor_des_1">
+        You are willing to accept returns below inflation
+        and you might consider choosing a lower-risk investment option,
+        which can protect you against investment losses
+        resulting from market fluctuations or volatility.
+    </string>
+    <string name="investor_des_2">
+        You are willing to accept lower returns
+        in exchange for a higher degree of stability and certainty.
+    </string>
+    <string name="investor_des_3">
+        You are willing to take a medium level of risk and short-term fluctuations.
+    </string>
+    <string name="investor_des_4">
+        You are willing to accept above average level of risk
+        in exchange for potentially high returns over the long term.
+    </string>
+    <string name="investor_des_5">
+        You are willing to accept a relatively higher level of risk
+        in exchange for potentially higher returns over the long term.
+    </string>
 
     <string-array name="array_indicator">
         <item>Price</item>
