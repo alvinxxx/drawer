@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardActivity;
 import com.example.alvinlam.drawer.data.RiskAssessDbFunction;
+import com.example.alvinlam.drawer.data.StockQueryTask;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
 
@@ -138,7 +139,30 @@ public class StockRecommendThreeFragment extends Fragment {
                 tableView.addDataClickListener(new TableDataClickListener() {
                     @Override
                     public void onDataClicked(int rowIndex, Object clickedData) {
-                        Toast.makeText(context, ((String[])clickedData)[1], Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, ((String[])clickedData)[0], Toast.LENGTH_SHORT).show();
+
+                        String s = ((String[])clickedData)[0];
+
+                        try {
+                            int code = Integer.parseInt(s);
+                        } catch (NumberFormatException ex) {
+                            Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
+                        }
+
+                        URL stockSearchUrl = NetworkUtils.buildUrl(s);
+                        URL stockSearchUrlF = NetworkUtils.buildUrlF(s);
+                        URL stockSearchUrlT = NetworkUtils.buildUrlT(s);
+
+                        boolean internet = NetworkUtils.hasInternetConnection(getContext());
+                        if(internet) {
+                            new StockQueryTask(getActivity().getApplicationContext()).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+                        }else{
+                            //no internet toast
+                            Toast.makeText(getActivity().getApplicationContext(),"No internet",Toast.LENGTH_LONG).show();
+                        }
+
+
+
                     }
                 });
             }

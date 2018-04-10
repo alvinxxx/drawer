@@ -193,7 +193,7 @@ public class NetworkUtils {
         }else{
             CATEGORY = "catn3";
         }
-
+        //TODO: fix date
         if(hr < 17){
             dt -= 1;
             date = String.valueOf(dt);
