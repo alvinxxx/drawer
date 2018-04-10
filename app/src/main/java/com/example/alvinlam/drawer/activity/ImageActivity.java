@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -19,27 +23,28 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.ContactImageAdapter;
+import com.example.alvinlam.drawer.adapter.StockDetailAdapter;
+import com.example.alvinlam.drawer.adapter.StockRecommendAdapter;
 import com.example.alvinlam.drawer.data.old.Card;
 import com.example.alvinlam.drawer.data.old.DataBaseHandler;
+import com.example.alvinlam.drawer.utilities.NetworkUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Button addImage;
-    ArrayList<Card> imageArry = new ArrayList<Card>();
-    ContactImageAdapter imageAdapter;
-    private static final int CAMERA_REQUEST = 1;
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.listeners.TableDataClickListener;
+import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
-    ListView dataList;
-    byte[] imageName;
-    int imageId;
-    Bitmap theImage;
-    DataBaseHandler db;
+public class ImageActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     /** Called when the activity is first created. */
     @Override
@@ -47,7 +52,7 @@ public class ImageActivity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -59,115 +64,26 @@ public class ImageActivity extends AppCompatActivity implements NavigationView.O
         NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        dataList = (ListView) findViewById(R.id.list);
-        /**
-                 * create DatabaseHandler object
-                 */
-        db = new DataBaseHandler(this);
+        // Find the view pager that will allow the user to swipe between fragments
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpagerRecommend);
 
-        /**
-                 * Reading and getting all records from database
-                 */
-        List<Card> cards = db.getAllContacts();
-        for (Card cn : cards) {
-            String log = "ID:" + cn.getID() + " Name: " + cn.getName()
-                    + " ,Image: " + cn.getImage();
+        // Create an adapter that knows which fragment should be shown on each page
+        StockRecommendAdapter adapter = new StockRecommendAdapter(this, getSupportFragmentManager());
 
-            // Writing Contacts to log
-            Log.d("Result: ", log);
-            // add cards data in arrayList
-            imageArry.add(cn);
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
 
-        }
-        /**
-         * Set Data base Item into listview
-         */
-        imageAdapter = new ContactImageAdapter(this, R.layout.screen_list,
-                imageArry);
-        dataList.setAdapter(imageAdapter);
+        // Find the tab layout that shows the tabs
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsRecommend);
 
-        /**
-         * open dialog for choose camera
-         */
-
-        final String[] option = new String[] {"Take from Camera"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.select_dialog_item, option);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setTitle("Select Option");
-        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
-                Log.e("Selected Item", String.valueOf(which));
-                if (which == 0) {
-                    callCamera();
-                }
-
-
-            }
-        });
-        final AlertDialog dialog = builder.create();
-
-        addImage = (Button) findViewById(R.id.btnAdd);
-
-        addImage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                dialog.show();
-            }
-        });
+        // Connect the tab layout with the view pager. This will
+        //   1. Update the tab layout when the view pager is swiped
+        //   2. Update the view pager when a tab is selected
+        //   3. Set the tab layout's tab names with the view pager's adapter's titles
+        //      by calling onPageTitle()
+        tabLayout.setupWithViewPager(viewPager);
 
     }
-
-    /**
-     * On activity result
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK)
-            return;
-
-        switch (requestCode) {
-            case CAMERA_REQUEST:
-
-                Bundle extras = data.getExtras();
-
-                if (extras != null) {
-                    Bitmap yourImage = extras.getParcelable("data");
-                    // convert bitmap to byte
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    yourImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte imageInByte[] = stream.toByteArray();
-
-                    // Inserting Contacts
-                    Log.d("Insert: ", "Inserting ..");
-                    db.addContact(new Card("Android", imageInByte));
-                    Intent i = new Intent(ImageActivity.this,
-                            ImageActivity.class);
-                    startActivity(i);
-                    finish();
-
-                }
-                break;
-        }
-    }
-
-    /**
-     * open camera method
-     */
-    public void callCamera()
-    {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAMERA_REQUEST);
-        intent.setType("image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 0);
-        intent.putExtra("aspectY", 0);
-        intent.putExtra("outputX", 250);
-        intent.putExtra("outputY", 200);
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -178,8 +94,6 @@ public class ImageActivity extends AppCompatActivity implements NavigationView.O
             super.onBackPressed();
         }
     }
-
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -207,8 +121,10 @@ public class ImageActivity extends AppCompatActivity implements NavigationView.O
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
+
 
 
 

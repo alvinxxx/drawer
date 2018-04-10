@@ -7,7 +7,7 @@
     <string name="stock_detail">Stock detail</string>
     <string name="add_stock">Add stock</string>
     <string name="my_card">My Risk Assessment</string>
-    <string name="image">Image</string>
+    <string name="stock_recommend">Stock Recommendation</string>
     <string name="my_account">Account</string>
     <string name="action_settings">Settings</string>
     <string name="action_reset">Reset</string>
@@ -24,6 +24,9 @@
     <string name="stock_analysis">Analysis</string>
     <string name="stock_chart">Chart</string>
     <string name="stock_alert">Alert</string>
+
+    <string name="recommend_std">STD</string>
+    <string name="recommend_std_three">STD+STD_L+STD_H</string>
 
     <string name="stock_notification_title">StockAlertMe</string>
     <string name="stock_notification_body">Check out the stock recommendation</string>

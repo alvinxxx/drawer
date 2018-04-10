@@ -11,6 +11,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -42,6 +46,12 @@ public class NetworkUtils {
             "http://alvinxxx.ddns.net:3000/f/";
     final static String STOCK_BASE_URL_T =
             "http://alvinxxx.ddns.net:3001/t/";
+
+    //20180411
+    // ?_where=(catn,eq,1)&_sort=-s_pe
+    final static String STOCK_BASE_URL_R =
+            "http://alvinxxx.ddns.net:3002/r/";
+
     // 1/?_sort=-date&_size=1
     final static String SORT = "_sort";
     final static String SIZE = "_size";
@@ -158,6 +168,36 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         Log.d(TAG, "buildUrlT: "+ builtUri);
+        return url;
+    }
+
+    public static URL buildUrlR() {
+        Date currentTime = Calendar.getInstance().getTime();
+        System.out.println(currentTime);
+        /*
+        if(currentTime)
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+
+
+        String time = new SimpleDateFormat("hh:mm", Locale.getDefault()).format(new Date());
+
+        String stockSearchQuery = df.format(currentTime); //20180401
+    */
+        String stockSearchQuery = "20180410";
+        String suffix = "?_where=(catn,eq,1)&_sort=-s3_pe";
+        //http://alvinxxx.ddns.net:3002/r/20180411?_where=(catn,eq,1)&_sort=-s_pe
+        // build the proper query URL
+        String stock_url = STOCK_BASE_URL_R + stockSearchQuery + suffix;
+        Uri builtUri = Uri.parse(stock_url).buildUpon()
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "buildUrlR: "+ builtUri);
         return url;
     }
 

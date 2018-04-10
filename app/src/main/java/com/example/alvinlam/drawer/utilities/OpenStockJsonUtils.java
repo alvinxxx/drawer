@@ -10,6 +10,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Alvin Lam on 10/30/2017.
  */
@@ -69,8 +72,6 @@ public class OpenStockJsonUtils {
         Log.d("tag", "getSimpleStockStringsFromJson: "+parsedStockData[12]);
         return parsedStockData;
     }
-
-
 
     public static String[] getFullStockDataFromJson(String stockJsonStr)
             throws JSONException {
@@ -297,6 +298,48 @@ public class OpenStockJsonUtils {
         return parsedStockData;
     }
 
+
+
+
+    public static List<String[]> getRecommendDataFromJson(String stockJsonStr, int mode)
+            throws JSONException {
+
+        List<String[]> list = new ArrayList<>();
+
+        String code, s_dy, s_pe;
+
+
+        final String CODE = "code";
+        final String S_DY = "s_dy";
+        final String S3_DY = "s3_dy";
+        final String S_PE = "s_pe";
+        final String S3_PE = "s3_pe";
+
+        JSONArray valueArray = new JSONArray(stockJsonStr);
+
+        for (int i=0;i<valueArray.length();i++){
+            String[] row = new String[3];
+            JSONObject stockDataSet = valueArray.getJSONObject(i);
+            code = stockDataSet.getString(CODE);
+            row[0] = code;
+
+            if(mode==0){
+                s_dy = stockDataSet.getString(S_DY);
+                s_pe = stockDataSet.getString(S_PE);
+            }else{
+                s_dy = stockDataSet.getString(S3_DY);
+                s_pe = stockDataSet.getString(S3_PE);
+            }
+            row[1] = s_dy;
+            row[2] = s_pe;
+            list.add(row);
+        }
+
+        //Log.d("openjson", "getFullStockDataFromArray3: "+dps);
+
+
+        return list;
+    }
 
     /**
      * Parse the JSON and convert it into ContentValue that can be inserted into our database.

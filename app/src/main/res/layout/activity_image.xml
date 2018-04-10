@@ -15,10 +15,10 @@
         tools:context=".activity.ImageActivity">
 
         <include
-            layout="@layout/main_toolbar" />
+            layout="@layout/add_card_toolbar" />
 
-        <include layout="@layout/main"
-            android:layout_height="508dp" />
+        <include
+            layout="@layout/stock_recommend_tab_precontent" />
 
     </android.support.design.widget.CoordinatorLayout>
 

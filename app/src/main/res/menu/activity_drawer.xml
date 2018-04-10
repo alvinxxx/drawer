@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_image"
             android:icon="@drawable/ic_action_image"
-            android:title="@string/image" />
+            android:title="@string/stock_recommend" />
 
     </group>
 
