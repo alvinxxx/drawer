@@ -22,10 +22,13 @@ import android.widget.Toast;
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardActivity;
 import com.example.alvinlam.drawer.activity.ImageActivity;
+import com.example.alvinlam.drawer.activity.MainActivity;
 import com.example.alvinlam.drawer.activity.StockAlertAddActivity;
 import com.example.alvinlam.drawer.adapter.StockAlertAdapter;
+import com.example.alvinlam.drawer.data.RiskAssessDbFunction;
 import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
+import com.example.alvinlam.drawer.data.StockQueryTask;
 import com.example.alvinlam.drawer.data.StocklistContract;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
@@ -39,6 +42,7 @@ import java.util.List;
 
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.listeners.TableDataClickListener;
+import de.codecrafters.tableview.listeners.TableHeaderClickListener;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
@@ -51,7 +55,8 @@ public class StockRecommendFragment extends Fragment {
     private static final String SHARE_HASHTAG = " #PocketCard";
 
     private long id = 0;
-
+    private Cursor cursor;
+    private RiskAssessDbFunction dbFunction;
 
     static String[] spaceProbeHeaders={"Name","Sharpe Dividend","Sharpe PE"};
 
@@ -67,10 +72,24 @@ public class StockRecommendFragment extends Fragment {
         final Context context = rootView.getContext();
 
 
+        //get my category
+        dbFunction = new RiskAssessDbFunction(context);
+        cursor = dbFunction.selectTotalScore();
+        int total = cursor.getInt(0);// get final total
+        int cat = 1;
+        if (total >= 14 && total <= 21){
+            cat = 1;
+        }else if (total >= 22 && total <= 30){
+            cat = 2;
+        }else if (total >= 31 && total <= 39){
+            cat = 3;
+        }else if (total >= 40 && total <= 48){
+            cat = 4;
+        }else if (total >= 49 && total <= 56){
+            cat = 5;
+        }
 
-
-
-        URL stockSearchUrl = NetworkUtils.buildUrlR();
+        URL stockSearchUrl = NetworkUtils.buildUrlR(0, cat);
         new StockRecommendTask(getContext(), rootView).execute(stockSearchUrl);
 
 
@@ -131,17 +150,47 @@ public class StockRecommendFragment extends Fragment {
                 tableView.setColumnCount(3);
                 tableView.setDataAdapter(new SimpleTableDataAdapter(context, parsedStockData));
 
-
+                tableView.addHeaderClickListener(new TableHeaderClickListener() {
+                    @Override
+                    public void onHeaderClicked(int rowIndex) {
+                        //Toast.makeText(context, rowIndex, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 tableView.addDataClickListener(new TableDataClickListener() {
                     @Override
                     public void onDataClicked(int rowIndex, Object clickedData) {
-                        Toast.makeText(context, ((String[])clickedData)[1], Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, ((String[])clickedData)[0], Toast.LENGTH_SHORT).show();
+
+                        String s = ((String[])clickedData)[0];
+
+                        try {
+                            int code = Integer.parseInt(s);
+                        } catch (NumberFormatException ex) {
+                            Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
+                        }
+
+                        URL stockSearchUrl = NetworkUtils.buildUrl(s);
+                        URL stockSearchUrlF = NetworkUtils.buildUrlF(s);
+                        URL stockSearchUrlT = NetworkUtils.buildUrlT(s);
+
+                        boolean internet = NetworkUtils.hasInternetConnection(getContext());
+                        if(internet) {
+                            new StockQueryTask(getActivity().getApplicationContext()).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+                        }else{
+                            //no internet toast
+                            Toast.makeText(getActivity().getApplicationContext(),"No internet",Toast.LENGTH_LONG).show();
+                        }
+
+
+
                     }
                 });
             }
 
 
         }
+
+
     }
 
 

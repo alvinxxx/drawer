@@ -86,6 +86,33 @@ public class AddCardActivity extends AppCompatActivity{
                     volume = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_VOLUME));
                     turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_TURNOVER));
                     lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOT));
+                    dy = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DY));
+                    dps = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DPS));
+                    eps = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_EPS));
+                    sma20 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA20));
+                    std20 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20));
+                    std20l = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20L));
+                    std20h = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20H));
+                    sma50 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA50));
+                    std50 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50));
+                    std50l = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50L));
+                    std50h = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50H));
+                    sma100 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA100));
+                    std100 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100));
+                    std100l = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100L));
+                    std100h = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100H));
+                    sma250 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_SMA250));
+                    std250 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
+                    std250l = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250L));
+                    std250h = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250H));
+                    l20 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20L));
+                    h20 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20H));
+                    l50 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50L));
+                    h50 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50H));
+                    l100 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100L));
+                    h100 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100H));                    l20 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20L));
+                    l250 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250L));
+                    h250 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250H));
 
                     cursor.close();
                 }

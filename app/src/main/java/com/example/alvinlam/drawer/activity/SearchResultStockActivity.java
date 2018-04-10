@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.StockDetailAdapter;
+import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
@@ -30,6 +31,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
 
     private Cursor cursor;
     private StockDbFunction dbFunction;
+    private StockAlertDbFunction dbAFunction;
 
     private long id = 0;
     private String name;
@@ -73,8 +75,33 @@ public class SearchResultStockActivity extends AppCompatActivity{
                 volume =  checkDouble(parsedStockData[9]);
                 turnover =  checkDouble(parsedStockData[10]);
                 lot =  checkDouble(parsedStockData[11]);
-
-
+                dy =  checkDouble(parsedStockData[12]);
+                dps =  checkDouble(parsedStockData[13]);
+                eps =  checkDouble(parsedStockData[14]);
+                sma20 =  checkDouble(parsedStockData[15]);
+                std20 =  checkDouble(parsedStockData[16]);
+                std20l =  checkDouble(parsedStockData[17]);
+                std20h =  checkDouble(parsedStockData[18]);
+                sma50 =  checkDouble(parsedStockData[19]);
+                std50 =  checkDouble(parsedStockData[20]);
+                std50l =  checkDouble(parsedStockData[21]);
+                std50h =  checkDouble(parsedStockData[22]);
+                sma100 =  checkDouble(parsedStockData[23]);
+                std100 =  checkDouble(parsedStockData[24]);
+                std100l =  checkDouble(parsedStockData[25]);
+                std100h =  checkDouble(parsedStockData[26]);
+                sma250 =  checkDouble(parsedStockData[27]);
+                std250 =  checkDouble(parsedStockData[28]);
+                std250l =  checkDouble(parsedStockData[29]);
+                std250h =  checkDouble(parsedStockData[30]);
+                l20 =  checkDouble(parsedStockData[31]);
+                h20 =  checkDouble(parsedStockData[32]);
+                l50 =  checkDouble(parsedStockData[33]);
+                h50 =  checkDouble(parsedStockData[34]);
+                l100 =  checkDouble(parsedStockData[35]);
+                h100 =  checkDouble(parsedStockData[36]);
+                l250 =  checkDouble(parsedStockData[37]);
+                h250 =  checkDouble(parsedStockData[38]);
             }
         }
 
@@ -127,6 +154,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
         Context context = this;
         Class destinationClass = AddCardActivity.class;
         dbFunction = new StockDbFunction(context);
+        dbAFunction = new StockAlertDbFunction(context);
 
         //noinspection SimplifiableIfStatement
         if (lid == R.id.action_add) {
@@ -139,6 +167,10 @@ public class SearchResultStockActivity extends AppCompatActivity{
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
                     l20, h20, l50, h50, l100, h100, l250, h250
             );
+            //add default alert for each stock
+            dbAFunction.insert(name, code, 1);
+            dbAFunction.insert(name, code, 0);
+
             Toast.makeText(SearchResultStockActivity.this,"Stock Added",Toast.LENGTH_LONG).show();
             mAdd.setVisible(false);
             mDelete.setVisible(true);

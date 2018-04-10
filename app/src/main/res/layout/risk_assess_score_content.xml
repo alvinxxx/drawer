@@ -12,8 +12,8 @@
 
     <TextView
         android:id="@+id/textViewRASDesValue"
-        android:layout_width="325dp"
-        android:layout_height="168dp"
+        android:layout_width="314dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -29,7 +29,7 @@
 
     <TextView
         android:id="@+id/textViewRASTypeValue"
-        android:layout_width="83dp"
+        android:layout_width="wrap_content"
         android:layout_height="34dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"

@@ -53,10 +53,14 @@ public class NetworkUtils {
             "http://alvinxxx.ddns.net:3002/r/";
 
     // 1/?_sort=-date&_size=1
-    final static String SORT = "_sort";
-    final static String SIZE = "_size";
+    private final static String SORT = "_sort";
+    private final static String SIZE = "_size";
+    private final static String WHERE = "_where";
+
     private static final String desc = "-";
     private static final String sort_col = "date";
+    private static final String sort_col_pe = "s3_pe";
+
     private static final int response_size = 1;
 
     private static final String TAG = "NetworkUtils";
@@ -171,24 +175,35 @@ public class NetworkUtils {
         return url;
     }
 
-    public static URL buildUrlR() {
+    public static URL buildUrlR(int mode, int cat) {
         Date currentTime = Calendar.getInstance().getTime();
-        System.out.println(currentTime);
-        /*
-        if(currentTime)
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        DateFormat hourFormat = new SimpleDateFormat("HH");
+        String date = dateFormat.format(currentTime);
+        String hour = hourFormat.format(currentTime);
+        long dt = Long.parseLong(date);
+        int hr = Integer.parseInt(hour);
 
-
-        String time = new SimpleDateFormat("hh:mm", Locale.getDefault()).format(new Date());
-
-        String stockSearchQuery = df.format(currentTime); //20180401
-    */
-        String stockSearchQuery = "20180410";
-        String suffix = "?_where=(catn,eq,1)&_sort=-s3_pe";
         //http://alvinxxx.ddns.net:3002/r/20180411?_where=(catn,eq,1)&_sort=-s_pe
+
+        String CATEGORY = "catn";
+
+        if(mode == 0){
+            CATEGORY = "catn";
+        }else{
+            CATEGORY = "catn3";
+        }
+
+        if(hr < 17){
+            dt -= 1;
+            date = String.valueOf(dt);
+        }
+
         // build the proper query URL
-        String stock_url = STOCK_BASE_URL_R + stockSearchQuery + suffix;
+        String stock_url = STOCK_BASE_URL_R + date;
         Uri builtUri = Uri.parse(stock_url).buildUpon()
+                .appendQueryParameter(WHERE, "("+CATEGORY+",eq,"+cat+")")
+                .appendQueryParameter(SORT, desc+sort_col_pe)
                 .build();
 
         URL url = null;
