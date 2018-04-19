@@ -59,7 +59,7 @@ public class NetworkUtils {
 
     private static final String desc = "-";
     private static final String sort_col = "date";
-    private static final String sort_col_pe = "s3_pe";
+    private static final String sort_col_pe = "s_dy";
 
     private static final int response_size = 1;
 
@@ -176,6 +176,7 @@ public class NetworkUtils {
     }
 
     public static URL buildUrlR(int mode, int cat) {
+        /*
         Date currentTime = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
         DateFormat hourFormat = new SimpleDateFormat("HH");
@@ -186,21 +187,39 @@ public class NetworkUtils {
 
         //http://alvinxxx.ddns.net:3002/r/20180411?_where=(catn,eq,1)&_sort=-s_pe
 
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        switch (day) {
+            case Calendar.SUNDAY:
+                // Current day is Sunday
+                dt -= 2;
+                break;
+            case Calendar.MONDAY:
+                // Current day is Monday
+                dt -= 3;
+                break;
+            default:
+                dt -= 1;
+        }
+
+        date = String.valueOf(dt);
+
+        */
         String CATEGORY = "catn";
+        String DBNAME = "latest";
 
         if(mode == 0){
             CATEGORY = "catn";
         }else{
             CATEGORY = "catn3";
         }
-        //TODO: fix date
-        if(hr < 17){
-            dt -= 1;
-            date = String.valueOf(dt);
-        }
+
+
+
 
         // build the proper query URL
-        String stock_url = STOCK_BASE_URL_R + date;
+        String stock_url = STOCK_BASE_URL_R + DBNAME;
         Uri builtUri = Uri.parse(stock_url).buildUpon()
                 .appendQueryParameter(WHERE, "("+CATEGORY+",eq,"+cat+")")
                 .appendQueryParameter(SORT, desc+sort_col_pe)

@@ -335,7 +335,7 @@ public class OpenStockJsonUtils {
             list.add(row);
         }
 
-        //Log.d("openjson", "getFullStockDataFromArray3: "+dps);
+        //Log.d("openjson", "getFullStockDataFromArray3: "+list);
 
 
         return list;

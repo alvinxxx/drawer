@@ -71,7 +71,7 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
         holder.itemView.setTag(id);
         holder.nameTextView.setText(name);
         holder.priceTextView.setText(String.format(Locale.getDefault(), "%.2f", price));
-        holder.netChangeTextView.setText(String.format(Locale.getDefault(), "%.2f", netChange));
+        holder.netChangeTextView.setText(String.format(Locale.getDefault(), "%.2f", netChange)+"%");
 
         //        Get the first letter of list item
         letter = String.valueOf(name.charAt(0));
