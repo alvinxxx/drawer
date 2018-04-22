@@ -149,13 +149,14 @@ public class StockRecommendThreeFragment extends Fragment {
                             Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
                         }
 
-                        URL stockSearchUrl = NetworkUtils.buildUrl(s);
+                        URL stockSearchUrlA = NetworkUtils.buildUrlA(s);
+                        URL stockSearchUrlI = NetworkUtils.buildUrlI(s);
                         URL stockSearchUrlF = NetworkUtils.buildUrlF(s);
                         URL stockSearchUrlT = NetworkUtils.buildUrlT(s);
 
                         boolean internet = NetworkUtils.hasInternetConnection(getContext());
                         if(internet) {
-                            new StockQueryTask(getActivity().getApplicationContext()).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+                            new StockQueryTask(getActivity().getApplicationContext()).execute(stockSearchUrlA, stockSearchUrlI, stockSearchUrlF, stockSearchUrlT);
                         }else{
                             //no internet toast
                             Toast.makeText(getActivity().getApplicationContext(),"No internet",Toast.LENGTH_LONG).show();

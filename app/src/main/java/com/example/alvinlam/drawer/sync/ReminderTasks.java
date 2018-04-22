@@ -59,18 +59,20 @@ public class ReminderTasks {
                 mCursor.moveToPosition(i);
                 //id_list[i] = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
                 id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
-                URL stockSearchUrl = NetworkUtils.buildUrl(String.valueOf(id));
+                URL stockSearchUrlA = NetworkUtils.buildUrlA(String.valueOf(id));
+                URL stockSearchUrlI = NetworkUtils.buildUrlI(String.valueOf(id));
                 URL stockSearchUrlF = NetworkUtils.buildUrlF(String.valueOf(id));
                 URL stockSearchUrlT = NetworkUtils.buildUrlT(String.valueOf(id));
 
-                String[] arrayJSONstring =  new String[3];
+                String[] arrayJSONstring =  new String[4];
 
                 try {
                     boolean internet = NetworkUtils.hasInternetConnection(context);
                     if(internet){
-                        arrayJSONstring[0] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrl, context);
-                        arrayJSONstring[1] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlF, context);
-                        arrayJSONstring[2] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlT, context);
+                        arrayJSONstring[0] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlA, context);
+                        arrayJSONstring[1] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlI, context);
+                        arrayJSONstring[2] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlF, context);
+                        arrayJSONstring[3] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlT, context);
 
                         String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
                         dbFunction.replaceByArray(fullJsonStockData);

@@ -13,7 +13,7 @@ import com.example.alvinlam.drawer.data.StocklistContract.*;
 public class StocklistDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "stocklist.db";
-    private static final int DATABASE_VERSION = 42;
+    private static final int DATABASE_VERSION = 44;
 
     public StocklistDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,10 +32,7 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
                 StocklistEntry.COLUMN_PE + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_HIGH + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_LOW + " DOUBLE NOT NULL, " +
-                StocklistEntry.COLUMN_PRE_CLOSE + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_VOLUME + " DOUBLE NOT NULL, " +
-                StocklistEntry.COLUMN_TURNOVER + " DOUBLE NOT NULL, " +
-                StocklistEntry.COLUMN_LOT + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_DY + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_DPS + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_EPS + " DOUBLE NOT NULL, " +
@@ -63,6 +60,9 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
                 StocklistEntry.COLUMN_100H + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_250L + " DOUBLE NOT NULL, " +
                 StocklistEntry.COLUMN_250H + " DOUBLE NOT NULL, " +
+                StocklistEntry.COLUMN_UPTIME + " TEXT NOT NULL, " +
+                StocklistEntry.COLUMN_NAME_CHI + " TEXT NOT NULL, " +
+                StocklistEntry.COLUMN_INDUSTRY + " TEXT NOT NULL, " +
                 StocklistEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 "); ";
 

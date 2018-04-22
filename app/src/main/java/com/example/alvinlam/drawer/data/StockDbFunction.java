@@ -65,10 +65,11 @@ public class StockDbFunction {
     }
     */
     public void replace(long id, String name, int code, String date, double price, double netChange, double pe, double high, double low,
-                        double preClose, double volume, double turnover, double lot, double dy, double dps, double eps,
+                        double volume, double dy, double dps, double eps,
                         double sma20, double std20, double std20l, double std20h, double sma50, double std50, double std50l, double std50h,
                         double sma100, double std100, double std100l, double std100h, double sma250, double std250, double std250l, double std250h,
-                        double l20, double h20, double l50, double h50, double l100, double h100, double l250, double h250
+                        double l20, double h20, double l50, double h50, double l100, double h100, double l250, double h250,
+                        String uptime, String name_chi, String industry
                         ) {
 
         //Open connection to write data
@@ -83,10 +84,7 @@ public class StockDbFunction {
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, pe);
         cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, high);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, low);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, preClose);
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, volume);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, turnover);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, lot);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DY, dy);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DPS, dps);
         cv.put(StocklistContract.StocklistEntry.COLUMN_EPS, eps);
@@ -114,6 +112,10 @@ public class StockDbFunction {
         cv.put(StocklistContract.StocklistEntry.COLUMN_100H, h100);
         cv.put(StocklistContract.StocklistEntry.COLUMN_250L, l250);
         cv.put(StocklistContract.StocklistEntry.COLUMN_250H, h250);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_UPTIME, uptime);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_NAME_CHI, name_chi);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_INDUSTRY, industry);
+
 
         long result = mDb.insertWithOnConflict(StocklistContract.StocklistEntry.TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_IGNORE);
         if (result == -1) {
@@ -133,9 +135,9 @@ public class StockDbFunction {
 
     public void replaceByArray(String[] parsedStockData) {
         long id;
-        String name, date;
+        String name, date, uptime, name_chi, industry;
         int code = 0;
-        double price = 0, netChange = 0, pe = 0, high = 0, low = 0, preClose = 0, volume = 0, turnover = 0, lot = 0,
+        double price = 0, netChange = 0, pe = 0, high = 0, low = 0, volume = 0,
                 dy=0, dps = 0, eps = 0, sma20 = 0, std20 = 0, std20l = 0, std20h = 0, sma50 = 0, std50 = 0, std50l = 0, std50h = 0,
                 sma100 = 0, std100 = 0, std100l = 0, std100h = 0, sma250 = 0, std250 = 0, std250l = 0, std250h = 0,
                 l20 = 0, h20 = 0, l50 = 0, h50 = 0, l100 = 0, h100 = 0, l250 = 0, h250 = 0;
@@ -150,10 +152,10 @@ public class StockDbFunction {
         pe =  checkDouble(parsedStockData[5]);
         high =  checkDouble(parsedStockData[6]);
         low =  checkDouble(parsedStockData[7]);
-        preClose =  checkDouble(parsedStockData[8]);
+
         volume =  checkDouble(parsedStockData[9]);
-        turnover =  checkDouble(parsedStockData[10]);
-        lot =  checkDouble(parsedStockData[11]);
+
+
         dy =  checkDouble(parsedStockData[12]);
         dps =  checkDouble(parsedStockData[13]);
         eps =  checkDouble(parsedStockData[14]);
@@ -181,7 +183,9 @@ public class StockDbFunction {
         h100 =  checkDouble(parsedStockData[36]);
         l250 =  checkDouble(parsedStockData[37]);
         h250 =  checkDouble(parsedStockData[38]);
-
+        uptime =  parsedStockData[8];
+        name_chi =  parsedStockData[10];
+        industry =  parsedStockData[11];
 
 
         SQLiteDatabase mDb = dbHelper.getWritableDatabase();
@@ -195,10 +199,7 @@ public class StockDbFunction {
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, pe);
         cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, high);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, low);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, preClose);
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, volume);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, turnover);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, lot);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DY, dy);
         cv.put(StocklistContract.StocklistEntry.COLUMN_DPS, dps);
         cv.put(StocklistContract.StocklistEntry.COLUMN_EPS, eps);
@@ -226,6 +227,9 @@ public class StockDbFunction {
         cv.put(StocklistContract.StocklistEntry.COLUMN_100H, h100);
         cv.put(StocklistContract.StocklistEntry.COLUMN_250L, l250);
         cv.put(StocklistContract.StocklistEntry.COLUMN_250H, h250);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_UPTIME, uptime);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_NAME_CHI, name_chi);
+        cv.put(StocklistContract.StocklistEntry.COLUMN_INDUSTRY, industry);
 
         long result = mDb.insertWithOnConflict(StocklistContract.StocklistEntry.TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_IGNORE);
         if (result == -1) {

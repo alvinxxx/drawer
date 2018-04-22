@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
                 }
 
-                URL stockSearchUrl = NetworkUtils.buildUrl(s);
+                URL stockSearchUrl = NetworkUtils.buildUrlA(s);
                 URL stockSearchUrlF = NetworkUtils.buildUrlF(s);
                 URL stockSearchUrlT = NetworkUtils.buildUrlT(s);
 

@@ -1,32 +1,18 @@
 package com.example.alvinlam.drawer.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ShareCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardActivity;
-import com.example.alvinlam.drawer.activity.AddCardAddActivity;
-import com.example.alvinlam.drawer.activity.MainActivity;
-import com.example.alvinlam.drawer.activity.SearchResultStockActivity;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
@@ -43,32 +29,24 @@ public class StockDetailFragment extends Fragment {
     private Cursor cursor;
     private StockDbFunction dbFunction;
 
-    private EditText mNameEditText;
-    private EditText mCodeEditText;
-    private EditText mDateEditText;
-    private EditText mPriceEditText;
-    private EditText mNetChangeEditText;
-    private EditText mPEEditText;
-    private EditText mHighEditText;
-    private EditText mLowEditText;
-    private EditText mPreCloseEditText;
-    private EditText mVolumeEditText;
-    private EditText mTurnoverEditText;
-    private EditText mLotEditText;
+    private TextView mCodeTextView;
+    private TextView mDateTextView;
+    private TextView mPriceTextView;
+    private TextView mNetChangeTextView;
+    private TextView mHighTextView;
+    private TextView mLowTextView;
+    private TextView mVolumeTextView;
+    private TextView mUptimeTextView;
 
     private long id = 0;
-    private String name;
     private int code;
     private String date;
     private double price;
     private double netChange;
-    private double pe;
     private double high;
     private double low;
-    private double preClose;
     private double volume;
-    private double turnover;
-    private double lot;
+    private String uptime;
 
     public StockDetailFragment() {
         // Required empty public constructor
@@ -85,18 +63,14 @@ public class StockDetailFragment extends Fragment {
         dbFunction = new StockDbFunction(getActivity().getApplicationContext());
 
 
-        //mNameEditText = (EditText) rootView.findViewById(R.id.add_name_editText);
-        mCodeEditText = (EditText) rootView.findViewById(R.id.add_code_editText);
-        mDateEditText = (EditText) rootView.findViewById(R.id.add_date_editText);
-        mPriceEditText = (EditText) rootView.findViewById(R.id.add_price_editText);
-        mNetChangeEditText = (EditText) rootView.findViewById(R.id.add_net_change_editText);
-        //mPEEditText = (EditText) rootView.findViewById(R.id.add_pe_editText);
-        mHighEditText = (EditText) rootView.findViewById(R.id.add_high_editText);
-        mLowEditText = (EditText) rootView.findViewById(R.id.add_low_editText);
-        //mPreCloseEditText = (EditText) rootView.findViewById(R.id.add_pre_close_editText);
-        mVolumeEditText = (EditText) rootView.findViewById(R.id.add_volume_editText);
-        mTurnoverEditText = (EditText) rootView.findViewById(R.id.add_turnover_editText);
-        //mLotEditText = (EditText) rootView.findViewById(R.id.add_lot_editText);
+        mCodeTextView = (TextView) rootView.findViewById(R.id.textViewCode2);
+        mDateTextView = (TextView) rootView.findViewById(R.id.textViewDate2);
+        mPriceTextView = (TextView) rootView.findViewById(R.id.textViewPrice2);
+        mNetChangeTextView = (TextView) rootView.findViewById(R.id.textViewNetChange2);
+        mHighTextView = (TextView) rootView.findViewById(R.id.textViewHigh2);
+        mLowTextView = (TextView) rootView.findViewById(R.id.textViewLow2);
+        mVolumeTextView = (TextView) rootView.findViewById(R.id.textViewVolume2);
+        mUptimeTextView = (TextView) rootView.findViewById(R.id.textViewUptime2);
 
 
         Intent intentThatStartedThisActivity = getActivity().getIntent();
@@ -112,87 +86,59 @@ public class StockDetailFragment extends Fragment {
 
                     //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
-                    //name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
                     code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
                     date = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DATE));
                     price = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
                     netChange = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
-                    //pe = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PE));
                     high = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_HIGH));
                     low = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
-                    preClose = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE));
                     volume = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_VOLUME));
-                    turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_TURNOVER));
-                    //lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOT));
+                    uptime = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_UPTIME));
+
+
                 }
             }else if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
                 String[] parsedStockData = intentThatStartedThisActivity.getStringArrayExtra(Intent.EXTRA_TEXT);
 
                 id = Long.parseLong(parsedStockData[1]);
-                //name = parsedStockData[0];
                 code = Integer.parseInt(parsedStockData[1]);
                 date = parsedStockData[2];
                 price = checkDouble(parsedStockData[3]);
                 netChange =  checkDouble(parsedStockData[4]);
-                //pe =  checkDouble(parsedStockData[5]);
                 high =  checkDouble(parsedStockData[6]);
                 low =  checkDouble(parsedStockData[7]);
-                preClose =  checkDouble(parsedStockData[8]);
                 volume =  checkDouble(parsedStockData[9]);
-                turnover =  checkDouble(parsedStockData[10]);
-                //lot =  checkDouble(parsedStockData[11]);
+                uptime = parsedStockData[8];
+
 
 
             }
-            try {
-                netChange = (price-preClose)/preClose;
-                //System.out.println(netChange+"%");
 
-            } catch (Exception e) {
-                Log.d(TAG, "onCreateView: "+"nullpointer");
-            }
+            String[] tempDate = date.split("T");
+            tempDate = tempDate[0].split("-");
 
-            //mNameEditText.setText(name);
-            mCodeEditText.setText(String.format(Locale.getDefault(), "%d", code));
-            mDateEditText.setText(date);
-            mPriceEditText.setText(String.format(Locale.getDefault(), "%.2f", price));
-            mNetChangeEditText.setText(String.format(Locale.getDefault(), "%.2f", netChange)+"%");
-            //mPEEditText.setText(String.format(Locale.getDefault(), "%.2f", pe));
-            mHighEditText.setText(String.format(Locale.getDefault(), "%.2f", high));
-            mLowEditText.setText(String.format(Locale.getDefault(), "%.2f", low));
-            //mPreCloseEditText.setText(String.format(Locale.getDefault(), "%.2f", preClose));
-            mVolumeEditText.setText(String.format(Locale.getDefault(), "%.0f", volume)+"m");
-            mTurnoverEditText.setText(String.format(Locale.getDefault(), "%.0f", turnover)+"m");
-            //mLotEditText.setText(String.format(Locale.getDefault(), "%.2f", lot));
+            int day = Integer.parseInt(tempDate[2])+1;
+
+            String[] tempTime = uptime.split("T");
+            tempTime = tempTime[1].split(":");
+
+            int hour = Integer.parseInt(tempTime[0])+8;
+
+            String realDate = tempDate[0]+"-"+tempDate[1]+"-"+String.valueOf(day);
+            String realTime = String.valueOf(hour)+"-"+tempTime[1]+"-"+tempDate[2];
+
+            mCodeTextView.setText(String.format(Locale.getDefault(), "%d", code));
+            mDateTextView.setText(realDate);
+            mPriceTextView.setText(String.format(Locale.getDefault(), "%.2f", price));
+            mNetChangeTextView.setText(String.format(Locale.getDefault(), "%.2f", netChange)+"%");
+            mHighTextView.setText(String.format(Locale.getDefault(), "%.2f", high));
+            mLowTextView.setText(String.format(Locale.getDefault(), "%.2f", low));
+            mVolumeTextView.setText(String.format(Locale.getDefault(), "%.0f", volume)+"m");
+            mUptimeTextView.setText(realTime);
 
         }
-        //disableEditText(mNameEditText);
-        disableEditText(mCodeEditText);
-        disableEditText(mDateEditText);
-        disableEditText(mPriceEditText);
-        disableEditText(mNetChangeEditText);
-        //disableEditText(mPEEditText);
-        disableEditText(mHighEditText);
-        disableEditText(mLowEditText);
-        //disableEditText(mPreCloseEditText);
-        disableEditText(mVolumeEditText);
-        disableEditText(mTurnoverEditText);
-        //disableEditText(mLotEditText);
-
-
 
         return rootView;
-    }
-
-
-    public void disableEditText(EditText et){
-        et.setCursorVisible(false);
-        et.setLongClickable(false);
-        et.setClickable(false);
-        et.setFocusable(false);
-        et.setSelected(false);
-        et.setKeyListener(null);
-        et.setBackgroundResource(android.R.color.transparent);
     }
 
     private Double checkDouble(String value) {

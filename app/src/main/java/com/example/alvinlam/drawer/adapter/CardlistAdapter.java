@@ -59,15 +59,9 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
         String name = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
         Double price = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
         Double netChange = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
-        Double preClose = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE));
+        //Double preClose = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE));
 
-        try {
-            netChange = (price-preClose)/preClose;
-            //System.out.println(netChange+"%");
 
-        } catch (Exception e) {
-            Log.d(TAG, "onCreateView: "+"nullpointer");
-        }
         holder.itemView.setTag(id);
         holder.nameTextView.setText(name);
         holder.priceTextView.setText(String.format(Locale.getDefault(), "%.2f", price));

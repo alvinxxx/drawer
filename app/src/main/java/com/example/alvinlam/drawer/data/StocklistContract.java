@@ -19,10 +19,7 @@ public class StocklistContract {
         public static final String COLUMN_PE = "pe";
         public static final String COLUMN_HIGH = "high";
         public static final String COLUMN_LOW = "low";
-        public static final String COLUMN_PRE_CLOSE = "preClose";
         public static final String COLUMN_VOLUME = "volume";
-        public static final String COLUMN_TURNOVER = "turnover";
-        public static final String COLUMN_LOT = "lot";
         public static final String COLUMN_DY = "dy";
         public static final String COLUMN_DPS = "dps";
         public static final String COLUMN_EPS = "eps";
@@ -50,6 +47,11 @@ public class StocklistContract {
         public static final String COLUMN_100H = "h100";
         public static final String COLUMN_250L = "l250";
         public static final String COLUMN_250H = "h250";
+        public static final String COLUMN_UPTIME = "uptime";
+        public static final String COLUMN_NAME_CHI = "name_chi";
+        public static final String COLUMN_INDUSTRY = "industry";
+
+
     }
 
     public static final class StockAlertEntry implements BaseColumns {

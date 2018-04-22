@@ -37,9 +37,9 @@ public class AddCardActivity extends AppCompatActivity{
     private StockAlertDbFunction dbAFunction;
 
     private long id = 0;
-    private String name, date;
+    private String name, date, uptime, name_chi, industry;
     private int code;
-    private double price, netChange, pe, high, low, preClose, volume, turnover, lot,
+    private double price, netChange, pe, high, low, volume,
                     dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
                     l20, h20, l50, h50, l100, h100, l250, h250;
@@ -74,7 +74,10 @@ public class AddCardActivity extends AppCompatActivity{
                     Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
 
                     name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
-                    toolbar.setTitle(name);
+                    name_chi = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME_CHI));
+                    String wholeName = name+"/"+name_chi;
+                    toolbar.setTitle(wholeName);
+
                     code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
                     date = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DATE));
                     price = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
@@ -82,10 +85,7 @@ public class AddCardActivity extends AppCompatActivity{
                     pe = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PE));
                     high = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_HIGH));
                     low = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOW));
-                    preClose = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE));
                     volume = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_VOLUME));
-                    turnover = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_TURNOVER));
-                    lot = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_LOT));
                     dy = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DY));
                     dps = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_DPS));
                     eps = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_EPS));
@@ -110,9 +110,12 @@ public class AddCardActivity extends AppCompatActivity{
                     l50 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50L));
                     h50 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_50H));
                     l100 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100L));
-                    h100 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100H));                    l20 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_20L));
+                    h100 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_100H));
                     l250 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250L));
                     h250 = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250H));
+                    uptime = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_UPTIME));
+                    name_chi = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME_CHI));
+                    industry = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_INDUSTRY));
 
                     cursor.close();
                 }
@@ -170,10 +173,11 @@ public class AddCardActivity extends AppCompatActivity{
             // Add guest info to mDb
             dbFunction.replace(
                     id, name, code, date,
-                    price, netChange, pe, high, low, preClose, volume, turnover, lot,
+                    price, netChange, pe, high, low, volume,
                     dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
-                    l20, h20, l50, h50, l100, h100, l250, h250
+                    l20, h20, l50, h50, l100, h100, l250, h250,
+                    uptime, name_chi, industry
             );
             //add default alert for each stock
             dbAFunction.insert(name, code, 1);
@@ -203,7 +207,7 @@ public class AddCardActivity extends AppCompatActivity{
                     .setType("text/plain")
                     .setText("Name:  "+ name + "\n" + "Code:  "+ code + "\n" + "Date:  "+ date + "\n" + "Price:  "+ price + "\n" +
                             "Net change:  "+ netChange + "\n" + "PE:  "+ pe + "\n" + "High:  "+ high + "\n" + "Low:  "+low + "\n" +
-                            "Volume:  "+ volume + "\n" + "Turnover:  "+ turnover + "\n" + "Lot:  "+ lot + "\n" +
+                            "Volume:  "+ volume + "\n"  +
                             SHARE_HASHTAG)
                     .getIntent();
             startActivity(shareIntent);

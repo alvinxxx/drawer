@@ -29,10 +29,7 @@ public class StockTestUtil {
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, 8.53);
         cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, 118.5);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, 117.2);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, 116.1);
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, 2528);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, 297996);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, 1000);
         list.add(cv);
 
         cv = new ContentValues();
@@ -44,10 +41,7 @@ public class StockTestUtil {
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, 17.47);
         cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, 60.35);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, 59.6);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, 59.55);
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, 2059);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, 123707);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, 500);
         list.add(cv);
 
         cv = new ContentValues();
@@ -59,10 +53,7 @@ public class StockTestUtil {
         cv.put(StocklistContract.StocklistEntry.COLUMN_PE, 20.14);
         cv.put(StocklistContract.StocklistEntry.COLUMN_HIGH, 16.32);
         cv.put(StocklistContract.StocklistEntry.COLUMN_LOW, 15.92);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE, 15.9);
         cv.put(StocklistContract.StocklistEntry.COLUMN_VOLUME, 9058);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_TURNOVER, 146303);
-        cv.put(StocklistContract.StocklistEntry.COLUMN_LOT, 1000);
         list.add(cv);
 
 

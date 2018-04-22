@@ -40,23 +40,31 @@ public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
     protected String[] doInBackground(URL... params) {
         dbFunction = new StockDbFunction(context);
 
-        String[] arrayJSONstring =  new String[3];
-        try {
-            boolean internet = NetworkUtils.hasInternetConnection(context);
-            if(internet){
-                arrayJSONstring[0] = NetworkUtils.getResponseFromHttpUrl(params[0], context);
-                arrayJSONstring[1] = NetworkUtils.getResponseFromHttpUrl(params[1], context);
-                arrayJSONstring[2] = NetworkUtils.getResponseFromHttpUrl(params[2], context);
+        String[] arrayJSONstring =  new String[params.length];
+        int i =0;
+        for(URL searchUrl : params){
+            String stockSearchResults = null;
+            try {
+                stockSearchResults = NetworkUtils.getResponseFromHttpUrl(searchUrl, context);
+                arrayJSONstring[i] = stockSearchResults;
 
-                String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
-                //dbFunction.replaceByArray(fullJsonStockData);
-                return fullJsonStockData;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            i++;
+        }
+
+        String[] fullJsonStockData  = new String[1];
+        try {
+            fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
+            return fullJsonStockData;
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+
+
         return null;
     }
 

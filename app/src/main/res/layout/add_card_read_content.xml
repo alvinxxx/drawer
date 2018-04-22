@@ -12,138 +12,145 @@
     tools:showIn="@layout/add_card_read_precontent">
 
 
-    <EditText
-        android:id="@+id/add_date_editText"
-        android:layout_width="136dp"
+    <TextView
+        android:id="@+id/textViewUptime2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Date"
-        android:inputType="textAutoComplete"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Time"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.311"
+        app:layout_constraintStart_toEndOf="@+id/textViewUptime"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDate2" />
 
-    <EditText
-        android:id="@+id/add_code_editText"
-        android:layout_width="55dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="22dp"
-        android:ems="10"
-        android:hint="Code"
-        android:inputType="number"
+    <TextView
+        android:id="@+id/textViewUptime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="28dp"
+        android:text="Time"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
+
+    <TextView
+        android:id="@+id/textViewDate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Date"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.319"
+        app:layout_constraintStart_toEndOf="@+id/textViewDate"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCode2" />
+
+    <TextView
+        android:id="@+id/textViewCode2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="76dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:text="Code"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewCode"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/add_net_change_editText"
-        android:layout_width="102dp"
+    <TextView
+        android:id="@+id/textViewPrice2"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Price"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.311"
+        app:layout_constraintStart_toEndOf="@+id/textViewPrice"
+        app:layout_constraintTop_toBottomOf="@+id/textViewUptime2" />
+
+    <TextView
+        android:id="@+id/textViewNetChange2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Change(%)"
-        android:inputType="textUri"
+        android:layout_marginTop="28dp"
+        android:text="Net change"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
+        app:layout_constraintHorizontal_bias="0.422"
         app:layout_constraintStart_toEndOf="@+id/textViewNetChange"
-        app:layout_constraintTop_toBottomOf="@+id/add_price_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPrice2" />
 
-    <EditText
-        android:id="@+id/add_low_editText"
-        android:layout_width="77dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="88dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Low"
-        android:inputType="textMultiLine"
-        android:textAppearance="@android:style/TextAppearance.Material.Title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNetChange" />
-
-    <EditText
-        android:id="@+id/add_high_editText"
-        android:layout_width="81dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="High"
-        android:inputType="phone"
-        android:textAppearance="@android:style/TextAppearance.Material.Title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewLow" />
-
-    <EditText
-        android:id="@+id/add_price_editText"
-        android:layout_width="195dp"
+    <TextView
+        android:id="@+id/textViewHigh2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Price"
-        android:inputType="textEmailAddress"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPrice" />
-
-    <EditText
-        android:id="@+id/add_volume_editText"
-        android:layout_width="118dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Volume"
-        android:inputType="textEmailAddress"
+        android:layout_marginTop="28dp"
+        android:text="High"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_high_editText" />
+        app:layout_constraintHorizontal_bias="0.319"
+        app:layout_constraintStart_toEndOf="@+id/textViewHigh"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLow2" />
 
-    <EditText
-        android:id="@+id/add_turnover_editText"
-        android:layout_width="129dp"
+    <TextView
+        android:id="@+id/textViewLow2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Turnover"
-        android:inputType="textEmailAddress"
+        android:text="Low"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.348"
-        app:layout_constraintStart_toEndOf="@+id/textViewTurnover"
-        app:layout_constraintTop_toBottomOf="@+id/textViewVolume" />
+        app:layout_constraintHorizontal_bias="0.328"
+        app:layout_constraintStart_toEndOf="@+id/textViewLow"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNetChange2" />
+
+    <TextView
+        android:id="@+id/textViewVolume2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Volume"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.328"
+        app:layout_constraintStart_toEndOf="@+id/textViewVolume"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHigh2" />
 
     <TextView
         android:id="@+id/textViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="28dp"
         android:text="Date"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
-        app:layout_constraintEnd_toStartOf="@+id/add_date_editText"
-        app:layout_constraintHorizontal_bias="0.909"
-        app:layout_constraintStart_toEndOf="@+id/add_code_editText"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCode" />
 
     <TextView
         android:id="@+id/textViewCode"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="32dp"
         android:text="Code"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,36 +158,34 @@
 
     <TextView
         android:id="@+id/textViewPrice"
-        android:layout_width="140dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:text="Closing Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="28dp"
+        android:text="Price"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCode" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewUptime" />
 
     <TextView
         android:id="@+id/textViewNetChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="24dp"
-        android:text="Net change"
+        android:layout_marginTop="28dp"
+        android:text="Change"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_price_editText" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewPrice" />
 
     <TextView
         android:id="@+id/textViewHigh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="28dp"
         android:text="High"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
-        app:layout_constraintEnd_toStartOf="@+id/add_high_editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLow" />
 
@@ -188,13 +193,10 @@
         android:id="@+id/textViewLow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="28dp"
         android:text="Low"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
-        app:layout_constraintEnd_toStartOf="@+id/add_low_editText"
-        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewNetChange" />
 
@@ -202,25 +204,12 @@
         android:id="@+id/textViewVolume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="28dp"
         android:text="Volume"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
-        app:layout_constraintEnd_toStartOf="@+id/add_volume_editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHigh" />
-
-    <TextView
-        android:id="@+id/textViewTurnover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="40dp"
-        android:text="Turnover"
-        android:textAppearance="@android:style/TextAppearance.Material.Title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewVolume" />
 
 
 </android.support.constraint.ConstraintLayout>

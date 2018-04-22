@@ -51,6 +51,10 @@ public class NetworkUtils {
     // ?_where=(catn,eq,1)&_sort=-s_pe
     final static String STOCK_BASE_URL_R =
             "http://alvinxxx.ddns.net:3002/r/";
+    final static String STOCK_BASE_URL_A =
+            "http://alvinxxx.ddns.net:3003/a/";
+    final static String STOCK_BASE_URL_I =
+            "http://alvinxxx.ddns.net:3004/i/";
 
     // 1/?_sort=-date&_size=1
     private final static String SORT = "_sort";
@@ -60,6 +64,12 @@ public class NetworkUtils {
     private static final String desc = "-";
     private static final String sort_col = "date";
     private static final String sort_col_pe = "s_dy";
+
+    private static String CATEGORY = "catn";
+    private static String CODE = "code";
+
+    private static final String DBNAME = "latest";
+    private static final String DBNAME_I = "hsi_code";
 
     private static final int response_size = 1;
 
@@ -137,7 +147,7 @@ public class NetworkUtils {
 
     public static URL buildUrlF(String stockSearchQuery) {
 
-        //http://alvinxxx.ddns.net:3001/f/1/?_sort=-date&_size=1
+        //http://alvinxxx.ddns.net:3000/f/1/?_sort=-date&_size=1
         // build the proper query URL
         String stock_url = STOCK_BASE_URL_F + stockSearchQuery;
         Uri builtUri = Uri.parse(stock_url).buildUpon()
@@ -176,47 +186,12 @@ public class NetworkUtils {
     }
 
     public static URL buildUrlR(int mode, int cat) {
-        /*
-        Date currentTime = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        DateFormat hourFormat = new SimpleDateFormat("HH");
-        String date = dateFormat.format(currentTime);
-        String hour = hourFormat.format(currentTime);
-        long dt = Long.parseLong(date);
-        int hr = Integer.parseInt(hour);
-
-        //http://alvinxxx.ddns.net:3002/r/20180411?_where=(catn,eq,1)&_sort=-s_pe
-
-        Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-
-        switch (day) {
-            case Calendar.SUNDAY:
-                // Current day is Sunday
-                dt -= 2;
-                break;
-            case Calendar.MONDAY:
-                // Current day is Monday
-                dt -= 3;
-                break;
-            default:
-                dt -= 1;
-        }
-
-        date = String.valueOf(dt);
-
-        */
-        String CATEGORY = "catn";
-        String DBNAME = "latest";
-
+        //3002
         if(mode == 0){
             CATEGORY = "catn";
         }else{
             CATEGORY = "catn3";
         }
-
-
-
 
         // build the proper query URL
         String stock_url = STOCK_BASE_URL_R + DBNAME;
@@ -232,6 +207,45 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         Log.d(TAG, "buildUrlR: "+ builtUri);
+        return url;
+    }
+
+    public static URL buildUrlA(String stockSearchQuery) {
+
+        //http://alvinxxx.ddns.net:3003/a/1/?_sort=-date&_size=1
+        // build the proper query URL
+        String stock_url = STOCK_BASE_URL_A + stockSearchQuery;
+        Uri builtUri = Uri.parse(stock_url).buildUpon()
+                .appendQueryParameter(SORT, desc+sort_col)
+                .appendQueryParameter(SIZE, Integer.toString(response_size))
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "buildUrlA: "+ builtUri);
+        return url;
+    }
+
+    public static URL buildUrlI(String stockSearchQuery) {
+
+        //http://alvinxxx.ddns.net:3004/i/hsi_code/
+        // build the proper query URL
+        String stock_url = STOCK_BASE_URL_I + DBNAME_I;
+        Uri builtUri = Uri.parse(stock_url).buildUpon()
+                .appendQueryParameter(WHERE, "("+CODE+",eq,"+stockSearchQuery+")")
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "buildUrlA: "+ builtUri);
         return url;
     }
 
@@ -261,8 +275,6 @@ public class NetworkUtils {
         }
         return false;
     }
-
-
 
     /**
      * This method returns the entire result from the HTTP response.

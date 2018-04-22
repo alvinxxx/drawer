@@ -140,46 +140,51 @@ public class OpenStockJsonUtils {
     public static String[] getFullStockDataFromArray(String[] stockJsonStrArray)
             throws JSONException {
         //String[] fullJsonStockData  = new String[0];
-        String name, code, date, price, netChange, pe, high, low, preClose, volume, turnover, lot,
+        String name, code, date, price, netChange, pe, high, low, volume,
                 dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
                 sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
-                l20, h20, l50, h50, l100, h100, l250, h250;
+                l20, h20, l50, h50, l100, h100, l250, h250,
+                uptime, name_chi, industry;
 
-        String base = stockJsonStrArray[0];
-        final String QUA_DATASET = "dataset";
-        final String QUA_NAME = "name";
-        final String QUA_CODE = "dataset_code";
-        final String QUA_DATA = "data";
-        final String QUA_ERROR_CODE = "quandl_error";
+        String baseA = stockJsonStrArray[0];
 
-        JSONObject stockJson = new JSONObject(base);
+        final String DATE = "Date";
+        final String HIGH = "High";
+        final String LOW = "Low";
+        final String CLOSE = "Close";
+        final String VOLUME = "Volume";
+        final String NETCHANGE = "netChange";
+        final String UPTIME = "uptime";
 
-        /* Is there an error? */
-        if (stockJson.has(QUA_ERROR_CODE)) {
-            return null;
-        }
+        JSONArray valueArray = new JSONArray(baseA);
+        JSONObject stockDataSet = valueArray.getJSONObject(0);
 
-        JSONObject stockDataSet = stockJson.getJSONObject(QUA_DATASET);
+        date = stockDataSet.getString(DATE);
+        high = stockDataSet.getString(HIGH);
+        low = stockDataSet.getString(LOW);
+        price = stockDataSet.getString(CLOSE);
+        volume = stockDataSet.getString(VOLUME);
+        netChange = stockDataSet.getString(NETCHANGE);
+        uptime = stockDataSet.getString(UPTIME);
 
-        name = stockDataSet.getString(QUA_NAME);
-        code = stockDataSet.getString(QUA_CODE);
 
-        JSONArray valueArray = stockDataSet.getJSONArray(QUA_DATA).getJSONArray(0);
+        String baseI = stockJsonStrArray[1];
 
-        date = valueArray.getString(0);
-        price = valueArray.getString(1);
-        netChange = valueArray.getString(3);
-        //pe = valueArray.getString(6);
-        high = valueArray.getString(7);
-        low = valueArray.getString(8);
-        preClose = valueArray.getString(9);
-        volume = valueArray.getString(10);
-        turnover = valueArray.getString(11);
-        lot = valueArray.getString(12);
+        final String CODE = "code";
+        final String NAME_ENG = "name_eng";
+        final String NAME_CHI = "name_chi";
+        final String INDUSTRY = "industry";
+
+        valueArray = new JSONArray(baseI);
+        stockDataSet = valueArray.getJSONObject(0);
+
+        code = stockDataSet.getString(CODE);
+        name = stockDataSet.getString(NAME_ENG);
+        name_chi = stockDataSet.getString(NAME_CHI);
+        industry = stockDataSet.getString(INDUSTRY);
 
         ///
-        String baseF = stockJsonStrArray[1];
-        //Log.d("openjson", "getFullStockDataFromArray: "+baseF);
+        String baseF = stockJsonStrArray[2];
 
         final String DY = "dy";
         final String DPS = "dps";
@@ -187,17 +192,15 @@ public class OpenStockJsonUtils {
         final String EPS = "eps";
 
         valueArray = new JSONArray(baseF);
-        //W/System.err: org.json.JSONException: Index 2 out of range [0..1)
         stockDataSet = valueArray.getJSONObject(0);
 
         dy = stockDataSet.getString(DY);
         dps = stockDataSet.getString(DPS);
         pe = stockDataSet.getString(PE);
         eps = stockDataSet.getString(EPS);
-        //Log.d("openjson", "getFullStockDataFromArray3: "+dps);
 
         ///
-        String baseT = stockJsonStrArray[2];
+        String baseT = stockJsonStrArray[3];
         final String SMA20 = "mean_20";
         final String STD20 = "std_20";
         final String STD20L = "std_20l";
@@ -224,32 +227,32 @@ public class OpenStockJsonUtils {
         final String H250 = "high_250";
 
         valueArray = new JSONArray(baseT);
-        stockJson = valueArray.getJSONObject(0);
+        stockDataSet = valueArray.getJSONObject(0);
 
-        sma20 = stockJson.getString(SMA20);
-        std20 = stockJson.getString(STD20);
-        std20l = stockJson.getString(STD20L);
-        std20h = stockJson.getString(STD20H);
-        sma50 = stockJson.getString(SMA50);
-        std50 = stockJson.getString(STD50);
-        std50l = stockJson.getString(STD50L);
-        std50h = stockJson.getString(STD50H);
-        sma100 = stockJson.getString(SMA100);
-        std100 = stockJson.getString(STD100);
-        std100l = stockJson.getString(STD100L);
-        std100h = stockJson.getString(STD100H);
-        sma250 = stockJson.getString(SMA250);
-        std250 = stockJson.getString(STD250);
-        std250l = stockJson.getString(STD250L);
-        std250h = stockJson.getString(STD250H);
-        l20 = stockJson.getString(L20);
-        h20 = stockJson.getString(H20);
-        l50 = stockJson.getString(L50);
-        h50 = stockJson.getString(H50);
-        l100 = stockJson.getString(L100);
-        h100 = stockJson.getString(H100);
-        l250 = stockJson.getString(L250);
-        h250 = stockJson.getString(H250);
+        sma20 = stockDataSet.getString(SMA20);
+        std20 = stockDataSet.getString(STD20);
+        std20l = stockDataSet.getString(STD20L);
+        std20h = stockDataSet.getString(STD20H);
+        sma50 = stockDataSet.getString(SMA50);
+        std50 = stockDataSet.getString(STD50);
+        std50l = stockDataSet.getString(STD50L);
+        std50h = stockDataSet.getString(STD50H);
+        sma100 = stockDataSet.getString(SMA100);
+        std100 = stockDataSet.getString(STD100);
+        std100l = stockDataSet.getString(STD100L);
+        std100h = stockDataSet.getString(STD100H);
+        sma250 = stockDataSet.getString(SMA250);
+        std250 = stockDataSet.getString(STD250);
+        std250l = stockDataSet.getString(STD250L);
+        std250h = stockDataSet.getString(STD250H);
+        l20 = stockDataSet.getString(L20);
+        h20 = stockDataSet.getString(H20);
+        l50 = stockDataSet.getString(L50);
+        h50 = stockDataSet.getString(H50);
+        l100 = stockDataSet.getString(L100);
+        h100 = stockDataSet.getString(H100);
+        l250 = stockDataSet.getString(L250);
+        h250 = stockDataSet.getString(H250);
 
 
 
@@ -263,10 +266,10 @@ public class OpenStockJsonUtils {
         parsedStockData[5] = pe;
         parsedStockData[6] = high;
         parsedStockData[7] = low;
-        parsedStockData[8] = preClose;
+        //parsedStockData[8] = preClose;
         parsedStockData[9] = volume;
-        parsedStockData[10] = turnover;
-        parsedStockData[11] = lot;
+        //parsedStockData[10] = turnover;
+        //parsedStockData[11] = lot;
         parsedStockData[12] = dy;
         parsedStockData[13] = dps;
         parsedStockData[14] = eps;
@@ -294,6 +297,9 @@ public class OpenStockJsonUtils {
         parsedStockData[36] = h100;
         parsedStockData[37] = l250;
         parsedStockData[38] = h250;
+        parsedStockData[8] = uptime;
+        parsedStockData[10] = name_chi;
+        parsedStockData[11] = industry;
 
         return parsedStockData;
     }

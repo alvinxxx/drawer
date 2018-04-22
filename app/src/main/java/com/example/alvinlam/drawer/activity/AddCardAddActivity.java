@@ -106,13 +106,14 @@ public class AddCardAddActivity extends AppCompatActivity {
         }
 
         String stockQuery = mCodeEditText.getText().toString();
-        URL stockSearchUrl = NetworkUtils.buildUrl(stockQuery);
+        URL stockSearchUrlA = NetworkUtils.buildUrlA(stockQuery);
+        URL stockSearchUrlI = NetworkUtils.buildUrlI(stockQuery);
         URL stockSearchUrlF = NetworkUtils.buildUrlF(stockQuery);
         URL stockSearchUrlT = NetworkUtils.buildUrlT(stockQuery);
 
         boolean internet = NetworkUtils.hasInternetConnection(this);
         if(internet) {
-            new StockQueryTask(AddCardAddActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+            new StockQueryTask(AddCardAddActivity.this).execute(stockSearchUrlA, stockSearchUrlI, stockSearchUrlF, stockSearchUrlT);
         }else{
             //no internet toast
             Toast.makeText(AddCardAddActivity.this,"No internet",Toast.LENGTH_LONG).show();
@@ -157,9 +158,7 @@ public class AddCardAddActivity extends AppCompatActivity {
                     }
                     i++;
                 }
-                //Log.d("addcard", "getFullStockDataFromArray2: "+arrayJSONstring[0]);
-                //Log.d("addcard", "getFullStockDataFromArray2: "+arrayJSONstring[1]);
-                //Log.d("addcard", "getFullStockDataFromArray2: "+arrayJSONstring[2]);
+
                 String[] fullJsonStockData  = new String[1];
                 try {
                     fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
@@ -177,13 +176,13 @@ public class AddCardAddActivity extends AppCompatActivity {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
 
             long id;
-            String name;
+            String name, date, uptime, name_chi, industry;
             int code = 0;
-            String date;
-            double price, netChange, pe, high, low, preClose, volume, turnover, lot,
+            double price, netChange, pe, high, low, volume,
                     dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
                     l20, h20, l50, h50, l100, h100, l250, h250;
+
 
             id = Long.parseLong(parsedStockData[1]);
             name = parsedStockData[0];
@@ -195,10 +194,7 @@ public class AddCardAddActivity extends AppCompatActivity {
             pe =  checkDouble(parsedStockData[5]);
             high =  checkDouble(parsedStockData[6]);
             low =  checkDouble(parsedStockData[7]);
-            preClose =  checkDouble(parsedStockData[8]);
             volume =  checkDouble(parsedStockData[9]);
-            turnover =  checkDouble(parsedStockData[10]);
-            lot =  checkDouble(parsedStockData[11]);
             dy = checkDouble(parsedStockData[12]);
             dps =  checkDouble(parsedStockData[13]);
             eps =  checkDouble(parsedStockData[14]);
@@ -226,16 +222,19 @@ public class AddCardAddActivity extends AppCompatActivity {
             h100 =  checkDouble(parsedStockData[36]);
             l250 =  checkDouble(parsedStockData[37]);
             h250 =  checkDouble(parsedStockData[38]);
-
+            uptime = parsedStockData[8];
+            name_chi = parsedStockData[10];
+            industry = parsedStockData[11];
 
 
             // Add guest info to mDb
             dbFunction.replace(
                     id, name, code, date,
-                    price, netChange, pe, high, low, preClose, volume, turnover, lot,
+                    price, netChange, pe, high, low, volume,
                     dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
-                    l20, h20, l50, h50, l100, h100, l250, h250
+                    l20, h20, l50, h50, l100, h100, l250, h250,
+                    uptime, name_chi, industry
             );
             //add default alert for each stock
             dbAFunction.insert(name, code, 1);

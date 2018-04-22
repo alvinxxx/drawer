@@ -34,13 +34,13 @@ public class SearchResultStockActivity extends AppCompatActivity{
     private StockAlertDbFunction dbAFunction;
 
     private long id = 0;
-    private String name;
+    private String name, date, uptime, name_chi, industry;
     private int code;
-    private String date;
-    private double price, netChange, pe, high, low, preClose, volume, turnover, lot,
+    private double price, netChange, pe, high, low, volume,
             dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
             sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
             l20, h20, l50, h50, l100, h100, l250, h250;
+
     MenuItem mAdd,mDelete;
 
     @Override
@@ -71,10 +71,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
                 pe =  checkDouble(parsedStockData[5]);
                 high =  checkDouble(parsedStockData[6]);
                 low =  checkDouble(parsedStockData[7]);
-                preClose =  checkDouble(parsedStockData[8]);
                 volume =  checkDouble(parsedStockData[9]);
-                turnover =  checkDouble(parsedStockData[10]);
-                lot =  checkDouble(parsedStockData[11]);
                 dy =  checkDouble(parsedStockData[12]);
                 dps =  checkDouble(parsedStockData[13]);
                 eps =  checkDouble(parsedStockData[14]);
@@ -102,6 +99,10 @@ public class SearchResultStockActivity extends AppCompatActivity{
                 h100 =  checkDouble(parsedStockData[36]);
                 l250 =  checkDouble(parsedStockData[37]);
                 h250 =  checkDouble(parsedStockData[38]);
+                uptime = parsedStockData[8];
+                name_chi = parsedStockData[10];
+                industry = parsedStockData[11];
+
             }
         }
 
@@ -162,10 +163,11 @@ public class SearchResultStockActivity extends AppCompatActivity{
             // Add guest info to mDb
             dbFunction.replace(
                     id, name, code, date,
-                    price, netChange, pe, high, low, preClose, volume, turnover, lot,
+                    price, netChange, pe, high, low, volume,
                     dy, dps, eps, sma20, std20, std20l, std20h, sma50, std50, std50l, std50h,
                     sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
-                    l20, h20, l50, h50, l100, h100, l250, h250
+                    l20, h20, l50, h50, l100, h100, l250, h250,
+                    uptime, name_chi, industry
             );
             //add default alert for each stock
             dbAFunction.insert(name, code, 1);
@@ -194,7 +196,7 @@ public class SearchResultStockActivity extends AppCompatActivity{
                     .setType("text/plain")
                     .setText("Name:  "+ name + "\n" + "Code:  "+ code + "\n" + "Date:  "+ date + "\n" + "Price:  "+ price + "\n" +
                             "Net change:  "+ netChange + "\n" + "PE:  "+ pe + "\n" + "High:  "+ high + "\n" + "Low:  "+low + "\n" +
-                            "Volume:  "+ volume + "\n" + "Turnover:  "+ turnover + "\n" + "Lot:  "+ lot + "\n" +
+                            "Volume:  "+ volume + "\n" +
                             SHARE_HASHTAG)
                     .getIntent();
             startActivity(shareIntent);
