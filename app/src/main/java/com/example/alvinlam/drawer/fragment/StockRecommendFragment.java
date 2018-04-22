@@ -58,7 +58,7 @@ public class StockRecommendFragment extends Fragment {
     private Cursor cursor;
     private RiskAssessDbFunction dbFunction;
 
-    static String[] spaceProbeHeaders={"Name","Sharpe Dividend","Sharpe PE"};
+    static String[] spaceProbeHeaders={"Name","Sharpe Ratio"};
 
     public StockRecommendFragment() {
         // Required empty public constructor
@@ -147,7 +147,7 @@ public class StockRecommendFragment extends Fragment {
                 //SET PROP
                 tableView.setHeaderBackgroundColor(Color.parseColor("#2ecc71"));
                 tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(context,spaceProbeHeaders));
-                tableView.setColumnCount(3);
+                tableView.setColumnCount(2);
                 tableView.setDataAdapter(new SimpleTableDataAdapter(context, parsedStockData));
 
                 tableView.addHeaderClickListener(new TableHeaderClickListener() {

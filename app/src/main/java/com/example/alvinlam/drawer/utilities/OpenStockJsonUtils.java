@@ -317,32 +317,26 @@ public class OpenStockJsonUtils {
 
         final String CODE = "code";
         final String S_DY = "s_dy";
-        final String S3_DY = "s3_dy";
         final String S_PE = "s_pe";
-        final String S3_PE = "s3_pe";
 
         JSONArray valueArray = new JSONArray(stockJsonStr);
 
         for (int i=0;i<valueArray.length();i++){
-            String[] row = new String[3];
+            String[] row = new String[2];
             JSONObject stockDataSet = valueArray.getJSONObject(i);
             code = stockDataSet.getString(CODE);
             row[0] = code;
 
             if(mode==0){
                 s_dy = stockDataSet.getString(S_DY);
-                s_pe = stockDataSet.getString(S_PE);
+                row[1] = s_dy;
             }else{
-                s_dy = stockDataSet.getString(S3_DY);
-                s_pe = stockDataSet.getString(S3_PE);
+                s_pe = stockDataSet.getString(S_PE);
+                row[1] = s_pe;
             }
-            row[1] = s_dy;
-            row[2] = s_pe;
+
             list.add(row);
         }
-
-        //Log.d("openjson", "getFullStockDataFromArray3: "+list);
-
 
         return list;
     }

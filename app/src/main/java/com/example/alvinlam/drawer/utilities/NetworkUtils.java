@@ -63,7 +63,7 @@ public class NetworkUtils {
 
     private static final String desc = "-";
     private static final String sort_col = "date";
-    private static final String sort_col_pe = "s_dy";
+    private static String sort_col_sharpe = "s_dy";
 
     private static String CATEGORY = "catn";
     private static String CODE = "code";
@@ -188,16 +188,16 @@ public class NetworkUtils {
     public static URL buildUrlR(int mode, int cat) {
         //3002
         if(mode == 0){
-            CATEGORY = "catn";
+            sort_col_sharpe = "s_dy";
         }else{
-            CATEGORY = "catn3";
+            sort_col_sharpe = "s_pe";
         }
 
         // build the proper query URL
         String stock_url = STOCK_BASE_URL_R + DBNAME;
         Uri builtUri = Uri.parse(stock_url).buildUpon()
                 .appendQueryParameter(WHERE, "("+CATEGORY+",eq,"+cat+")")
-                .appendQueryParameter(SORT, desc+sort_col_pe)
+                .appendQueryParameter(SORT, desc+sort_col_sharpe)
                 .build();
 
         URL url = null;
