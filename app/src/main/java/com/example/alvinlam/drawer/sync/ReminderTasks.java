@@ -42,6 +42,7 @@ public class ReminderTasks {
         //PreferenceUtilities.doYes(context);
         //      COMPLETED (4) If the water count was incremented, clear any notifications
         NotificationUtils.clearAllNotifications(context);
+
     }
 
     private static void doQuery(Context context) {
@@ -75,6 +76,7 @@ public class ReminderTasks {
                         arrayJSONstring[3] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlT, context);
 
                         String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
+                        System.out.println(fullJsonStockData);
                         dbFunction.replaceByArray(fullJsonStockData);
                     }
                 } catch (IOException e) {

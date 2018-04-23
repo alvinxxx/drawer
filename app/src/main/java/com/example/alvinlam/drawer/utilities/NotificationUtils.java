@@ -59,6 +59,7 @@ public class NotificationUtils {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.stock_notification_body_buy)+codeString))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
+                .addAction(noAction(context))
                 .setAutoCancel(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -81,6 +82,7 @@ public class NotificationUtils {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.stock_notification_body_sell)+codeString))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
+                .addAction(noAction(context))
                 .setAutoCancel(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -128,7 +130,7 @@ public class NotificationUtils {
                 ignoreReminderIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Action ignoreReminderAction = new NotificationCompat.Action(R.drawable.ic_icon_cancel,
-                "No, thanks.",
+                "Got it.",
                 ignoreReminderPendingIntent);
         return ignoreReminderAction;
     }

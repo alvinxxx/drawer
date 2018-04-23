@@ -59,6 +59,7 @@ public class ReminderFirebaseJobService extends JobService {
                 // this service as the context (ReminderFirebaseJobService.this) and return null
                 // when finished.
                 Context context = ReminderFirebaseJobService.this;
+                //update db using replacebyarray
                 ReminderTasks.executeTask(context, ReminderTasks.ACTION_QUERY);
                 return null;
             }
@@ -78,7 +79,7 @@ public class ReminderFirebaseJobService extends JobService {
 
                 jobFinished(jobParameters, false);
 
-                //TODO job finish update stock info, then check if the condition is met
+                // job finish update stock info, then check if the condition is met
                 // get all alert records, get the related stock data, compare, put into array_buy and array_sell
                 //if array length > 0, send respective notification
 

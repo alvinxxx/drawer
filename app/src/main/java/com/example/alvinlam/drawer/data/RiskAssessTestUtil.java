@@ -18,7 +18,6 @@ public class RiskAssessTestUtil {
 
         String[] questions = {
                 "What is the objective of your stock investment?",
-                "How many years are you away from retirement?",
                 "Which of the following best describes your investment approach?",
                 "What makes up the biggest portion of your investments?",
                 "What makes up your biggest financial commitment?",
@@ -34,36 +33,30 @@ public class RiskAssessTestUtil {
                 "d) To achieve an annual return of over 15%"
         };
         String[] a2 = {
-                "a) Less than 5 years",
-                "b) 5 to 15 years",
-                "c) 16 to 20 years",
-                "d) Over 20 years"
-        };
-        String[] a3 = {
                 "a) I cannot tolerate any loss.",
                 "b) I am willing to accept up to 5% annual loss for a higher return",
                 "c) I am willing to accept up to 15% annual loss for a higher return",
                 "d) I am willing to accept over 15% annual loss for a higher return"
         };
-        String[] a4 = {
+        String[] a3 = {
                 "a) Bank deposits",
                 "b) Fixed income securities / Treasury bonds / Government bonds",
                 "c) Mutual funds / Unit trusts",
                 "d) Stocks"
         };
-        String[] a5 = {
+        String[] a4 = {
                 "a) Mortgage",
                 "b) Supporting family",
                 "c) My financial commitment represents less than 1/3 of your current earnings",
                 "d) I have no financial obligation apart from personal spending"
         };
-        String[] a6 = {
+        String[] a5 = {
                 "a) I have no additional savings for retirement",
                 "b) Bank deposits",
                 "c) Life insurance / Investment-linked plan",
                 "d) Other types of investments such as properties, funds and stocks"
         };
-        String[] a7 = {
+        String[] a6 = {
                 "a) Portfolio A: 3% annual return, 12% gain in the best year, 0% loss in the worst year",
                 "b) Portfolio B: 5% annual return, 25% gain in the best year, 8% loss in the worst year",
                 "c) Portfolio C: 8% annual return, 40% gain in the best year, 20% loss in the worst year",
@@ -75,7 +68,6 @@ public class RiskAssessTestUtil {
         listStringAnswer.add(a4);
         listStringAnswer.add(a5);
         listStringAnswer.add(a6);
-        listStringAnswer.add(a7);
         Log.d("risk test", "insert: "+"finish adding");
 
 

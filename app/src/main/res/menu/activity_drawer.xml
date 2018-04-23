@@ -3,17 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_friend_card"
-            android:icon="@android:drawable/ic_menu_myplaces"
-            android:title="@string/stock_detail" />
-        <item
             android:id="@+id/nav_my_card"
-            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:icon="@drawable/ic_action_ra"
             android:title="@string/my_card" />
         <item
             android:id="@+id/nav_image"
-            android:icon="@drawable/ic_action_image"
+            android:icon="@drawable/ic_action_rec"
             android:title="@string/stock_recommend" />
+        <item
+            android:id="@+id/nav_friend_card"
+            android:icon="@drawable/ic_action_image"
+            android:title="@string/stock_detail" />
 
     </group>
 

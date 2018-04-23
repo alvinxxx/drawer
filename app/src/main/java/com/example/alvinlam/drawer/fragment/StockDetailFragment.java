@@ -125,7 +125,7 @@ public class StockDetailFragment extends Fragment {
             int hour = Integer.parseInt(tempTime[0])+8;
 
             String realDate = tempDate[0]+"-"+tempDate[1]+"-"+String.valueOf(day);
-            String realTime = String.valueOf(hour)+"-"+tempTime[1]+"-"+tempDate[2];
+            String realTime = String.valueOf(hour)+":"+tempTime[1]+":"+tempDate[2];
 
             mCodeTextView.setText(String.format(Locale.getDefault(), "%d", code));
             mDateTextView.setText(realDate);

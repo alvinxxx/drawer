@@ -101,19 +101,19 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
             textViewRASResult.setText(String.valueOf(total));
             //score--> advice
 
-            if (total >= 14 && total <= 21){
+            if (total >= 12 && total <= 19){
                 textViewRASTypeValue.setText(R.string.investor_type_1);
                 textViewRASDesValue.setText(R.string.investor_des_1);
-            }else if (total >= 22 && total <= 30){
+            }else if (total >= 20 && total <= 28){
                 textViewRASTypeValue.setText(R.string.investor_type_2);
                 textViewRASDesValue.setText(R.string.investor_des_2);
-            }else if (total >= 31 && total <= 39){
+            }else if (total >= 29 && total <= 37){
                 textViewRASTypeValue.setText(R.string.investor_type_3);
                 textViewRASDesValue.setText(R.string.investor_des_3);
-            }else if (total >= 40 && total <= 48){
+            }else if (total >= 38 && total <= 46){
                 textViewRASTypeValue.setText(R.string.investor_type_4);
                 textViewRASDesValue.setText(R.string.investor_des_4);
-            }else if (total >= 49 && total <= 56){
+            }else if (total >= 47 && total <= 54){
                 textViewRASTypeValue.setText(R.string.investor_type_5);
                 textViewRASDesValue.setText(R.string.investor_des_5);
             }

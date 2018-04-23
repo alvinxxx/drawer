@@ -66,6 +66,7 @@ public class StocklistContract {
         public static final String COLUMN_WINDOW = "window";
         public static final String COLUMN_TARGET = "target";
         public static final String COLUMN_DISTANCE = "distance";
+        public static final String COLUMN_RECOMMEND = "recommend";
     }
 
     public static final class RiskAssessQuestionEntry implements BaseColumns {

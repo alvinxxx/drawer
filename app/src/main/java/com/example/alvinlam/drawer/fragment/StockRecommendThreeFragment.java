@@ -16,7 +16,9 @@ import android.widget.Toast;
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardActivity;
 import com.example.alvinlam.drawer.data.RiskAssessDbFunction;
-import com.example.alvinlam.drawer.data.StockQueryTask;
+import com.example.alvinlam.drawer.data.StockDbFunction;
+import com.example.alvinlam.drawer.data.StockRecommendQueryTask;
+import com.example.alvinlam.drawer.data.StocklistContract;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
 
@@ -24,10 +26,10 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.listeners.TableDataClickListener;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
@@ -41,7 +43,8 @@ public class StockRecommendThreeFragment extends Fragment {
 
     private long id = 0;
     private Cursor cursor;
-    private RiskAssessDbFunction dbFunction;
+    private RiskAssessDbFunction dbRAFunction;
+    private StockDbFunction dbFunction;
 
     static String[] spaceProbeHeaders={"Name","Sharpe Ratio"};
 
@@ -58,24 +61,32 @@ public class StockRecommendThreeFragment extends Fragment {
 
 
         //get my category
-        dbFunction = new RiskAssessDbFunction(context);
-        cursor = dbFunction.selectTotalScore();
+        dbRAFunction = new RiskAssessDbFunction(context);
+        cursor = dbRAFunction.selectTotalScore();
         int total = cursor.getInt(0);// get final total
         int cat = 1;
-        if (total >= 14 && total <= 21){
+        if (total >= 12 && total <= 19){
             cat = 1;
-        }else if (total >= 22 && total <= 30){
+        }else if (total >= 20 && total <= 28){
             cat = 2;
-        }else if (total >= 31 && total <= 39){
+        }else if (total >= 29 && total <= 37){
             cat = 3;
-        }else if (total >= 40 && total <= 48){
+        }else if (total >= 38 && total <= 46){
             cat = 4;
-        }else if (total >= 49 && total <= 56){
+        }else if (total >= 47 && total <= 54){
             cat = 5;
         }
 
-        URL stockSearchUrl = NetworkUtils.buildUrlR(1, cat);
-        new StockRecommendTask(getContext(), rootView).execute(stockSearchUrl);
+        boolean internet = NetworkUtils.hasInternetConnection(context);
+        if(internet) {
+            URL stockSearchUrl = NetworkUtils.buildUrlR(1, cat);
+            new StockRecommendTask(getContext(), rootView).execute(stockSearchUrl);
+        }else{
+            //no internet toast
+            Toast.makeText(context,"No internet",Toast.LENGTH_LONG).show();
+        }
+
+
 
 
         return rootView;
@@ -120,10 +131,50 @@ public class StockRecommendThreeFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(final List<String[]> parsedStockData) {
+        protected void onPostExecute(final List<String[]> parsedStockDataList) {
 
+            List<String> codeList = new ArrayList<>();
+            dbFunction = new StockDbFunction(getActivity().getApplicationContext());
 
-            if(parsedStockData!=null){
+            if(parsedStockDataList!=null){
+
+                cursor = dbFunction.select();
+
+                // select stocklist code
+                if(cursor != null){
+                    cursor.moveToFirst();
+
+                    for ( int i=0; i<cursor.getCount(); i++){
+                        int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+                        codeList.add(String.valueOf(code));
+                        cursor.moveToNext();
+                    }
+
+                    cursor.close();
+                }
+
+                //for each stock, add to watchlist
+                for (String[] parsedStockData : parsedStockDataList){
+                    String stockQuery = parsedStockData[0];
+                    System.out.println(stockQuery);
+                    //add only not exist
+                    if(! codeList.contains(stockQuery) ){
+                        URL stockSearchUrlA = NetworkUtils.buildUrlA(stockQuery);
+                        URL stockSearchUrlI = NetworkUtils.buildUrlI(stockQuery);
+                        URL stockSearchUrlF = NetworkUtils.buildUrlF(stockQuery);
+                        URL stockSearchUrlT = NetworkUtils.buildUrlT(stockQuery);
+
+                        boolean internet = NetworkUtils.hasInternetConnection(context);
+                        if(internet) {
+                            new StockRecommendQueryTask(context).execute(stockSearchUrlA, stockSearchUrlI, stockSearchUrlF, stockSearchUrlT);
+                        }else{
+                            //no internet toast
+                            Toast.makeText(context,"No internet",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                }
+
                 TableView<String[]> tableView = (TableView<String[]>) rootView.findViewById(R.id.tableView);
 
 
@@ -133,10 +184,10 @@ public class StockRecommendThreeFragment extends Fragment {
                 tableView.setHeaderBackgroundColor(Color.parseColor("#2ecc71"));
                 tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(context,spaceProbeHeaders));
                 tableView.setColumnCount(2);
-                tableView.setDataAdapter(new SimpleTableDataAdapter(context, parsedStockData));
+                tableView.setDataAdapter(new SimpleTableDataAdapter(context, parsedStockDataList));
 
 
-                tableView.addDataClickListener(new TableDataClickListener() {
+                /*tableView.addDataClickListener(new TableDataClickListener() {
                     @Override
                     public void onDataClicked(int rowIndex, Object clickedData) {
                         Toast.makeText(context, ((String[])clickedData)[0], Toast.LENGTH_SHORT).show();
@@ -165,7 +216,7 @@ public class StockRecommendThreeFragment extends Fragment {
 
 
                     }
-                });
+                });*/
             }
 
 

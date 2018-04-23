@@ -191,13 +191,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
                 }
 
-                URL stockSearchUrl = NetworkUtils.buildUrlA(s);
+                URL stockSearchUrlA = NetworkUtils.buildUrlA(s);
+                URL stockSearchUrlI = NetworkUtils.buildUrlI(s);
                 URL stockSearchUrlF = NetworkUtils.buildUrlF(s);
                 URL stockSearchUrlT = NetworkUtils.buildUrlT(s);
 
                 boolean internet = NetworkUtils.hasInternetConnection(MainActivity.this);
                 if(internet) {
-                    new StockQueryTask(MainActivity.this).execute(stockSearchUrl, stockSearchUrlF, stockSearchUrlT);
+                    new StockQueryTask(MainActivity.this).execute(stockSearchUrlA, stockSearchUrlI, stockSearchUrlF, stockSearchUrlT);
                 }else{
                     //no internet toast
                     Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();

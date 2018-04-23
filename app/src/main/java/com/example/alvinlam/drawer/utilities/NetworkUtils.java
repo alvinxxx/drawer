@@ -245,7 +245,7 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "buildUrlA: "+ builtUri);
+        Log.d(TAG, "buildUrlI: "+ builtUri);
         return url;
     }
 

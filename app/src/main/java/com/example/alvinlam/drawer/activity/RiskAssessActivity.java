@@ -150,6 +150,9 @@ public class RiskAssessActivity extends AppCompatActivity {
                     textViewRADScore.setText(String.valueOf(scoreD));
                     break;
         }
+
+        //next question
+        addToRiskAssess();
     }
 
 

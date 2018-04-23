@@ -3,11 +3,11 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="stock_portfolio">Stock profolio</string>
-    <string name="stock_detail">Stock detail</string>
+    <string name="stock_portfolio">Stock porfolio</string>
+    <string name="stock_detail">Stock Watchlist</string>
     <string name="add_stock">Add stock</string>
-    <string name="my_card">My Risk Assessment</string>
-    <string name="stock_recommend">Stock Recommendation</string>
+    <string name="my_card">Risk Assessment</string>
+    <string name="stock_recommend">Recommendation</string>
     <string name="my_account">Account</string>
     <string name="action_settings">Settings</string>
     <string name="action_reset">Reset</string>
