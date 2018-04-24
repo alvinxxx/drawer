@@ -44,8 +44,8 @@
     <string name="investor_type_5">Aggressive</string>
 
     <string name="investor_des_1">
-        You are willing to accept returns below inflation
-        and you might consider choosing a lower-risk investment option,
+        You are willing to accept returns below inflation;
+        You might consider choosing a lower-risk investment option,
         which can protect you against investment losses
         resulting from market fluctuations or volatility.
     </string>

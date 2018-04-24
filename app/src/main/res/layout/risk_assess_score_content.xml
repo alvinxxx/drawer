@@ -9,26 +9,68 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:showIn="@layout/risk_assess_score_precontent">
 
-
-    <TextView
-        android:id="@+id/textViewRASDesValue"
-        android:layout_width="314dp"
+    <Button
+        android:id="@+id/goto_rec_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Description"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:background="#3abeff"
+        android:text="Recommend me Stock"
+        android:textColor="#FFFFFF"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.395"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRASDesValue" />
+
+    <TextView
+        android:id="@+id/textViewRASBG"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:background="#3abeff"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/risk_assess_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#3abeff"
+        android:text="Press me to start"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRASBG" />
+
+    <TextView
+        android:id="@+id/textViewRASDesValue"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
+        android:text="Description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRASTypeLabel" />
 
     <TextView
         android:id="@+id/textViewRASTypeValue"
+        style="@android:style/TextAppearance.Material.Title"
         android:layout_width="wrap_content"
         android:layout_height="34dp"
         android:layout_marginEnd="8dp"
@@ -44,6 +86,7 @@
 
     <TextView
         android:id="@+id/textViewRASTypeLabel"
+        style="@android:style/TextAppearance.Material.Title"
         android:layout_width="193dp"
         android:layout_height="34dp"
         android:layout_marginStart="28dp"
@@ -56,53 +99,69 @@
 
     <TextView
         android:id="@+id/textViewRASResult"
-        android:layout_width="89dp"
-        android:layout_height="41dp"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.77"
         app:layout_constraintStart_toEndOf="@+id/textViewRASLabel"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRAS2" />
+        app:layout_constraintTop_toBottomOf="@+id/risk_assess_button" />
 
     <TextView
         android:id="@+id/textViewRASLabel"
-        android:layout_width="78dp"
-        android:layout_height="41dp"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:text="Score:"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRAS2" />
+        app:layout_constraintTop_toBottomOf="@+id/risk_assess_button" />
 
     <TextView
         android:id="@+id/textViewRAS2"
-        android:layout_width="314dp"
-        android:layout_height="92dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="This helps the application to match suitable stocks for them according to their scores. "
+        android:layout_marginTop="24dp"
+        android:text="The app matches suitable stocks for you according to your scores. "
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/textViewRAS1" />
 
     <TextView
         android:id="@+id/textViewRAS1"
-        android:layout_width="314dp"
-        android:layout_height="92dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Users have to answer the initial questionnaire about their capacity of loss aversion.  "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Welcome to your risk assessment"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="62dp"
+        android:layout_height="76dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRAS1"
+        app:srcCompat="@drawable/ic_action_ra" />
 
 </android.support.constraint.ConstraintLayout>

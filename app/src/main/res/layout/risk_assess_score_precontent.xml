@@ -19,18 +19,6 @@
 
             <include layout="@layout/risk_assess_score_content" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/risk_assess_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:srcCompat="@android:drawable/ic_input_add"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="16dp" />
 
         </LinearLayout>
 

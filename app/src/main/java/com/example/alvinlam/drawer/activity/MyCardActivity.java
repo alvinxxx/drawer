@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,8 +41,8 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
     private Cursor cursor;
     private RiskAssessDbFunction dbFunction;
 
-    private TextView textViewRASResult, textViewRASTypeLabel, textViewRASTypeValue, textViewRASDesValue;
-
+    private TextView textViewRASLabel, textViewRASResult, textViewRASTypeLabel, textViewRASTypeValue, textViewRASDesValue;
+    private Button fab, recommend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +51,22 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_card_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.risk_assess_fab);
+        fab = (Button) findViewById(R.id.risk_assess_button);
         fab.bringToFront();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Class destinationClass = RiskAssessActivity.class;
+                Intent intentToStartAddCardActivity = new Intent(MyCardActivity.this, destinationClass);
+                startActivity(intentToStartAddCardActivity);
+            }
+        });
+
+        recommend = (Button) findViewById(R.id.goto_rec_button);
+        recommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Class destinationClass = ImageActivity.class;
                 Intent intentToStartAddCardActivity = new Intent(MyCardActivity.this, destinationClass);
                 startActivity(intentToStartAddCardActivity);
             }
@@ -84,12 +95,15 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         Log.d("mycard", "onCreate after if: ");
 
         cursor = dbFunction.selectTotalScore();
+        textViewRASLabel = (TextView) findViewById(R.id.textViewRASLabel);
         textViewRASResult = (TextView) findViewById(R.id.textViewRASResult);
         textViewRASTypeLabel = (TextView) findViewById(R.id.textViewRASTypeLabel);
         textViewRASTypeValue = (TextView) findViewById(R.id.textViewRASTypeValue);
         textViewRASDesValue = (TextView) findViewById(R.id.textViewRASDesValue);
 
         if(cursor == null){
+            recommend.setVisibility(View.INVISIBLE);
+            textViewRASLabel.setVisibility(View.INVISIBLE);
             textViewRASResult.setText(0);
             textViewRASTypeLabel.setVisibility(View.INVISIBLE);
             textViewRASTypeValue.setVisibility(View.INVISIBLE);
@@ -119,9 +133,15 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
             }
 
             if(total != 0){
+                recommend.setVisibility(View.VISIBLE);
+                textViewRASLabel.setVisibility(View.VISIBLE);
+                textViewRASResult.setVisibility(View.VISIBLE);
+                textViewRASTypeValue.setVisibility(View.VISIBLE);
+                textViewRASDesValue.setVisibility(View.VISIBLE);
                 textViewRASTypeLabel.setVisibility(View.VISIBLE);
                 textViewRASTypeValue.setVisibility(View.VISIBLE);
                 textViewRASDesValue.setVisibility(View.VISIBLE);
+                fab.setText("PRESS ME TO START AGAIN");
             }
 
         }

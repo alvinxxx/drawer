@@ -20,6 +20,7 @@ import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StockRecommendQueryTask;
 import com.example.alvinlam.drawer.data.StocklistContract;
+import com.example.alvinlam.drawer.sync.ReminderUtilities;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
 
@@ -178,6 +179,14 @@ public class StockRecommendFragment extends Fragment {
 
                 }
 
+                boolean internet = NetworkUtils.hasInternetConnection(getActivity().getApplicationContext());
+                if(internet) {
+                    // COMPLETED (23) Schedule the charging reminder
+                    //ReminderUtilities.scheduleDailyQueryReminder(getActivity().getApplicationContext());
+                }else{
+                    //no internet toast
+                    Toast.makeText(getActivity().getApplicationContext(),"No internet",Toast.LENGTH_LONG).show();
+                }
 
 
                 TableView<String[]> tableView = (TableView<String[]>) rootView.findViewById(R.id.tableView);

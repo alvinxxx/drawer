@@ -45,6 +45,8 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
     private SQLiteDatabase mDb;
     private Cursor cursor;
     private StockAlertAdapter mAdapter;
+    private int code;
+    private String name;
 
     private long id = 0;
 
@@ -74,8 +76,8 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
                 id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_UID, 0);
 
                 cursor = dbFunction.selectByID(id);
-                int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
-                String name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
+                code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+                name = cursor.getString(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
 
                 cursor = dbAFunction.selectByCode(code);
                 if (cursor.getCount() > 0) {
@@ -127,7 +129,7 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
                 //remove from DB
                 dbAFunction.delete(id);
                 //update the list
-                mAdapter.swapCursor(dbAFunction.select());
+                mAdapter.swapCursor(dbAFunction.selectByCode(code));
             }
 
             // attach the ItemTouchHelper

@@ -51,42 +51,45 @@ public class ReminderTasks {
         StockDbFunction dbFunction = new StockDbFunction(context);
 
         Cursor mCursor = dbFunction.select();
-        int length = mCursor.getCount();
-        long[] id_list = new long[length];
-        long id = 0;
+        if(mCursor != null){
+            int length = mCursor.getCount();
+            long[] id_list = new long[length];
+            long id = 0;
 
-        if (length > 0){
-            for (int i = 0; i < mCursor.getCount(); i++) {
-                mCursor.moveToPosition(i);
-                //id_list[i] = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
-                id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
-                URL stockSearchUrlA = NetworkUtils.buildUrlA(String.valueOf(id));
-                URL stockSearchUrlI = NetworkUtils.buildUrlI(String.valueOf(id));
-                URL stockSearchUrlF = NetworkUtils.buildUrlF(String.valueOf(id));
-                URL stockSearchUrlT = NetworkUtils.buildUrlT(String.valueOf(id));
+            if (length > 0){
+                for (int i = 0; i < mCursor.getCount(); i++) {
+                    mCursor.moveToPosition(i);
+                    //id_list[i] = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
+                    id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StocklistEntry._ID));
+                    URL stockSearchUrlA = NetworkUtils.buildUrlA(String.valueOf(id));
+                    URL stockSearchUrlI = NetworkUtils.buildUrlI(String.valueOf(id));
+                    URL stockSearchUrlF = NetworkUtils.buildUrlF(String.valueOf(id));
+                    URL stockSearchUrlT = NetworkUtils.buildUrlT(String.valueOf(id));
 
-                String[] arrayJSONstring =  new String[4];
+                    String[] arrayJSONstring =  new String[4];
 
-                try {
-                    boolean internet = NetworkUtils.hasInternetConnection(context);
-                    if(internet){
-                        arrayJSONstring[0] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlA, context);
-                        arrayJSONstring[1] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlI, context);
-                        arrayJSONstring[2] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlF, context);
-                        arrayJSONstring[3] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlT, context);
+                    try {
+                        boolean internet = NetworkUtils.hasInternetConnection(context);
+                        if(internet){
+                            arrayJSONstring[0] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlA, context);
+                            arrayJSONstring[1] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlI, context);
+                            arrayJSONstring[2] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlF, context);
+                            arrayJSONstring[3] = NetworkUtils.getResponseFromHttpUrl(stockSearchUrlT, context);
 
-                        String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
-                        System.out.println(fullJsonStockData);
-                        dbFunction.replaceByArray(fullJsonStockData);
+                            String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
+                            System.out.println(fullJsonStockData);
+                            dbFunction.replaceByArray(fullJsonStockData);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
+                }
             }
         }
+
     }
 
 

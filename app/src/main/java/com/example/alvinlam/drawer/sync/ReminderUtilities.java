@@ -20,14 +20,18 @@ public class ReminderUtilities {
      * Interval at which to remind the user to drink water. Use TimeUnit for convenience, rather
      * than writing out a bunch of multiplication ourselves and risk making a silly mistake.
      */
-    private static final int REMINDER_INTERVAL_HOURS = 0;
+    private static final int REMINDER_INTERVAL_HOURS = 12;
     private static final int REMINDER_INTERVAL_MINUTES = 1;
     private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
     private static final int SYNC_FLEXTIME_SECONDS = REMINDER_INTERVAL_SECONDS;
 
+    private static final int RECOMMEND_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES*REMINDER_INTERVAL_HOURS));
+
     private static final String REMINDER_JOB_TAG = "stock_reminder_tag";
+    private static final String RECOMMEND_JOB_TAG = "stock_recommend_tag";
 
     private static boolean sInitialized;
+    private static boolean sDailyInitialized;
 
 
     synchronized public static void scheduleQueryReminder(@NonNull final Context context) {
@@ -54,4 +58,30 @@ public class ReminderUtilities {
 
         sInitialized = true;
     }
+
+    synchronized public static void scheduleDailyQueryReminder(@NonNull final Context context) {
+        Log.d("reminder", "scheduleDailyQueryReminder: ");
+        // COMPLETED (17) If the job has already been initialized, return
+        if (sDailyInitialized) return;
+
+        Driver driver = new GooglePlayDriver(context);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
+
+        Job constraintReminderJob = dispatcher.newJobBuilder()
+                .setService(ReminderFirebaseJobService.class)
+                .setTag(RECOMMEND_JOB_TAG)
+                //.setConstraints(Constraint.DEVICE_CHARGING)
+                //.setLifetime(Lifetime.FOREVER)
+                .setRecurring(true)
+                .setTrigger(Trigger.executionWindow(
+                        RECOMMEND_INTERVAL_SECONDS,
+                        RECOMMEND_INTERVAL_SECONDS + SYNC_FLEXTIME_SECONDS))
+                .setReplaceCurrent(true)
+                .build();
+
+        dispatcher.schedule(constraintReminderJob);
+
+        sInitialized = true;
+    }
+
 }
