@@ -3,6 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorLightBlue">#b2ffff</color>
+    <color name="colorMidBlue">#3abeff</color>
 
     <!-- All of the possible tile background colors -->
     <array name="letter_tile_colors">

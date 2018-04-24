@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/risk_assess_score_content_top"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#3abeff"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:showIn="@layout/risk_assess_data_content">
+
+
+    <TextView
+        android:id="@+id/textViewRADTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="MC: Click a choice to proceed"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewRADSLabel"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="Score:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/textViewRADQid"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRADTop" />
+
+    <TextView
+        android:id="@+id/textViewRADQLabel"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Question:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRADTop" />
+
+    <TextView
+        android:id="@+id/textViewRADScore"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.043"
+        app:layout_constraintStart_toEndOf="@+id/textViewRADSLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRADTop" />
+
+    <TextView
+        android:id="@+id/textViewRADQid"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
+        app:layout_constraintStart_toEndOf="@+id/textViewRADQLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRADTop" />
+
+</android.support.constraint.ConstraintLayout>

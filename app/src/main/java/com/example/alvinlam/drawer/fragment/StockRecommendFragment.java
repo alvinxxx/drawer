@@ -12,10 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardActivity;
+import com.example.alvinlam.drawer.activity.MainActivity;
 import com.example.alvinlam.drawer.data.RiskAssessDbFunction;
 import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
@@ -51,6 +53,8 @@ public class StockRecommendFragment extends Fragment {
     private RiskAssessDbFunction dbRAFunction;
     private StockDbFunction dbFunction;
 
+    private Button watchlist;
+
     static String[] spaceProbeHeaders={"Name","Sharpe Ratio"};
 
     public StockRecommendFragment() {
@@ -64,6 +68,15 @@ public class StockRecommendFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.stock_recommend_content, container, false);
         final Context context = rootView.getContext();
 
+        Button watchlist = (Button) rootView.findViewById(R.id.goto_watch_button);
+        watchlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Class destinationClass = MainActivity.class;
+                Intent intentToStartAddCardActivity = new Intent(getActivity().getApplicationContext(), destinationClass);
+                startActivity(intentToStartAddCardActivity);
+            }
+        });
 
         //get my category
         dbRAFunction = new RiskAssessDbFunction(context);

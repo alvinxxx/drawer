@@ -9,90 +9,31 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:showIn="@layout/risk_assess_data_precontent">
 
-    <TextView
-        android:id="@+id/textViewRABG"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:background="#3abeff"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:visibility="visible"
+    <include
+        android:id="@+id/include"
+        layout="@layout/risk_assess_data_content_top"
+        android:layout_width="360dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewRADSLabel"
-        style="@android:style/TextAppearance.Material.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="8dp"
-        android:text="Score:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/textViewRADQid"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewRADQLabel"
-        style="@android:style/TextAppearance.Material.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Question:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewRADScore"
-        style="@android:style/TextAppearance.Material.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.043"
-        app:layout_constraintStart_toEndOf="@+id/textViewRADSLabel"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewRADQid"
-        style="@android:style/TextAppearance.Material.Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/textViewRADQLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewRADQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Content"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRADQLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/include" />
 
     <RadioGroup
         android:id="@+id/radioGroupRAD"
-        android:layout_width="328dp"
-        android:layout_height="331dp"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -105,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/radio_border"
             android:onClick="onRadioButtonClicked"
             android:text="A)Placeholder"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -116,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/radio_border"
             android:onClick="onRadioButtonClicked"
             android:text="B) Placeholder"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -124,9 +67,10 @@
 
         <RadioButton
             android:id="@+id/radioButtonRADC"
-            android:layout_width="342dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/radio_border"
             android:onClick="onRadioButtonClicked"
             android:text="C) Placeholder"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -138,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/radio_border"
             android:onClick="onRadioButtonClicked"
             android:text="D) Placeholder"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -150,10 +95,11 @@
         android:id="@+id/previous_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="72dp"
         android:background="#3abeff"
         android:text="Previous Question"
         android:textColor="#FFFFFF"

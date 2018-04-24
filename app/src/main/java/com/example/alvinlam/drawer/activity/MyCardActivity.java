@@ -53,7 +53,6 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         setSupportActionBar(toolbar);
 
         fab = (Button) findViewById(R.id.risk_assess_button);
-        fab.bringToFront();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,6 +143,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
                 textViewRASTypeValue.setVisibility(View.VISIBLE);
                 textViewRASDesValue.setVisibility(View.VISIBLE);
                 fab.setText("PRESS ME TO START AGAIN");
+
             }
 
         }
