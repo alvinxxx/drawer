@@ -22,8 +22,8 @@ public class StockAlertDbFunction {
         String conditionSell = "Greater than";
         String window = "20";
         String target = "SMA";
-        String distanceBuy = "-2 STD_L";
-        String distanceSell = "+2 STD_H";
+        String distanceBuy = "-2*STD_L";
+        String distanceSell = "+2*STD_H";
 
 
         //Open connection to write data

@@ -159,8 +159,8 @@ public class ReminderFirebaseJobService extends JobService {
 
                                 //get the stock real object data: distance for SMA
                                 distance = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
-                                int value = Integer.parseInt(distance.split(" ")[0]);
-                                String type = distance.split(" ")[1];
+                                int value = Integer.parseInt(distance.split("\\*")[0]);
+                                String type = distance.split("\\*")[1];
 
                                 if (window.equals(array_window[0])) {   //20
                                     if (type.equals("STD")) {

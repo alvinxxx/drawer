@@ -64,6 +64,19 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
         String target = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_TARGET));
         String distance = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
 
+        switch (condition){
+            case "Less than":
+                condition = "\u003c";
+                break;
+            case "Greater than":
+                condition = "\u003e";
+                break;
+            case "Equal":
+                condition = "\u003d";
+                break;
+
+        }
+
         holder.itemView.setTag(id);
         holder.codeTextView.setText(String.format(Locale.getDefault(), "%04d", code));
         holder.currentTextView.setText(current);

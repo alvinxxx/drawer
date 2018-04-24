@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.adapter.CardlistAdapter;
+import com.example.alvinlam.drawer.data.RiskAssessDbFunction;
 import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockQueryTask;
 import com.example.alvinlam.drawer.data.StocklistContract;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private StockDbFunction dbFunction;
     private StockAlertDbFunction dbAFunction;
 
-    private Cursor cursor;
+    private Cursor cursor, cursorRA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDb = dbHelper.getWritableDatabase();
 
         cursor = dbFunction.select();
+
         /*
         if(cursor == null){
 

@@ -7,7 +7,6 @@ package com.example.alvinlam.drawer.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,16 +58,17 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
         String name = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NAME));
         Double price = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRICE));
         Double netChange = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_NET_CHANGE));
-        //Double preClose = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_PRE_CLOSE));
-
+        Double std250 = mCursor.getDouble(mCursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
 
         holder.itemView.setTag(id);
+        String code = String.valueOf(id);
+        holder.codeTextView.setText(code);
         holder.nameTextView.setText(name);
         holder.priceTextView.setText(String.format(Locale.getDefault(), "%.2f", price));
         holder.netChangeTextView.setText(String.format(Locale.getDefault(), "%.2f", netChange)+"%");
 
         //        Get the first letter of list item
-        letter = String.valueOf(name.charAt(0));
+        letter = String.valueOf(String.format(Locale.getDefault(), "%.0f", std250));
         int color = generator.getColor(letter);
 
         //        Create a new TextDrawable for our image's background
@@ -99,6 +99,7 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
 
     class CardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView codeTextView;
         TextView nameTextView;
         TextView priceTextView;
         TextView netChangeTextView;
@@ -107,6 +108,7 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
 
         public CardViewHolder(View itemView) {
             super(itemView);
+            codeTextView = (TextView) itemView.findViewById(R.id.codemain_text_view);
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             priceTextView = (TextView) itemView.findViewById(R.id.price_text_view);
             netChangeTextView = (TextView) itemView.findViewById(R.id.net_change_text_view);

@@ -97,10 +97,10 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
 
 
         String[] array_target = {"SMA", "Low", "High"};
-        String[] array_distance = { "-2 STD", "-2 STD_L","-2 STD_H",
-                "-1 STD", "-1 STD_L","-1 STD_H", "0",
-                "+1 STD", "+1 STD_L","+1 STD_H",
-                "+2 STD", "+2 STD_L","+2 STD_H",};
+        String[] array_distance = { "-2*STD", "-2*STD_L","-2*STD_H",
+                "-1*STD", "-1*STD_L","-1*STD_H", "0",
+                "+1*STD", "+1*STD_L","+1*STD_H",
+                "+2*STD", "+2*STD_L","+2*STD_H",};
 
         ArrayAdapter<CharSequence> adapterCurrent = ArrayAdapter.createFromResource(this,
                 R.array.array_indicator, android.R.layout.simple_spinner_item);
@@ -281,8 +281,8 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
 
         window = spinnerWindow.getSelectedItem().toString();
         String distance = s.toString();
-        int value = Integer.parseInt(distance.split(" ")[0]);
-        String type = distance.split(" ")[1];
+        int value = Integer.parseInt(distance.split("\\*")[0]);
+        String type = distance.split("\\*")[1];
 
         if (window.equals(array_window[0])) {
             if (type.equals("STD")) {

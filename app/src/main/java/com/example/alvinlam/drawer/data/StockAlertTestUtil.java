@@ -31,7 +31,7 @@ public class StockAlertTestUtil {
         cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, "Less than <");
         cv.put(StocklistContract.StockAlertEntry.COLUMN_WINDOW, 20);
         cv.put(StocklistContract.StockAlertEntry.COLUMN_TARGET, "SMA");
-        cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, "-2STD");
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, "-2*STD");
 
         list.add(cv);
 
@@ -44,7 +44,7 @@ public class StockAlertTestUtil {
         cv.put(StocklistContract.StockAlertEntry.COLUMN_CONDITION, "Greater than >");
         cv.put(StocklistContract.StockAlertEntry.COLUMN_WINDOW, 20);
         cv.put(StocklistContract.StockAlertEntry.COLUMN_TARGET, "SMA");
-        cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, "2STD");
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_DISTANCE, "+2*STD");
         list.add(cv);
 
         //insert all guests in one transaction
