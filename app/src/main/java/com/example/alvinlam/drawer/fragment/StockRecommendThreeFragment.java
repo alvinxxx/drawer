@@ -79,7 +79,7 @@ public class StockRecommendThreeFragment extends Fragment {
             cat = 5;
         }
 
-        /*
+
         boolean internet = NetworkUtils.hasInternetConnection(context);
         if(internet && cat != 0) {
             URL stockSearchUrl = NetworkUtils.buildUrlR(1, cat);
@@ -90,7 +90,7 @@ public class StockRecommendThreeFragment extends Fragment {
             }else{
                 Toast.makeText(context,"Please do the risk assessment",Toast.LENGTH_LONG).show();
             }
-        }*/
+        }
 
 
 
@@ -143,7 +143,7 @@ public class StockRecommendThreeFragment extends Fragment {
             dbFunction = new StockDbFunction(getActivity().getApplicationContext());
 
             if(parsedStockDataList!=null){
-
+                /*
                 cursor = dbFunction.select();
 
                 // select stocklist code
@@ -180,7 +180,7 @@ public class StockRecommendThreeFragment extends Fragment {
                     }
 
                 }
-
+                */
                 TableView<String[]> tableView = (TableView<String[]>) rootView.findViewById(R.id.tableView);
 
 
