@@ -42,7 +42,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
     private Cursor cursor;
     private RiskAssessDbFunction dbFunction;
 
-    private TextView textViewRASLabel, textViewRASResult, textViewRASTypeLabel, textViewRASTypeValue, textViewRASDesValue;
+    private TextView textViewRASTop, textViewRASLabel, textViewRASResult, textViewRASTypeLabel, textViewRASTypeValue, textViewRASDesValue;
     private Button fab, recommend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         Log.d("mycard", "onCreate after if: ");
 
         cursor = dbFunction.selectTotalScore();
+        textViewRASTop = (TextView) findViewById(R.id.textViewRASTop);
         textViewRASLabel = (TextView) findViewById(R.id.textViewRASLabel);
         textViewRASResult = (TextView) findViewById(R.id.textViewRASResult);
         textViewRASTypeLabel = (TextView) findViewById(R.id.textViewRASTypeLabel);
@@ -103,6 +104,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         if(cursor == null){
             recommend.setVisibility(View.INVISIBLE);
+            textViewRASTop.setVisibility(View.VISIBLE);
             textViewRASLabel.setVisibility(View.INVISIBLE);
             textViewRASResult.setText(0);
             textViewRASTypeLabel.setVisibility(View.INVISIBLE);
@@ -134,7 +136,8 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
             if(total != 0){
                 recommend.setVisibility(View.VISIBLE);
-                fab.setBackgroundColor(Color.parseColor("#FF4081"));
+                fab.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                textViewRASTop.setVisibility(View.INVISIBLE);
                 textViewRASLabel.setVisibility(View.VISIBLE);
                 textViewRASResult.setVisibility(View.VISIBLE);
                 textViewRASTypeValue.setVisibility(View.VISIBLE);

@@ -99,7 +99,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="24dp"
         android:background="#3abeff"
         android:text="Previous Question"
         android:textColor="#FFFFFF"
