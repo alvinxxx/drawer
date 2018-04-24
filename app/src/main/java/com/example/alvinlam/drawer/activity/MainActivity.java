@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SQLiteDatabase mDb;
     private StockDbFunction dbFunction;
     private StockAlertDbFunction dbAFunction;
+    private RiskAssessDbFunction dbRAFunction;
 
     private Cursor cursor, cursorRA;
 
@@ -54,102 +55,125 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        dbRAFunction = new RiskAssessDbFunction(this);
+        cursorRA = dbRAFunction.selectTotalScore();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
-        fab.bringToFront();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Class destinationClass = AddCardAddActivity.class;
-                Intent intentToStartAddCardActivity = new Intent(MainActivity.this, destinationClass);
+        if(cursorRA != null){
+
+            int total = cursorRA.getInt(0);// get final total
+
+            if(cursorRA!=null){
+                cursorRA.close();
+            }
+
+            if(total != 0){
+                Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+                setSupportActionBar(toolbar);
+
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.main_fab);
+                fab.bringToFront();
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Class destinationClass = AddCardAddActivity.class;
+                        Intent intentToStartAddCardActivity = new Intent(MainActivity.this, destinationClass);
+                        startActivity(intentToStartAddCardActivity);
+                    }
+                });
+
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                drawer.addDrawerListener(toggle);
+                toggle.syncState();
+
+                NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
+                navigationView.setNavigationItemSelectedListener(this);
+
+                cardlistRecyclerView = (RecyclerView) findViewById(R.id.main_card_list_view);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+                cardlistRecyclerView.setLayoutManager(layoutManager);
+                cardlistRecyclerView.setHasFixedSize(true);
+
+                StocklistDbHelper dbHelper = new StocklistDbHelper(this);
+                dbFunction = new StockDbFunction(this);
+                mDb = dbHelper.getWritableDatabase();
+
+                cursor = dbFunction.select();
+
+                /*
+                if(cursor == null){
+
+                    StockTestUtil.insertFakeData(mDb);
+                    cursor = dbFunction.select();
+                }
+                */
+                Log.d("main", "onCreate: "+"2");
+
+                if(cursor != null){
+                    mAdapter = new CardlistAdapter(this, cursor, this);
+                    cardlistRecyclerView.setAdapter(mAdapter);
+                }
+                /*
+                        Intent intentThatStartedThisActivity = getIntent();
+
+                        if (intentThatStartedThisActivity != null) {
+                            mAdapter.swapCursor(dbFunction.select());
+                        }
+                */
+                // Create an item touch helper to handle swiping items off the list
+                new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+                    // Override onMove and simply return false inside
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                        //do nothing, we only care about swiping
+                        return false;
+                    }
+
+                    // Override onSwiped
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                        //Inside, get the viewHolder's itemView's tag and store in a long variable id
+                        //get the id of the item being swiped
+                        long id = (long) viewHolder.itemView.getTag();
+                        //String codeString = ((TextView) viewHolder.itemView.findViewById(R.id.codeATextView)).getText().toString();
+                        //int code = Integer.parseInt(codeString);
+                        cursor = dbFunction.selectByID(id);
+                        int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
+
+                        dbAFunction = new StockAlertDbFunction(getApplicationContext());
+
+                        //remove from DB
+                        dbFunction.delete(id);
+                        dbAFunction.deleteByCode(code);
+                        //update the list
+                        mAdapter.swapCursor(dbFunction.select());
+                    }
+
+                    // attach the ItemTouchHelper
+                }).attachToRecyclerView(cardlistRecyclerView);
+
+
+                boolean internet = NetworkUtils.hasInternetConnection(this);
+                if(internet) {
+                    // COMPLETED (23) Schedule the charging reminder
+                    ReminderUtilities.scheduleQueryReminder(this);
+                }else{
+                    //no internet toast
+                    Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();
+                }
+
+            }else{
+                Context context = this;
+                Class destinationClass = MyCardActivity.class;
+
+                Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
                 startActivity(intentToStartAddCardActivity);
             }
-        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        cardlistRecyclerView = (RecyclerView) findViewById(R.id.main_card_list_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        cardlistRecyclerView.setLayoutManager(layoutManager);
-        cardlistRecyclerView.setHasFixedSize(true);
-
-        StocklistDbHelper dbHelper = new StocklistDbHelper(this);
-        dbFunction = new StockDbFunction(this);
-        mDb = dbHelper.getWritableDatabase();
-
-        cursor = dbFunction.select();
-
-        /*
-        if(cursor == null){
-
-            StockTestUtil.insertFakeData(mDb);
-            cursor = dbFunction.select();
         }
-        */
-        Log.d("main", "onCreate: "+"2");
 
-        if(cursor != null){
-            mAdapter = new CardlistAdapter(this, cursor, this);
-            cardlistRecyclerView.setAdapter(mAdapter);
-        }
-/*
-        Intent intentThatStartedThisActivity = getIntent();
-
-        if (intentThatStartedThisActivity != null) {
-            mAdapter.swapCursor(dbFunction.select());
-        }
-*/
-        // Create an item touch helper to handle swiping items off the list
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-
-            // Override onMove and simply return false inside
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                //do nothing, we only care about swiping
-                return false;
-            }
-
-            // Override onSwiped
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                //Inside, get the viewHolder's itemView's tag and store in a long variable id
-                //get the id of the item being swiped
-                long id = (long) viewHolder.itemView.getTag();
-                //String codeString = ((TextView) viewHolder.itemView.findViewById(R.id.codeATextView)).getText().toString();
-                //int code = Integer.parseInt(codeString);
-                cursor = dbFunction.selectByID(id);
-                int code = cursor.getInt(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_CODE));
-
-                dbAFunction = new StockAlertDbFunction(getApplicationContext());
-
-                //remove from DB
-                dbFunction.delete(id);
-                dbAFunction.deleteByCode(code);
-                //update the list
-                mAdapter.swapCursor(dbFunction.select());
-            }
-
-            // attach the ItemTouchHelper
-        }).attachToRecyclerView(cardlistRecyclerView);
-
-
-        boolean internet = NetworkUtils.hasInternetConnection(this);
-        if(internet) {
-            // COMPLETED (23) Schedule the charging reminder
-            ReminderUtilities.scheduleQueryReminder(this);
-        }else{
-            //no internet toast
-            Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();
-        }
 
     }
 
@@ -281,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Class destinationClass = AddCardActivity.class;
 
         long id = (long) v.getTag();
-        Log.i(TAG, "0 "+id);
+        //Log.i(TAG, "0 "+id);
 
         Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
         intentToStartAddCardActivity.putExtra(Intent.EXTRA_UID, id);

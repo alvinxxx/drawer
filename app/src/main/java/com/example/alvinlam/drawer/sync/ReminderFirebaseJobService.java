@@ -17,6 +17,7 @@ import com.firebase.jobdispatcher.JobService;
 import com.firebase.jobdispatcher.RetryStrategy;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 // COMPLETED (3) ReminderFirebaseJobService should extend from JobService
@@ -238,11 +239,13 @@ public class ReminderFirebaseJobService extends JobService {
                             }
                         }
                         if (noti_buy.size() > 0) {
+                            noti_buy = removeDuplicates(noti_buy);
                             String joined = TextUtils.join(",", noti_buy);
 
                             NotificationUtils.remindUserBuy(getApplicationContext(), joined);
                         }
                         if (noti_sell.size() > 0) {
+                            noti_sell = removeDuplicates(noti_sell);
                             String joined = TextUtils.join(",", noti_sell);
 
                             NotificationUtils.remindUserSell(getApplicationContext(), joined);
@@ -264,6 +267,27 @@ public class ReminderFirebaseJobService extends JobService {
         // COMPLETED (10) Return true
         return true;
     }
+
+    static List<String> removeDuplicates(List<String> list) {
+
+        // Store unique items in result.
+        List<String> result = new ArrayList<>();
+
+        // Record encountered Strings in HashSet.
+        HashSet<String> set = new HashSet<>();
+
+        // Loop over argument list.
+        for (String item : list) {
+
+            // If String is not in set, add it to the list and the set.
+            if (!set.contains(item)) {
+                result.add(item);
+                set.add(item);
+            }
+        }
+        return result;
+    }
+
 
     // COMPLETED (11) Override onStopJob
     /**

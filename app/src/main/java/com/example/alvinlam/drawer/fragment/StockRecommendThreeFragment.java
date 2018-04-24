@@ -2,6 +2,7 @@ package com.example.alvinlam.drawer.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.listeners.TableDataClickListener;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
@@ -64,7 +66,7 @@ public class StockRecommendThreeFragment extends Fragment {
         dbRAFunction = new RiskAssessDbFunction(context);
         cursor = dbRAFunction.selectTotalScore();
         int total = cursor.getInt(0);// get final total
-        int cat = 1;
+        int cat = 0;
         if (total >= 12 && total <= 19){
             cat = 1;
         }else if (total >= 20 && total <= 28){
@@ -78,12 +80,15 @@ public class StockRecommendThreeFragment extends Fragment {
         }
 
         boolean internet = NetworkUtils.hasInternetConnection(context);
-        if(internet) {
+        if(internet && cat != 0) {
             URL stockSearchUrl = NetworkUtils.buildUrlR(1, cat);
             new StockRecommendTask(getContext(), rootView).execute(stockSearchUrl);
         }else{
-            //no internet toast
-            Toast.makeText(context,"No internet",Toast.LENGTH_LONG).show();
+            if(!internet){
+                Toast.makeText(context,"No internet",Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(context,"Please do the risk assessment",Toast.LENGTH_LONG).show();
+            }
         }
 
 
@@ -181,42 +186,26 @@ public class StockRecommendThreeFragment extends Fragment {
                 //process data
 
                 //SET PROP
-                tableView.setHeaderBackgroundColor(Color.parseColor("#2ecc71"));
+                tableView.setHeaderBackgroundColor(Color.parseColor("#b2ffff"));
                 tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(context,spaceProbeHeaders));
                 tableView.setColumnCount(2);
                 tableView.setDataAdapter(new SimpleTableDataAdapter(context, parsedStockDataList));
 
 
-                /*tableView.addDataClickListener(new TableDataClickListener() {
+                tableView.addDataClickListener(new TableDataClickListener() {
                     @Override
                     public void onDataClicked(int rowIndex, Object clickedData) {
-                        Toast.makeText(context, ((String[])clickedData)[0], Toast.LENGTH_SHORT).show();
+                        Context context = getActivity().getApplicationContext();
+                        Class destinationClass = AddCardActivity.class;
 
-                        String s = ((String[])clickedData)[0];
+                        long id = (long) rowIndex;
 
-                        try {
-                            int code = Integer.parseInt(s);
-                        } catch (NumberFormatException ex) {
-                            Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
-                        }
-
-                        URL stockSearchUrlA = NetworkUtils.buildUrlA(s);
-                        URL stockSearchUrlI = NetworkUtils.buildUrlI(s);
-                        URL stockSearchUrlF = NetworkUtils.buildUrlF(s);
-                        URL stockSearchUrlT = NetworkUtils.buildUrlT(s);
-
-                        boolean internet = NetworkUtils.hasInternetConnection(getContext());
-                        if(internet) {
-                            new StockQueryTask(getActivity().getApplicationContext()).execute(stockSearchUrlA, stockSearchUrlI, stockSearchUrlF, stockSearchUrlT);
-                        }else{
-                            //no internet toast
-                            Toast.makeText(getActivity().getApplicationContext(),"No internet",Toast.LENGTH_LONG).show();
-                        }
-
-
+                        Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
+                        intentToStartAddCardActivity.putExtra(Intent.EXTRA_UID, id);
+                        startActivity(intentToStartAddCardActivity);
 
                     }
-                });*/
+                });
             }
 
 

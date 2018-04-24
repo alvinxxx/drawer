@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -44,6 +45,7 @@ public class RiskAssessActivity extends AppCompatActivity {
     private RadioGroup radioGroupRAD;
     private RadioButton radioButtonRADA, radioButtonRADB, radioButtonRADC, radioButtonRADD;
     private String qidLabel, scoreLabel, question, answer;
+    private Button previous;
 
     int qid = 1, score, scoreA, scoreB, scoreC, scoreD;
     @Override
@@ -58,6 +60,14 @@ public class RiskAssessActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        previous = (Button) findViewById(R.id.previous_button);
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goPrevious(view);
+            }
+        });
 
         dbFunction = new RiskAssessDbFunction(this);
 
@@ -191,6 +201,53 @@ public class RiskAssessActivity extends AppCompatActivity {
         Intent intentToStartActivity = new Intent(context, destinationClass);
         startActivity(intentToStartActivity);
     }
+
+    public void goPrevious(View view){
+        qidLabel = textViewRADQid.getText().toString();
+
+        try {
+            qid = Integer.parseInt(qidLabel);
+        } catch (NumberFormatException ex) {
+            Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
+        }
+        radioGroupRAD.clearCheck();
+
+        qid--;
+        //draw next question
+        if(qid > 0){
+            qidLabel = String.valueOf(qid);
+            textViewRADQid.setText(qidLabel);
+            score = 0;
+            scoreLabel = String.valueOf(score);
+            textViewRADScore.setText(scoreLabel);
+
+            cursor = dbFunction.selectQuestionByQid(qid);
+            cursor.moveToFirst();
+            question = cursor.getString(cursor.getColumnIndex(StocklistContract.RiskAssessQuestionEntry.COLUMN_QUESTION));
+            textViewRADQuestion.setText(question);
+
+            cursorAnswer = dbFunction.selectAnswerByQid(qid);
+            cursorAnswer.moveToFirst();
+            answer = cursorAnswer.getString(cursorAnswer.getColumnIndex(StocklistContract.RiskAssessAnswerEntry.COLUMN_ANSWER));
+            radioButtonRADA.setText(answer);
+
+            cursorAnswer.moveToNext();
+            answer = cursorAnswer.getString(cursorAnswer.getColumnIndex(StocklistContract.RiskAssessAnswerEntry.COLUMN_ANSWER));
+            radioButtonRADB.setText(answer);
+
+            cursorAnswer.moveToNext();
+            answer = cursorAnswer.getString(cursorAnswer.getColumnIndex(StocklistContract.RiskAssessAnswerEntry.COLUMN_ANSWER));
+            radioButtonRADC.setText(answer);
+
+            cursorAnswer.moveToNext();
+            answer = cursorAnswer.getString(cursorAnswer.getColumnIndex(StocklistContract.RiskAssessAnswerEntry.COLUMN_ANSWER));
+            radioButtonRADD.setText(answer);
+        }else{
+            goBack();
+        }
+
+    }
+
 
     public void addToRiskAssess() {
 

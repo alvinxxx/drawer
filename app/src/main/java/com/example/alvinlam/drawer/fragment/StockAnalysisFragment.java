@@ -163,7 +163,7 @@ public class StockAnalysisFragment extends Fragment {
 
 
             //SET PROP
-            tableView.setHeaderBackgroundColor(Color.parseColor("#2ecc71"));
+            tableView.setHeaderBackgroundColor(Color.parseColor("#3abeff"));
             tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(getActivity().getApplicationContext(),spaceProbeHeaders));
             tableView.setColumnCount(5);
             tableView.setDataAdapter(new SimpleTableDataAdapter(getActivity().getApplicationContext(), rowList));

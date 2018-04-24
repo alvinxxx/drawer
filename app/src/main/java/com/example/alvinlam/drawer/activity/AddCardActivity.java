@@ -68,7 +68,7 @@ public class AddCardActivity extends AppCompatActivity{
                 id = intentThatStartedThisActivity.getLongExtra(Intent.EXTRA_UID, 0);
 
                 cursor = dbFunction.selectByID(id);
-                if (cursor.getCount() > 0) {
+                if (cursor != null) {
                     cursor.moveToFirst();
 
                     Log.i(AddCardActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
