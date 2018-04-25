@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
@@ -408,6 +409,9 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
         int lid = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if(TextUtils.isEmpty(target)){
+            Toast.makeText(this,"Please fill in the blank",Toast.LENGTH_LONG).show();
+        }
         if (lid == R.id.action_send) {
             addToStockAlert();
 

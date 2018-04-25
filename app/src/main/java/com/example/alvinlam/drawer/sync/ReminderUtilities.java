@@ -22,7 +22,7 @@ public class ReminderUtilities {
      */
     private static final int REMINDER_INTERVAL_HOURS = 12;
     private static final int REMINDER_MAX_MINUTES = 60;
-    private static final int REMINDER_INTERVAL_MINUTES = 1;
+    private static final int REMINDER_INTERVAL_MINUTES = 5;
     private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
     private static final int SYNC_FLEXTIME_SECONDS = 0;
 

@@ -7,6 +7,7 @@ package com.example.alvinlam.drawer.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
 import java.util.Locale;
@@ -28,6 +30,8 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
     private Context mContext;
     private Cursor mCursor;
     final private ListItemClickListener mOnClickListener;
+    private StockAlertDbFunction dbAFunction;
+    long id;
 
     String letter;
     ColorGenerator generator = ColorGenerator.MATERIAL;
@@ -56,7 +60,7 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
 
         if (!mCursor.moveToPosition(position))
             return;
-        long id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StockAlertEntry._ID));
+        id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StockAlertEntry._ID));
         int buy = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_BUY));
         int active = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_ACTIVE));
         int code = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CODE));
@@ -100,18 +104,24 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
             holder.alertSwitch.setChecked(true);
         else
             holder.alertSwitch.setChecked(false);
-        /*
+
+
+        dbAFunction = new StockAlertDbFunction(mContext);
+
         holder.alertSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
                 // true if the switch is in the On position
-                if(isChecked){
-                    holder.alertSwitch.setChecked(isChecked);
+                Log.d(TAG, "onCheckedChanged: "+id);
+                Log.d(TAG, "onCheckedChanged: "+isChecked);
+                if(isChecked)
+                    dbAFunction.update(id, 1);
+                else
+                    dbAFunction.update(id, 0);
 
-                }
             }
         });
-        */
+
 
     }
 
@@ -134,7 +144,7 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
     }
 
 
-    class StockAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class StockAlertViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView codeTextView;
         TextView currentTextView;
@@ -156,7 +166,9 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
             letter = (ImageView) itemView.findViewById(R.id.imageViewALetter);
 
             alertSwitch = (Switch) itemView.findViewById(R.id.switchAlert);
+            //alertSwitch.setOnCheckedChangeListener(this);
             itemView.setOnClickListener(this);
+
 
 
         }
@@ -167,5 +179,16 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
             int click = getAdapterPosition();
             mOnClickListener.onListItemClick(v, click);
         }
+        /*
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+            dbAFunction = new StockAlertDbFunction(mContext);
+            if(isChecked)
+                dbAFunction.update(id, 1);
+            else
+                dbAFunction.update(id, 0);
+        }
+        */
     }
 }

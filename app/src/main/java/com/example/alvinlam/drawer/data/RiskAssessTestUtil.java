@@ -27,40 +27,40 @@ public class RiskAssessTestUtil {
 
         List<String[]> listStringAnswer = new ArrayList<String[]>();
         String[] a1 = {
-                "a) To achieve a rate of return comparable to the Hong Kong dollar bank deposit rate",
-                "b) To preserve the value of investment and try to beat inflation",
-                "c) To achieve an annual return of 10-15%",
-                "d) To achieve an annual return of over 15%"
+                "To achieve a rate of return comparable to the Hong Kong dollar bank deposit rate",
+                "To preserve the value of investment and try to beat inflation",
+                "To achieve an annual return of 10-15%",
+                "To achieve an annual return of over 15%"
         };
         String[] a2 = {
-                "a) I cannot tolerate any loss.",
-                "b) I am willing to accept up to 5% annual loss for a higher return",
-                "c) I am willing to accept up to 15% annual loss for a higher return",
-                "d) I am willing to accept over 15% annual loss for a higher return"
+                "I cannot tolerate any loss.",
+                "I am willing to accept up to 5% annual loss for a higher return",
+                "I am willing to accept up to 15% annual loss for a higher return",
+                "I am willing to accept over 15% annual loss for a higher return"
         };
         String[] a3 = {
-                "a) Bank deposits",
-                "b) Fixed income securities / Treasury bonds / Government bonds",
-                "c) Mutual funds / Unit trusts",
-                "d) Stocks"
+                "Bank deposits",
+                "Fixed income securities / Treasury bonds / Government bonds",
+                "Mutual funds / Unit trusts",
+                "Stocks"
         };
         String[] a4 = {
-                "a) Mortgage",
-                "b) Supporting family",
-                "c) My financial commitment represents less than 1/3 of your current earnings",
-                "d) I have no financial obligation apart from personal spending"
+                "Mortgage",
+                "Supporting family",
+                "My financial commitment represents less than 1/3 of your current earnings",
+                "I have no financial obligation apart from personal spending"
         };
         String[] a5 = {
-                "a) I have no additional savings for retirement",
-                "b) Bank deposits",
-                "c) Life insurance / Investment-linked plan",
-                "d) Other types of investments such as properties, funds and stocks"
+                "I have no additional savings for retirement",
+                "Bank deposits",
+                "Life insurance / Investment-linked plan",
+                "Other types of investments such as properties, funds and stocks"
         };
         String[] a6 = {
-                "a) Portfolio A: 3% annual return, 12% gain in the best year, 0% loss in the worst year",
-                "b) Portfolio B: 5% annual return, 25% gain in the best year, 8% loss in the worst year",
-                "c) Portfolio C: 8% annual return, 40% gain in the best year, 20% loss in the worst year",
-                "d) Portfolio D: 11% annual return, 50% gain in the best year, 38% loss in the worst year"
+                "Portfolio A: 3% annual return, 12% gain in the best year, 0% loss in the worst year",
+                "Portfolio B: 5% annual return, 25% gain in the best year, 8% loss in the worst year",
+                "Portfolio C: 8% annual return, 40% gain in the best year, 20% loss in the worst year",
+                "Portfolio D: 11% annual return, 50% gain in the best year, 38% loss in the worst year"
         };
         listStringAnswer.add(a1);
         listStringAnswer.add(a2);

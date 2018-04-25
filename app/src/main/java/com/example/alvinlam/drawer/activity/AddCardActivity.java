@@ -142,6 +142,7 @@ public class AddCardActivity extends AppCompatActivity{
         //      by calling onPageTitle()
         tabLayout.setupWithViewPager(viewPager);
 
+
     }
 
 

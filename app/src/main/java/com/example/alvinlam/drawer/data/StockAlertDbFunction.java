@@ -72,6 +72,20 @@ public class StockAlertDbFunction {
         mDb.close(); // Closing database connection
     }
 
+    public void update(long id, int active) {
+
+        //Open connection to write data
+        SQLiteDatabase mDb = dbHelper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(StocklistContract.StockAlertEntry._ID, id);
+        cv.put(StocklistContract.StockAlertEntry.COLUMN_ACTIVE, active);
+
+        mDb.update(StocklistContract.StockAlertEntry.TABLE_NAME, cv,
+                    StocklistContract.StockAlertEntry._ID + "=" + id, null);
+        mDb.close(); // Closing database connection
+    }
+
+
     public void replace(long id, String name, int code, int active, int order, String indicator, String condition,
                         String window, String target,  String distance
                         ) {
