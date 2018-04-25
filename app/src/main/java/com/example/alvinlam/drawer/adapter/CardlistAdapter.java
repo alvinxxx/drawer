@@ -6,6 +6,7 @@ package com.example.alvinlam.drawer.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,8 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
     final private ListItemClickListener mOnClickListener;
 
     String letter;
-    ColorGenerator generator = ColorGenerator.MATERIAL;
+    ColorGenerator generator = ColorGenerator.DEFAULT;
+
 
     public interface ListItemClickListener{
         void onListItemClick(View v, int parameter);
@@ -73,9 +75,13 @@ public class CardlistAdapter extends RecyclerView.Adapter<CardlistAdapter.CardVi
 
         //        Create a new TextDrawable for our image's background
         TextDrawable drawable = TextDrawable.builder()
+                //.beginConfig()
+                    //.textColor(Color.BLACK)
+                //.endConfig()
                 .buildRound(letter, color);
 
         holder.letter.setImageDrawable(drawable);
+
     }
 
 

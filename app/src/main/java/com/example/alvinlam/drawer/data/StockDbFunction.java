@@ -248,7 +248,7 @@ public class StockDbFunction {
                 null,
                 null,
                 null,
-                StocklistContract.StocklistEntry.COLUMN_TIMESTAMP
+                StocklistContract.StocklistEntry.COLUMN_CODE
         );
         //Log.d("stockdbfunc", "select: "+cursor);
 
@@ -270,7 +270,7 @@ public class StockDbFunction {
                 null,
                 null,
                 null,
-                StocklistContract.StocklistEntry.COLUMN_TIMESTAMP
+                StocklistContract.StocklistEntry.COLUMN_CODE
         );
         if (cursor == null) {
             return null;
@@ -291,7 +291,7 @@ public class StockDbFunction {
                 null,
                 null,
                 null,
-                StocklistContract.StocklistEntry.COLUMN_TIMESTAMP
+                StocklistContract.StocklistEntry.COLUMN_CODE
 
         );
         if (cursor == null) {
@@ -308,5 +308,12 @@ public class StockDbFunction {
         //  Inside, call mDb.delete to pass in the TABLE_NAME and the condition that ._ID equals id
         return mDb.delete(StocklistContract.StocklistEntry.TABLE_NAME,
                 StocklistContract.StocklistEntry._ID + "=" + id, null) > 0;
+    }
+
+    public boolean deleteAll() {
+        SQLiteDatabase mDb = dbHelper.getWritableDatabase();
+        //  Inside, call mDb.delete to pass in the TABLE_NAME
+        return mDb.delete(StocklistContract.StocklistEntry.TABLE_NAME,
+                null, null) > 0;
     }
 }

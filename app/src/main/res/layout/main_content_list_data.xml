@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="56dp"
+    android:background="@drawable/radio_border"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -15,7 +16,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="0001"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageViewLetter"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +31,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/default_name"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/price_text_view"
         app:layout_constraintStart_toEndOf="@+id/codemain_text_view"
@@ -44,7 +45,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/default_price"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/net_change_text_view"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +59,7 @@
         android:layout_marginEnd="4dp"
         android:layout_marginTop="8dp"
         android:text="@string/default_net_change"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -73,7 +74,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:color/holo_green_light" />
-
 
 
 </android.support.constraint.ConstraintLayout>

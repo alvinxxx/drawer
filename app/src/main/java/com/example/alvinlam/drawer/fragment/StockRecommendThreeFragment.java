@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alvinlam.drawer.R;
@@ -55,6 +56,7 @@ public class StockRecommendThreeFragment extends Fragment {
 
     static String[] spaceProbeHeaders={"Code","Sharpe Ratio"};
     private String parsedDataString;
+    private TextView textViewRecTitle;
 
     public StockRecommendThreeFragment() {
         // Required empty public constructor
@@ -66,6 +68,9 @@ public class StockRecommendThreeFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.stock_recommend_content, container, false);
         final Context context = rootView.getContext();
+
+        textViewRecTitle = (TextView) rootView.findViewById(R.id.textViewRecTitle);
+        textViewRecTitle.setText("Recommendation based on Sharpe Ratio calculated by Earning");
 
         watchlist = (Button) rootView.findViewById(R.id.goto_watch_button);
         watchlist.setOnClickListener(new View.OnClickListener() {
@@ -216,10 +221,13 @@ public class StockRecommendThreeFragment extends Fragment {
                 headerAdapter.setTextColor(getResources().getColor(R.color.colorWhite));
 
                 //SET PROP
-                tableView.setHeaderBackgroundColor(getResources().getColor(R.color.colorMidBlue));
+                tableView.setHeaderBackgroundColor(getResources().getColor(R.color.colorAccent));
                 tableView.setHeaderAdapter(headerAdapter);
+                SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(getActivity().getApplicationContext(), parsedStockDataList);
+                dataAdapter.setTextColor(getResources().getColor(R.color.colorWhite));
+
                 tableView.setColumnCount(2);
-                tableView.setDataAdapter(new SimpleTableDataAdapter(context, parsedStockDataList));
+                tableView.setDataAdapter(dataAdapter);
 
                 parsedDataString = toDataString(parsedStockDataList);
 

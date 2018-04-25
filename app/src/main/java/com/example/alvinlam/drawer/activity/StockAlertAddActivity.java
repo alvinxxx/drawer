@@ -57,7 +57,8 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
     private RadioGroup buttonGroupBuy;
     private Spinner spinnerCurrent, spinnerCondition, spinnerWindow;
     private AutoCompleteTextView autoCompleteTextViewTarget, autoCompleteTextViewDistance;
-    private TextView textViewACode, textViewAName, textViewCurrentResult, textViewWindowResult, textViewDistanceResult, textViewFinalResult;
+    private TextView textViewACode, textViewAName, textViewCurrentResult, textViewWindowResult, textViewDistanceResult, textViewFinalResult,
+                        textViewAWindow, textViewADistance;
 
     private long id = 0;
     private int code, active, buy;
@@ -90,6 +91,9 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
         spinnerWindow = (Spinner) this.findViewById(R.id.spinnerWindow);
         autoCompleteTextViewTarget = (AutoCompleteTextView) this.findViewById(R.id.autoCompleteTextViewTarget);
         autoCompleteTextViewDistance = (AutoCompleteTextView) this.findViewById(R.id.autoCompleteTextViewDistance);
+        textViewAWindow = (TextView) this.findViewById(R.id.textViewWindow);
+        textViewADistance = (TextView) this.findViewById(R.id.textViewDistance);
+
         textViewCurrentResult = (TextView) this.findViewById(R.id.textViewCurrentResult);
         textViewWindowResult = (TextView) this.findViewById(R.id.textViewWindowResult);
         textViewDistanceResult = (TextView) this.findViewById(R.id.textViewDistanceResult);
@@ -191,11 +195,11 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
 
 
 
-
+        autoCompleteTextViewTarget.addTextChangedListener(this);
         autoCompleteTextViewTarget.setThreshold(1);//will start working from first character
         autoCompleteTextViewTarget.setAdapter(adapterTarget);//setting the adapter data into the AutoCompleteTextView
 
-        autoCompleteTextViewDistance.addTextChangedListener(this);
+        //autoCompleteTextViewDistance.addTextChangedListener(this);
         autoCompleteTextViewDistance.setThreshold(1);//will start working from first character
         autoCompleteTextViewDistance.setAdapter(adapterDistance);//setting the adapter data into the AutoCompleteTextView
         //showResult(array_distance[0]);
@@ -335,24 +339,64 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
 
-        if(count > 5){
+        String target = s.toString();
+        Log.d("stockalert", "run: "+target);
+        if(target.equals("SMA")){
+            textViewAWindow.setVisibility(View.VISIBLE);
+            spinnerWindow.setVisibility(View.VISIBLE);
+            textViewADistance.setVisibility(View.VISIBLE);
+            autoCompleteTextViewDistance.setVisibility(View.VISIBLE);
+        }else{
+            textViewAWindow.setVisibility(View.INVISIBLE);
+            spinnerWindow.setVisibility(View.INVISIBLE);
+            textViewADistance.setVisibility(View.INVISIBLE);
+            autoCompleteTextViewDistance.setVisibility(View.INVISIBLE);
+        }
+        /*
+        if(count > 1){
             new Handler().postDelayed(new Runnable(){
                 public void run(){
                     //write db insertion logic here...
                     //showResult(s);
+
                 }},700);
         }
-
+         */
     }
 
     @Override
     public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
-
+        String target = s.toString();
+        //Log.d("stockalert", "run: "+target);
+        if(target.equals("SMA")){
+            textViewAWindow.setVisibility(View.VISIBLE);
+            spinnerWindow.setVisibility(View.VISIBLE);
+            textViewADistance.setVisibility(View.VISIBLE);
+            autoCompleteTextViewDistance.setVisibility(View.VISIBLE);
+        }else{
+            textViewAWindow.setVisibility(View.INVISIBLE);
+            spinnerWindow.setVisibility(View.INVISIBLE);
+            textViewADistance.setVisibility(View.INVISIBLE);
+            autoCompleteTextViewDistance.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     public void afterTextChanged(final Editable s) {
         //System.out.println("TEXT CHANGED BY afterTextChanged");
+        String target = s.toString();
+        //Log.d("stockalert", "run: "+target);
+        if(target.equals("SMA")){
+            textViewAWindow.setVisibility(View.VISIBLE);
+            spinnerWindow.setVisibility(View.VISIBLE);
+            textViewADistance.setVisibility(View.VISIBLE);
+            autoCompleteTextViewDistance.setVisibility(View.VISIBLE);
+        }else{
+            textViewAWindow.setVisibility(View.INVISIBLE);
+            spinnerWindow.setVisibility(View.INVISIBLE);
+            textViewADistance.setVisibility(View.INVISIBLE);
+            autoCompleteTextViewDistance.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -408,6 +452,11 @@ public class StockAlertAddActivity extends AppCompatActivity implements AdapterV
         String target = autoCompleteTextViewTarget.getText().toString();
         String window = spinnerWindow.getSelectedItem().toString();
         String distance = autoCompleteTextViewDistance.getText().toString();
+
+        if(!target.equals("SMA")){
+            window = "";
+            distance = "";
+        }
 
         //send to db
         if(id == 0)

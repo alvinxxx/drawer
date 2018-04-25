@@ -4,23 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,15 +22,15 @@ import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
-import java.util.Locale;
-
 
 public class RiskAssessActivity extends AppCompatActivity {
 
 
     //private SQLiteDatabase mDb;
     private final static String LOG_TAG = RiskAssessActivity.class.getSimpleName();
-    private RiskAssessDbFunction dbFunction;
+    private StockDbFunction dbFunction;
+    private StockAlertDbFunction dbAFunction;
+    private RiskAssessDbFunction dbRAFunction;
     private Cursor cursor, cursorAnswer;
 
     private TextView textViewRADQid, textViewRADScore, textViewRADQuestion;
@@ -69,7 +61,7 @@ public class RiskAssessActivity extends AppCompatActivity {
             }
         });
 
-        dbFunction = new RiskAssessDbFunction(this);
+        dbRAFunction = new RiskAssessDbFunction(this);
 
         textViewRADQid = (TextView) this.findViewById(R.id.textViewRADQid);
         textViewRADScore = (TextView) this.findViewById(R.id.textViewRADScore);
@@ -85,7 +77,7 @@ public class RiskAssessActivity extends AppCompatActivity {
 
         textViewRADQid.setText("1");
 
-        cursor = dbFunction.selectQuestionByQid(1);
+        cursor = dbRAFunction.selectQuestionByQid(1);
         if (cursor.getCount() > 0) {
             Log.d("riskassess q1", "onCreate: "+cursor.getCount());
             cursor.moveToFirst();
@@ -93,7 +85,7 @@ public class RiskAssessActivity extends AppCompatActivity {
             textViewRADQuestion.setText(question);
         }
 
-        cursorAnswer = dbFunction.selectAnswerByQid(1);
+        cursorAnswer = dbRAFunction.selectAnswerByQid(1);
         Log.d("riskassess a", "onCreate: "+cursorAnswer.getCount());
         if (cursorAnswer.getCount() > 0) {
             cursorAnswer.moveToFirst();
@@ -221,12 +213,12 @@ public class RiskAssessActivity extends AppCompatActivity {
             scoreLabel = String.valueOf(score);
             textViewRADScore.setText(scoreLabel);
 
-            cursor = dbFunction.selectQuestionByQid(qid);
+            cursor = dbRAFunction.selectQuestionByQid(qid);
             cursor.moveToFirst();
             question = cursor.getString(cursor.getColumnIndex(StocklistContract.RiskAssessQuestionEntry.COLUMN_QUESTION));
             textViewRADQuestion.setText(question);
 
-            cursorAnswer = dbFunction.selectAnswerByQid(qid);
+            cursorAnswer = dbRAFunction.selectAnswerByQid(qid);
             cursorAnswer.moveToFirst();
             answer = cursorAnswer.getString(cursorAnswer.getColumnIndex(StocklistContract.RiskAssessAnswerEntry.COLUMN_ANSWER));
             radioButtonRADA.setText(answer);
@@ -267,12 +259,23 @@ public class RiskAssessActivity extends AppCompatActivity {
             } catch (NumberFormatException ex) {
                 Log.e(LOG_TAG, "Failed to parse to number: " + ex.getMessage());
             }
-            dbFunction.replace(qid, score);
+            //get question count, if qid == count, delete all in stocklist and stockalert
+            if(qid == dbRAFunction.selectQuestion().getCount()){
+
+                dbFunction = new StockDbFunction(this);
+                dbAFunction = new StockAlertDbFunction(this);
+
+                //remove from DB
+                dbFunction.deleteAll();
+                dbAFunction.deleteAll();
+            }
+
+            dbRAFunction.replace(qid, score);
             radioGroupRAD.clearCheck();
             Log.d("riskassess", "addto: "+cursor.getCount());
 
             //draw next question
-            if(qid < dbFunction.selectQuestion().getCount()){
+            if(qid < dbRAFunction.selectQuestion().getCount()){
                 qid++;
                 qidLabel = String.valueOf(qid);
                 textViewRADQid.setText(qidLabel);
@@ -280,12 +283,12 @@ public class RiskAssessActivity extends AppCompatActivity {
                 scoreLabel = String.valueOf(score);
                 textViewRADScore.setText(scoreLabel);
 
-                cursor = dbFunction.selectQuestionByQid(qid);
+                cursor = dbRAFunction.selectQuestionByQid(qid);
                 cursor.moveToFirst();
                 question = cursor.getString(cursor.getColumnIndex(StocklistContract.RiskAssessQuestionEntry.COLUMN_QUESTION));
                 textViewRADQuestion.setText(question);
 
-                cursorAnswer = dbFunction.selectAnswerByQid(qid);
+                cursorAnswer = dbRAFunction.selectAnswerByQid(qid);
                 cursorAnswer.moveToFirst();
                 answer = cursorAnswer.getString(cursorAnswer.getColumnIndex(StocklistContract.RiskAssessAnswerEntry.COLUMN_ANSWER));
                 radioButtonRADA.setText(answer);

@@ -15,7 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 
 import com.example.alvinlam.drawer.R;
 import com.example.alvinlam.drawer.activity.AddCardActivity;
@@ -48,6 +50,7 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
     private int code;
     private String name;
 
+
     private long id = 0;
 
     public StockAlertFragment() {
@@ -65,6 +68,7 @@ public class StockAlertFragment extends Fragment implements StockAlertAdapter.Li
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         stockAlertListRecyclerView.setLayoutManager(layoutManager);
         stockAlertListRecyclerView.setHasFixedSize(true);
+
 
         dbFunction = new StockDbFunction(getActivity().getApplicationContext());
         dbAFunction = new StockAlertDbFunction(getActivity().getApplicationContext());

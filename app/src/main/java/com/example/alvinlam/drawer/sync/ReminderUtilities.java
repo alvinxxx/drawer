@@ -24,7 +24,7 @@ public class ReminderUtilities {
     private static final int REMINDER_MAX_MINUTES = 60;
     private static final int REMINDER_INTERVAL_MINUTES = 1;
     private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
-    private static final int SYNC_FLEXTIME_SECONDS = 5;
+    private static final int SYNC_FLEXTIME_SECONDS = 0;
 
     private static final int RECOMMEND_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES*REMINDER_MAX_MINUTES*REMINDER_INTERVAL_HOURS));
 

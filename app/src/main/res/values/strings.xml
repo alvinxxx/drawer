@@ -25,7 +25,7 @@
     <string name="stock_chart">Chart</string>
     <string name="stock_alert">Alert</string>
 
-    <string name="recommend_std">Dividend</string>
+    <string name="recommend_std">Dividend+SMA</string>
     <string name="recommend_std_three">Earning</string>
 
     <string name="stock_notification_title">Stock Recommendation Based on Your Score</string>

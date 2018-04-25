@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
             return;
         long id = mCursor.getLong(mCursor.getColumnIndex(StocklistContract.StockAlertEntry._ID));
         int buy = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_BUY));
-
+        int active = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_ACTIVE));
         int code = mCursor.getInt(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CODE));
         String current = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_INDICATOR));
         String condition = mCursor.getString(mCursor.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_CONDITION));
@@ -95,6 +96,23 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
                 .buildRound(letter, color);
 
         holder.letter.setImageDrawable(drawable);
+        if(active == 1)
+            holder.alertSwitch.setChecked(true);
+        else
+            holder.alertSwitch.setChecked(false);
+        /*
+        holder.alertSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                if(isChecked){
+                    holder.alertSwitch.setChecked(isChecked);
+
+                }
+            }
+        });
+        */
+
     }
 
 
@@ -129,7 +147,6 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
 
         public StockAlertViewHolder(View itemView) {
             super(itemView);
-            alertSwitch = (Switch) itemView.findViewById(R.id.switchAlert);
 
             codeTextView = (TextView) itemView.findViewById(R.id.codeATextView);
             currentTextView = (TextView) itemView.findViewById(R.id.currentATextView);
@@ -137,7 +154,11 @@ public class StockAlertAdapter extends RecyclerView.Adapter<StockAlertAdapter.St
             expectTextView = (TextView) itemView.findViewById(R.id.expectATextView);
             distanceTextView = (TextView) itemView.findViewById(R.id.distanceATextView);
             letter = (ImageView) itemView.findViewById(R.id.imageViewALetter);
+
+            alertSwitch = (Switch) itemView.findViewById(R.id.switchAlert);
             itemView.setOnClickListener(this);
+
+
         }
 
 

@@ -166,7 +166,7 @@ public class StockAnalysisFragment extends Fragment {
             SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(getActivity().getApplicationContext(), rowList);
             dataAdapter.setTextColor(getResources().getColor(R.color.colorWhite));
             //SET PROP
-            tableView.setHeaderBackgroundColor(getResources().getColor(R.color.colorMidBlue));
+            tableView.setHeaderBackgroundColor(getResources().getColor(R.color.colorAccent));
             tableView.setHeaderAdapter(headerAdapter);
             tableView.setColumnCount(5);
             tableView.setDataAdapter(dataAdapter);

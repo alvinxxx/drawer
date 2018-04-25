@@ -5,21 +5,46 @@
     android:id="@+id/stock_recommend_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMidBlue"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:layout_constraintTop_toTopOf="parent"
     tools:showIn="@layout/stock_recommend_precontent">
 
 
+    <TextView
+        android:id="@+id/textViewRecTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="1"
+        android:text="Recommendation based on Sharpe Ratio calculated by"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large.Inverse"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/tableView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.909" />
+
     <de.codecrafters.tableview.TableView
         android:id="@+id/tableView"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:elevation="100dp"
         app:layout_constraintBottom_toTopOf="@+id/goto_watch_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewRecTitle">
+
+    </de.codecrafters.tableview.TableView>
 
     <Button
         android:id="@+id/goto_watch_button"
@@ -28,8 +53,8 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#3abeff"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorAccent"
         android:text="Stock Watchlist"
         android:textColor="#FFFFFF"
         android:visibility="visible"

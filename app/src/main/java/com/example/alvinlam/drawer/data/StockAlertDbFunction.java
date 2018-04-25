@@ -248,4 +248,12 @@ public class StockAlertDbFunction {
         return mDb.delete(StocklistContract.StockAlertEntry.TABLE_NAME,
                 StocklistContract.StockAlertEntry.COLUMN_CODE + "=" + code, null) > 0;
     }
+
+    public boolean deleteAll() {
+        SQLiteDatabase mDb = dbHelper.getWritableDatabase();
+        //  Inside, call mDb.delete to pass in the TABLE_NAME
+        return mDb.delete(StocklistContract.StockAlertEntry.TABLE_NAME,
+                null, null) > 0;
+    }
+
 }

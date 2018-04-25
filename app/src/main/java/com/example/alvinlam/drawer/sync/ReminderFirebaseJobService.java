@@ -31,7 +31,7 @@ public class ReminderFirebaseJobService extends JobService {
     private Cursor cursorAlert;
 
     private long id = 0;
-    private int code, active, buy;
+    private int code, active, buy, value;
     private String name, current, condition, target, window, distance;
     private Double currentResult, windowResult, distanceResult, finalResult;
     MainActivity activity;
@@ -166,46 +166,55 @@ public class ReminderFirebaseJobService extends JobService {
                                         } else if (window.equals(array_window[3])) {  //250
                                             windowResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_250H));
                                         }
+                                    }else{
+                                        windowResult = Double.parseDouble(target);
                                     }
 
-                                    //get the stock real object data: distance for SMA
-                                    distance = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
-                                    int value = Integer.parseInt(distance.split("\\*")[0]);
-                                    String type = distance.split("\\*")[1];
+                                    if (target.equals(array_target[0])) {         //SMA
+                                        //get the stock real object data: distance for SMA
+                                        distance = cursorAlert.getString(cursorAlert.getColumnIndex(StocklistContract.StockAlertEntry.COLUMN_DISTANCE));
 
-                                    if (window.equals(array_window[0])) {   //20
-                                        if (type.equals("STD")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20));
-                                        } else if (type.equals("STD_L")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20L));
-                                        } else if (type.equals("STD_H")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20H));
+                                        value = Integer.parseInt(distance.split("\\*")[0]);
+                                        String type = distance.split("\\*")[1];
+
+                                        if (window.equals(array_window[0])) {   //20
+                                            if (type.equals("STD")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20));
+                                            } else if (type.equals("STD_L")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20L));
+                                            } else if (type.equals("STD_H")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD20H));
+                                            }
+                                        } else if (window.equals(array_window[1])) {
+                                            if (type.equals("STD")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50));
+                                            } else if (type.equals("STD_L")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50L));
+                                            } else if (type.equals("STD_H")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50H));
+                                            }
+                                        } else if (window.equals(array_window[2])) {
+                                            if (type.equals("STD")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100));
+                                            } else if (type.equals("STD_L")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100L));
+                                            } else if (type.equals("STD_H")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100H));
+                                            }
+                                        } else if (window.equals(array_window[3])) {
+                                            if (type.equals("STD")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
+                                            } else if (type.equals("STD_L")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250L));
+                                            } else if (type.equals("STD_H")) {
+                                                distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250H));
+                                            }
                                         }
-                                    } else if (window.equals(array_window[1])) {
-                                        if (type.equals("STD")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50));
-                                        } else if (type.equals("STD_L")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50L));
-                                        } else if (type.equals("STD_H")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD50H));
-                                        }
-                                    } else if (window.equals(array_window[2])) {
-                                        if (type.equals("STD")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100));
-                                        } else if (type.equals("STD_L")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100L));
-                                        } else if (type.equals("STD_H")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD100H));
-                                        }
-                                    } else if (window.equals(array_window[3])) {
-                                        if (type.equals("STD")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250));
-                                        } else if (type.equals("STD_L")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250L));
-                                        } else if (type.equals("STD_H")) {
-                                            distanceResult = cursor.getDouble(cursor.getColumnIndex(StocklistContract.StocklistEntry.COLUMN_STD250H));
-                                        }
+                                    }else{
+                                        value = 0;
+                                        distanceResult = 0.0;
                                     }
+
 
                                     finalResult = windowResult + value * distanceResult;
 
@@ -254,13 +263,13 @@ public class ReminderFirebaseJobService extends JobService {
                         //send notification
                         if (noti_buy.size() > 0) {
                             noti_buy = removeDuplicates(noti_buy);
-                            String joined = TextUtils.join(",", noti_buy);
+                            String joined = TextUtils.join(", ", noti_buy);
 
                             NotificationUtils.remindUserBuy(getApplicationContext(), joined);
                         }
                         if (noti_sell.size() > 0) {
                             noti_sell = removeDuplicates(noti_sell);
-                            String joined = TextUtils.join(",", noti_sell);
+                            String joined = TextUtils.join(", ", noti_sell);
 
                             NotificationUtils.remindUserSell(getApplicationContext(), joined);
                         }

@@ -13,7 +13,7 @@ import com.example.alvinlam.drawer.data.StocklistContract.*;
 public class StocklistDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "stocklist.db";
-    private static final int DATABASE_VERSION = 59;
+    private static final int DATABASE_VERSION = 61;
 
     public StocklistDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -76,9 +76,9 @@ public class StocklistDbHelper extends SQLiteOpenHelper {
                 StockAlertEntry.COLUMN_BUY + " INTEGER NOT NULL, " +
                 StockAlertEntry.COLUMN_INDICATOR + " TEXT NOT NULL, " +
                 StockAlertEntry.COLUMN_CONDITION + " TEXT NOT NULL, " +
-                StockAlertEntry.COLUMN_WINDOW + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_WINDOW + " TEXT NULL, " +
                 StockAlertEntry.COLUMN_TARGET + " TEXT NOT NULL, " +
-                StockAlertEntry.COLUMN_DISTANCE + " TEXT NOT NULL, " +
+                StockAlertEntry.COLUMN_DISTANCE + " TEXT NULL, " +
                 StockAlertEntry.COLUMN_TIMESTAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 "); ";
 

@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 boolean internet = NetworkUtils.hasInternetConnection(this);
                 if(internet) {
                     // COMPLETED (23) Schedule the charging reminder
-                    //ReminderUtilities.scheduleQueryReminder(this);
+                    ReminderUtilities.scheduleQueryReminder(this);
                     ReminderUtilities.scheduleDailyQueryReminder(this);
 
 

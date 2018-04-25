@@ -161,6 +161,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
         android:text="Window"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTarget" />
 
@@ -181,6 +182,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
         android:text="Distance"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewWindow" />
 
@@ -221,6 +223,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="20dp"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/textViewWindow"
         app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewTarget" />
 
@@ -242,6 +245,7 @@
         android:layout_height="47dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="12dp"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/textViewDistance"
         app:layout_constraintTop_toBottomOf="@+id/spinnerWindow" />
 
