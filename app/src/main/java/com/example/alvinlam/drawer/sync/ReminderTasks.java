@@ -4,12 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.alvinlam.drawer.activity.AddCardAddActivity;
 import com.example.alvinlam.drawer.activity.MainActivity;
+import com.example.alvinlam.drawer.data.RiskAssessDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
+import com.example.alvinlam.drawer.fragment.StockRecommendFragment;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 import com.example.alvinlam.drawer.utilities.NotificationUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
@@ -18,6 +23,8 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReminderTasks {
 
@@ -25,6 +32,7 @@ public class ReminderTasks {
     //  COMPLETED (2) Add a public static constant called ACTION_NO
     public static final String ACTION_NO = "action-no";
     public static final String ACTION_QUERY = "query-stock";
+    public static final String ACTION_DAILY = "query-daily";
 
 
     public static void executeTask(Context context, String action) {
@@ -34,6 +42,8 @@ public class ReminderTasks {
             NotificationUtils.clearAllNotifications(context);
         } else if (ACTION_QUERY.equals(action)) {
             doQuery(context);
+        }else if (ACTION_DAILY.equals(action)) {
+            doDailyQuery(context);
         }
         //      COMPLETED (3) If the user ignored the reminder, clear the notification
     }
@@ -43,6 +53,48 @@ public class ReminderTasks {
         //      COMPLETED (4) If the water count was incremented, clear any notifications
         NotificationUtils.clearAllNotifications(context);
 
+    }
+
+    private static void doDailyQuery(Context context) {
+        RiskAssessDbFunction dbRAFunction = new RiskAssessDbFunction(context);
+
+        Cursor cursor = dbRAFunction.selectTotalScore();
+        int total = cursor.getInt(0);// get final total
+        int cat = 0;
+        if (total >= 12 && total <= 19){
+            cat = 1;
+        }else if (total >= 20 && total <= 28){
+            cat = 2;
+        }else if (total >= 29 && total <= 37){
+            cat = 3;
+        }else if (total >= 38 && total <= 46){
+            cat = 4;
+        }else if (total >= 47 && total <= 54){
+            cat = 5;
+        }
+
+        URL stockSearchUrl = NetworkUtils.buildUrlR(0, cat);
+
+        //System.out.println(total);
+
+
+        String stockSearchResults = null;
+        try {
+            boolean internet = NetworkUtils.hasInternetConnection(context);
+            if(internet && total != 0){
+                stockSearchResults = NetworkUtils.getResponseFromHttpUrl(stockSearchUrl, context);
+                List<String[]> fullJsonStockData = OpenStockJsonUtils.getRecommendDataFromJson(stockSearchResults, 0);
+
+                String parsedDataString = toDataString(fullJsonStockData);
+                //Log.d("Reminder",parsedDataString);
+                NotificationUtils.remindUser(context, parsedDataString);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void doQuery(Context context) {
@@ -79,6 +131,7 @@ public class ReminderTasks {
                             String[] fullJsonStockData = OpenStockJsonUtils.getFullStockDataFromArray(arrayJSONstring);
                             System.out.println(fullJsonStockData);
                             dbFunction.replaceByArray(fullJsonStockData);
+
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -92,6 +145,17 @@ public class ReminderTasks {
 
     }
 
+    private static String toDataString(List<String[]> parsedStockDataList){
+
+        List<String> noti_buy = new ArrayList<String>();
+        for (String[] parsedStockData : parsedStockDataList){
+            String code = parsedStockData[0];
+            noti_buy.add(String.valueOf(code));
+        }
+        String joined = TextUtils.join(", ", noti_buy);
+
+        return joined;
+    }
 
 }
 

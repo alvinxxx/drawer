@@ -5,6 +5,7 @@
     android:id="@+id/ana_card_read_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorMidBlue"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -16,67 +17,56 @@
         android:id="@+id/textViewAnaDPS2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginTop="24dp"
         android:text="10"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.418"
-        app:layout_constraintStart_toEndOf="@+id/textViewAnaDPS"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaDY2" />
 
     <TextView
         android:id="@+id/textViewAnaDY2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginTop="24dp"
         android:text="10"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintStart_toEndOf="@+id/textViewAnaDY"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaEPS2" />
 
     <TextView
         android:id="@+id/textViewAnaEPS2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginTop="24dp"
         android:text="10"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
-        app:layout_constraintStart_toEndOf="@+id/textViewAnaEPS"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaPE2" />
 
     <TextView
         android:id="@+id/textViewAnaPE2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginTop="16dp"
         android:text="10"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.433"
-        app:layout_constraintStart_toEndOf="@+id/textViewAnaPE"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaFund" />
 
     <de.codecrafters.tableview.TableView
         android:id="@+id/tableViewAnaTechTable"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaTech"
-        app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
@@ -88,6 +78,7 @@
         android:layout_marginTop="36dp"
         android:text="Technical Analysis"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +92,7 @@
         android:layout_marginTop="16dp"
         android:text="Price Earning (PE)"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaFund" />
 
@@ -113,6 +105,7 @@
         android:layout_marginTop="8dp"
         android:text="Fundamental Analysis"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -125,6 +118,7 @@
         android:layout_marginTop="24dp"
         android:text="Earning Per Share"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaPE" />
 
@@ -132,10 +126,11 @@
         android:id="@+id/textViewAnaDY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="24dp"
         android:text="Dividend Yield "
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaEPS" />
 
@@ -147,6 +142,7 @@
         android:layout_marginTop="24dp"
         android:text="Dividend Per Share"
         android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewAnaDY" />
 

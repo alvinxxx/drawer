@@ -161,12 +161,16 @@ public class StockAnalysisFragment extends Fragment {
 
             TableView<String[]> tableView = (TableView<String[]>) rootView.findViewById(R.id.tableViewAnaTechTable);
 
-
+            SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(getActivity().getApplicationContext(),spaceProbeHeaders);
+            headerAdapter.setTextColor(getResources().getColor(R.color.colorWhite));
+            SimpleTableDataAdapter dataAdapter = new SimpleTableDataAdapter(getActivity().getApplicationContext(), rowList);
+            dataAdapter.setTextColor(getResources().getColor(R.color.colorWhite));
             //SET PROP
-            tableView.setHeaderBackgroundColor(Color.parseColor("#3abeff"));
-            tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(getActivity().getApplicationContext(),spaceProbeHeaders));
+            tableView.setHeaderBackgroundColor(getResources().getColor(R.color.colorMidBlue));
+            tableView.setHeaderAdapter(headerAdapter);
             tableView.setColumnCount(5);
-            tableView.setDataAdapter(new SimpleTableDataAdapter(getActivity().getApplicationContext(), rowList));
+            tableView.setDataAdapter(dataAdapter);
+
 
             tableView.addHeaderClickListener(new TableHeaderClickListener() {
                 @Override

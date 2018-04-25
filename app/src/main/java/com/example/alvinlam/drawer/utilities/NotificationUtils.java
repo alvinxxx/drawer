@@ -95,19 +95,19 @@ public class NotificationUtils {
         notificationManager.notify(REMINDER_NOTIFICATION_ID_SELL, notificationBuilder.build());
     }
 
-    public static void remindUser(Context context) {
+    public static void remindUser(Context context, String codeString) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_icon_money)
                 .setLargeIcon(largeIcon(context))
                 .setContentTitle(context.getString(R.string.stock_notification_title))
-                .setContentText(context.getString(R.string.stock_notification_body))
+                .setContentText(context.getString(R.string.stock_notification_body)+codeString)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(
                         context.getString(R.string.stock_notification_body)))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 // COMPLETED (17) Add the two new actions using the addAction method and your helper methods
-                .addAction(yesAction(context))
+                //.addAction(yesAction(context))
                 .addAction(noAction(context))
                 .setAutoCancel(true);
 

@@ -21,11 +21,12 @@ public class ReminderUtilities {
      * than writing out a bunch of multiplication ourselves and risk making a silly mistake.
      */
     private static final int REMINDER_INTERVAL_HOURS = 12;
+    private static final int REMINDER_MAX_MINUTES = 60;
     private static final int REMINDER_INTERVAL_MINUTES = 1;
     private static final int REMINDER_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES));
-    private static final int SYNC_FLEXTIME_SECONDS = REMINDER_INTERVAL_SECONDS;
+    private static final int SYNC_FLEXTIME_SECONDS = 5;
 
-    private static final int RECOMMEND_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES*REMINDER_INTERVAL_HOURS));
+    private static final int RECOMMEND_INTERVAL_SECONDS = (int) (TimeUnit.MINUTES.toSeconds(REMINDER_INTERVAL_MINUTES*REMINDER_MAX_MINUTES*REMINDER_INTERVAL_HOURS));
 
     private static final String REMINDER_JOB_TAG = "stock_reminder_tag";
     private static final String RECOMMEND_JOB_TAG = "stock_recommend_tag";
@@ -68,7 +69,7 @@ public class ReminderUtilities {
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
 
         Job constraintReminderJob = dispatcher.newJobBuilder()
-                .setService(ReminderFirebaseJobService.class)
+                .setService(DailyReminderFirebaseJobService.class)
                 .setTag(RECOMMEND_JOB_TAG)
                 //.setConstraints(Constraint.DEVICE_CHARGING)
                 //.setLifetime(Lifetime.FOREVER)
@@ -81,7 +82,7 @@ public class ReminderUtilities {
 
         dispatcher.schedule(constraintReminderJob);
 
-        sInitialized = true;
+        sDailyInitialized = true;
     }
 
 }

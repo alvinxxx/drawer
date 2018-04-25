@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.example.alvinlam.drawer.data.StockRecommendQueryTask;
 import com.example.alvinlam.drawer.data.StocklistContract;
 import com.example.alvinlam.drawer.sync.ReminderUtilities;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
+import com.example.alvinlam.drawer.utilities.NotificationUtils;
 import com.example.alvinlam.drawer.utilities.OpenStockJsonUtils;
 
 import org.json.JSONException;
@@ -53,9 +55,10 @@ public class StockRecommendFragment extends Fragment {
     private RiskAssessDbFunction dbRAFunction;
     private StockDbFunction dbFunction;
 
-    private Button watchlist;
+    private Button watchlist, test;
 
-    static String[] spaceProbeHeaders={"Name","Sharpe Ratio"};
+    static String[] spaceProbeHeaders={"Code","Sharpe Ratio"};
+    private String parsedDataString;
 
     public StockRecommendFragment() {
         // Required empty public constructor
@@ -68,13 +71,21 @@ public class StockRecommendFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.stock_recommend_content, container, false);
         final Context context = rootView.getContext();
 
-        Button watchlist = (Button) rootView.findViewById(R.id.goto_watch_button);
+        watchlist = (Button) rootView.findViewById(R.id.goto_watch_button);
         watchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Class destinationClass = MainActivity.class;
                 Intent intentToStartAddCardActivity = new Intent(getActivity().getApplicationContext(), destinationClass);
                 startActivity(intentToStartAddCardActivity);
+            }
+        });
+
+        test = (Button) rootView.findViewById(R.id.test_notfi_button);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testDailyNotification(parsedDataString);
             }
         });
 
@@ -113,6 +124,9 @@ public class StockRecommendFragment extends Fragment {
         return rootView;
     }
 
+    public void testDailyNotification(String parsedDataString){
+        NotificationUtils.remindUser(getActivity().getApplicationContext(), parsedDataString);
+    }
 
 
     public class StockRecommendTask extends AsyncTask<URL, Void, List<String[]> > {
@@ -210,11 +224,16 @@ public class StockRecommendFragment extends Fragment {
                 TableView<String[]> tableView = (TableView<String[]>) rootView.findViewById(R.id.tableView);
 
 
+                SimpleTableHeaderAdapter headerAdapter = new SimpleTableHeaderAdapter(context,spaceProbeHeaders);
+                headerAdapter.setTextColor(getResources().getColor(R.color.colorWhite));
+
                 //SET PROP
-                tableView.setHeaderBackgroundColor(Color.parseColor("#b2ffff"));
-                tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(context,spaceProbeHeaders));
+                tableView.setHeaderBackgroundColor(getResources().getColor(R.color.colorMidBlue));
+                tableView.setHeaderAdapter(headerAdapter);
                 tableView.setColumnCount(2);
                 tableView.setDataAdapter(new SimpleTableDataAdapter(context, parsedStockDataList));
+
+                parsedDataString = toDataString(parsedStockDataList);
 
                 tableView.addHeaderClickListener(new TableHeaderClickListener() {
                     @Override
@@ -226,13 +245,25 @@ public class StockRecommendFragment extends Fragment {
                 tableView.addDataClickListener(new TableDataClickListener() {
                     @Override
                     public void onDataClicked(int rowIndex, Object clickedData) {
+                        //Toast.makeText(context, ((String[])clickedData)[0], Toast.LENGTH_SHORT).show();
+                        String s = ((String[])clickedData)[0];
+                        long code = 0;
+                        try {
+                            code =Long.parseLong(s);
+                        } catch (NumberFormatException ex) {
+                            Log.e(TAG, "Failed to parse to number: " + ex.getMessage());
+                        }
+
+
                         Context context = getActivity().getApplicationContext();
                         Class destinationClass = AddCardActivity.class;
 
-                        long id = (long) rowIndex;
+                        //System.out.println(rowIndex);
+                        //System.out.println(clickedData);
+
 
                         Intent intentToStartAddCardActivity = new Intent(context, destinationClass);
-                        intentToStartAddCardActivity.putExtra(Intent.EXTRA_UID, id);
+                        intentToStartAddCardActivity.putExtra(Intent.EXTRA_UID, code);
                         startActivity(intentToStartAddCardActivity);
 
                     }
@@ -243,7 +274,17 @@ public class StockRecommendFragment extends Fragment {
 
         }
 
+        private String toDataString(List<String[]> parsedStockDataList){
 
+            List<String> noti_buy = new ArrayList<String>();
+            for (String[] parsedStockData : parsedStockDataList){
+                String code = parsedStockData[0];
+                noti_buy.add(String.valueOf(code));
+            }
+            String joined = TextUtils.join(", ", noti_buy);
+
+            return joined;
+        }
     }
 
 

@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorLightBlue">#b2ffff</color>
     <color name="colorMidBlue">#3abeff</color>
+    <color name="colorWhite">#ffffff</color>
 
     <!-- All of the possible tile background colors -->
     <array name="letter_tile_colors">

@@ -28,13 +28,13 @@
     <string name="recommend_std">Dividend</string>
     <string name="recommend_std_three">Earning</string>
 
-    <string name="stock_notification_title">StockAlertMe</string>
-    <string name="stock_notification_body">Check out the stock recommendation</string>
+    <string name="stock_notification_title">Stock Recommendation Based on Your Score</string>
+    <string name="stock_notification_body">Stocks: </string>
 
-    <string name="stock_notification_title_buy">Buy Notification</string>
+    <string name="stock_notification_title_buy">Buy Alert</string>
     <string name="stock_notification_body_buy">Stocks:</string>
 
-    <string name="stock_notification_title_sell">Sell Notification</string>
+    <string name="stock_notification_title_sell">Sell Alert</string>
     <string name="stock_notification_body_sell">Stocks:</string>
 
     <string name="investor_type_1">Defensive</string>

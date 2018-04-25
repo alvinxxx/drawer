@@ -1,8 +1,10 @@
 package com.example.alvinlam.drawer.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.example.alvinlam.drawer.activity.AddCardActivity;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
 
+import java.net.URL;
 import java.util.Locale;
 
 /**
@@ -81,7 +84,7 @@ public class StockDetailFragment extends Fragment {
 
                 cursor = dbFunction.selectByID(id);
                 //Log.i(TAG, "1 "+String.valueOf(cursor.getColumnIndex("name")));
-                if (cursor.getCount() > 0) {
+                if (cursor != null) {
                     cursor.moveToFirst();
 
                     //Log.i(AddCardAddActivity.class.getName(), String.valueOf(cursor.getColumnIndex("name")));
@@ -114,6 +117,7 @@ public class StockDetailFragment extends Fragment {
 
             }
 
+
             String[] tempDate = date.split("T");
             tempDate = tempDate[0].split("-");
 
@@ -126,6 +130,8 @@ public class StockDetailFragment extends Fragment {
 
             String realDate = tempDate[0]+"-"+tempDate[1]+"-"+String.valueOf(day);
             String realTime = String.valueOf(hour)+":"+tempTime[1]+":"+tempDate[2];
+
+
 
             mCodeTextView.setText(String.format(Locale.getDefault(), "%d", code));
             mDateTextView.setText(realDate);
@@ -141,6 +147,15 @@ public class StockDetailFragment extends Fragment {
         return rootView;
     }
 
+    /*
+    public void updateView(){
+        //at.setContext(this);
+        mAdapter.notifyDataSetChanged();
+        System.out.println("Updated!");
+        Toast.makeText(MainActivity.this,"Updated!",Toast.LENGTH_LONG).show();
+    }
+    */
+
     private Double checkDouble(String value) {
         if (value.equals("null"))
             return 0.0;
@@ -148,5 +163,34 @@ public class StockDetailFragment extends Fragment {
             return Double.parseDouble(value);
     }
 
+    /*
+    public class StockQueryTask extends AsyncTask<URL, Void, String[]> {
 
+        Context context;
+        StockDetailFragment fragment;
+
+        private StockQueryTask(Context context, StockDetailFragment fragment) {
+            this.context = context.getApplicationContext();
+            this.fragment = fragment;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String[] doInBackground(URL... params) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String[] parsedStockData) {
+
+
+
+        }
+    }
+    */
 }

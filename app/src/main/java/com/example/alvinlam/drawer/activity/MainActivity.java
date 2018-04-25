@@ -158,7 +158,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 boolean internet = NetworkUtils.hasInternetConnection(this);
                 if(internet) {
                     // COMPLETED (23) Schedule the charging reminder
-                    ReminderUtilities.scheduleQueryReminder(this);
+                    //ReminderUtilities.scheduleQueryReminder(this);
+                    ReminderUtilities.scheduleDailyQueryReminder(this);
+
+
+
+
                 }else{
                     //no internet toast
                     Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();
@@ -176,8 +181,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
-
+    /*
+    public void updateView(){
+        //at.setContext(this);
+        mAdapter.notifyDataSetChanged();
+        System.out.println("Updated!");
+        Toast.makeText(MainActivity.this,"Updated!",Toast.LENGTH_LONG).show();
+    }
+    */
 
     @Override
     public void onBackPressed() {

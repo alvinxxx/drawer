@@ -42,7 +42,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
     private Cursor cursor;
     private RiskAssessDbFunction dbFunction;
 
-    private TextView textViewRASTop, textViewRASLabel, textViewRASResult, textViewRASTypeLabel, textViewRASTypeValue, textViewRASDesValue;
+    private TextView textViewRASTop, textViewRASTitle, textViewRASLabel, textViewRASResult, textViewRASTypeLabel, textViewRASTypeValue, textViewRASDesValue;
     private Button fab, recommend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
 
         cursor = dbFunction.selectTotalScore();
         textViewRASTop = (TextView) findViewById(R.id.textViewRASTop);
+        textViewRASTitle = (TextView) findViewById(R.id.textViewRASTitle);
         textViewRASLabel = (TextView) findViewById(R.id.textViewRASLabel);
         textViewRASResult = (TextView) findViewById(R.id.textViewRASResult);
         textViewRASTypeLabel = (TextView) findViewById(R.id.textViewRASTypeLabel);
@@ -105,6 +106,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
         if(cursor == null){
             recommend.setVisibility(View.INVISIBLE);
             textViewRASTop.setVisibility(View.VISIBLE);
+            textViewRASTitle.setVisibility(View.VISIBLE);
             textViewRASLabel.setVisibility(View.INVISIBLE);
             textViewRASResult.setText(0);
             textViewRASTypeLabel.setVisibility(View.INVISIBLE);
@@ -138,6 +140,7 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
                 recommend.setVisibility(View.VISIBLE);
                 fab.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                 textViewRASTop.setVisibility(View.INVISIBLE);
+                textViewRASTitle.setVisibility(View.INVISIBLE);
                 textViewRASLabel.setVisibility(View.VISIBLE);
                 textViewRASResult.setVisibility(View.VISIBLE);
                 textViewRASTypeValue.setVisibility(View.VISIBLE);

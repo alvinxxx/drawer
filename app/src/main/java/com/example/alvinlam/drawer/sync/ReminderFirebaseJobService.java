@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.example.alvinlam.drawer.R;
+import com.example.alvinlam.drawer.activity.MainActivity;
 import com.example.alvinlam.drawer.data.StockAlertDbFunction;
 import com.example.alvinlam.drawer.data.StockDbFunction;
 import com.example.alvinlam.drawer.data.StocklistContract;
@@ -33,6 +34,14 @@ public class ReminderFirebaseJobService extends JobService {
     private int code, active, buy;
     private String name, current, condition, target, window, distance;
     private Double currentResult, windowResult, distanceResult, finalResult;
+    MainActivity activity;
+
+
+    /*
+    public void setContext(MainActivity activity){
+        this.activity = activity;
+    }
+    */
 
     // COMPLETED (4) Override onStartJob
     /**
@@ -238,6 +247,11 @@ public class ReminderFirebaseJobService extends JobService {
 
                             }
                         }
+                        //update UI
+                        //activity.updateView();
+
+
+                        //send notification
                         if (noti_buy.size() > 0) {
                             noti_buy = removeDuplicates(noti_buy);
                             String joined = TextUtils.join(",", noti_buy);
