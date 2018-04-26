@@ -155,19 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }).attachToRecyclerView(cardlistRecyclerView);
 
 
-                boolean internet = NetworkUtils.hasInternetConnection(this);
-                if(internet) {
-                    // COMPLETED (23) Schedule the charging reminder
-                    ReminderUtilities.scheduleQueryReminder(this);
-                    ReminderUtilities.scheduleDailyQueryReminder(this);
 
-
-
-
-                }else{
-                    //no internet toast
-                    Toast.makeText(MainActivity.this,"No internet",Toast.LENGTH_LONG).show();
-                }
 
             }else{
                 Context context = this;

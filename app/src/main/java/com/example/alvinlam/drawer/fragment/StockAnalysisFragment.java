@@ -47,7 +47,7 @@ public class StockAnalysisFragment extends Fragment {
             sma100, std100, std100l, std100h, sma250, std250, std250l, std250h,
             l20, h20, l50, h50, l100, h100, l250, h250;
 
-    static String[] spaceProbeHeaders={"Day","SMA","STD","STD_L","STD_H"};
+    static String[] spaceProbeHeaders={"Day","SMA","SD","SD_L","SD_H"};
 
 
     public StockAnalysisFragment() {

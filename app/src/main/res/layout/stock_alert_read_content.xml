@@ -64,22 +64,25 @@
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="196dp"
-        android:layout_height="37dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="34dp"
         android:orientation='horizontal'
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.403"
+        app:layout_constraintStart_toEndOf="@+id/textViewOrder"
         app:layout_constraintTop_toBottomOf="@+id/switchActive">
 
         <RadioButton
             android:id="@+id/buttonBuy"
             android:layout_width="64dp"
             android:layout_height="33dp"
+            android:checked="true"
             android:text="Buy"
             app:layout_constraintStart_toEndOf="@+id/textViewOrder"
-            app:layout_constraintTop_toTopOf="parent"
-            android:checked = "true"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioButton
             android:id="@+id/buttonSell"
@@ -199,19 +202,19 @@
     <Spinner
         android:id="@+id/spinnerCurrent"
         android:layout_width="123dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintStart_toEndOf="@+id/textViewCurrent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <Spinner
         android:id="@+id/spinnerCondtion"
         android:layout_width="187dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.541"
         app:layout_constraintStart_toEndOf="@+id/textViewCondtion"
@@ -220,9 +223,9 @@
     <Spinner
         android:id="@+id/spinnerWindow"
         android:layout_width="123dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/textViewWindow"
         app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewTarget" />
@@ -230,10 +233,10 @@
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextViewTarget"
         android:layout_width="127dp"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.388"
         app:layout_constraintStart_toEndOf="@+id/textViewTarget"
@@ -242,9 +245,9 @@
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextViewDistance"
         android:layout_width="127dp"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/textViewDistance"
         app:layout_constraintTop_toBottomOf="@+id/spinnerWindow" />

@@ -31,6 +31,7 @@ import com.example.alvinlam.drawer.adapter.StockDetailAdapter;
 import com.example.alvinlam.drawer.adapter.StockRecommendAdapter;
 import com.example.alvinlam.drawer.data.old.Card;
 import com.example.alvinlam.drawer.data.old.DataBaseHandler;
+import com.example.alvinlam.drawer.sync.ReminderUtilities;
 import com.example.alvinlam.drawer.utilities.NetworkUtils;
 
 import java.io.ByteArrayOutputStream;

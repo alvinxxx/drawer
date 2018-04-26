@@ -48,7 +48,7 @@ import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
  */
 public class StockRecommendFragment extends Fragment {
 
-    private static final String TAG = AddCardActivity.class.getSimpleName();
+    private static final String TAG = "Stockrecommend7     ";
     private static final String SHARE_HASHTAG = " #PocketCard";
 
     private long id = 0;
@@ -90,6 +90,7 @@ public class StockRecommendFragment extends Fragment {
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "onClick: "+parsedDataString);
                 testDailyNotification(parsedDataString);
             }
         });
@@ -122,8 +123,6 @@ public class StockRecommendFragment extends Fragment {
                 Toast.makeText(context,"Please do the risk assessment",Toast.LENGTH_LONG).show();
             }
         }
-
-
 
 
         return rootView;
@@ -175,6 +174,21 @@ public class StockRecommendFragment extends Fragment {
         @Override
         protected void onPostExecute(final List<String[]> parsedStockDataList) {
 
+            parsedDataString = toDataString(parsedStockDataList);
+
+
+            boolean internet = NetworkUtils.hasInternetConnection(getActivity().getApplicationContext());
+            if(internet) {
+                // COMPLETED (23) Schedule the charging reminder
+                ReminderUtilities.scheduleQueryReminder(getActivity().getApplicationContext());
+                ReminderUtilities.scheduleDailyQueryReminder(getActivity().getApplicationContext());
+
+            }else{
+                //no internet toast
+                Toast.makeText(getActivity().getApplicationContext(),"No internet",Toast.LENGTH_LONG).show();
+            }
+
+
             List<String> codeList = new ArrayList<>();
             dbFunction = new StockDbFunction(getActivity().getApplicationContext());
 
@@ -205,7 +219,7 @@ public class StockRecommendFragment extends Fragment {
                         URL stockSearchUrlF = NetworkUtils.buildUrlF(stockQuery);
                         URL stockSearchUrlT = NetworkUtils.buildUrlT(stockQuery);
 
-                        boolean internet = NetworkUtils.hasInternetConnection(context);
+                        internet = NetworkUtils.hasInternetConnection(context);
                         if(internet) {
                             new StockRecommendQueryTask(context).execute(stockSearchUrlA, stockSearchUrlI, stockSearchUrlF, stockSearchUrlT);
                         }else{
@@ -216,14 +230,6 @@ public class StockRecommendFragment extends Fragment {
 
                 }
 
-                boolean internet = NetworkUtils.hasInternetConnection(getActivity().getApplicationContext());
-                if(internet) {
-                    // COMPLETED (23) Schedule the charging reminder
-                    //ReminderUtilities.scheduleDailyQueryReminder(getActivity().getApplicationContext());
-                }else{
-                    //no internet toast
-                    Toast.makeText(getActivity().getApplicationContext(),"No internet",Toast.LENGTH_LONG).show();
-                }
 
 
                 TableView<String[]> tableView = (TableView<String[]>) rootView.findViewById(R.id.tableView);
@@ -241,7 +247,6 @@ public class StockRecommendFragment extends Fragment {
                 tableView.setColumnCount(2);
                 tableView.setDataAdapter(dataAdapter);
 
-                parsedDataString = toDataString(parsedStockDataList);
 
                 tableView.addHeaderClickListener(new TableHeaderClickListener() {
                     @Override

@@ -103,7 +103,7 @@ public class NotificationUtils {
                 .setContentTitle(context.getString(R.string.stock_notification_title))
                 .setContentText(context.getString(R.string.stock_notification_body)+codeString)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(
-                        context.getString(R.string.stock_notification_body)))
+                        context.getString(R.string.stock_notification_body)+codeString))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
                 // COMPLETED (17) Add the two new actions using the addAction method and your helper methods

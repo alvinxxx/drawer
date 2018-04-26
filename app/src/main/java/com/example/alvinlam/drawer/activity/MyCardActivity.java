@@ -137,9 +137,10 @@ public class MyCardActivity extends AppCompatActivity implements NavigationView.
             }
 
             if(total != 0){
+                getSupportActionBar().setTitle("Assessment Analysis");
                 recommend.setVisibility(View.VISIBLE);
                 fab.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-                textViewRASTop.setVisibility(View.INVISIBLE);
+                textViewRASTop.setVisibility(View.GONE);
                 textViewRASTitle.setVisibility(View.INVISIBLE);
                 textViewRASLabel.setVisibility(View.VISIBLE);
                 textViewRASResult.setVisibility(View.VISIBLE);
